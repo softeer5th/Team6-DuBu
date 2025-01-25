@@ -1,7 +1,8 @@
-import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
+
 import { router } from './router/index.tsx';
 
 const enableMocking = async () => {
