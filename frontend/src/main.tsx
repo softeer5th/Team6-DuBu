@@ -1,7 +1,8 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.tsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider } from 'react-router';
+import { router } from './router/index.tsx';
 
 const enableMocking = async () => {
   if (process.env.NODE_ENV !== 'development') {
@@ -13,10 +14,13 @@ const enableMocking = async () => {
   return await worker.start();
 };
 
+const queryClient = new QueryClient();
+
 enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>,
   );
 });
