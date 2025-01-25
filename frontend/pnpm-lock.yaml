@@ -30,6 +30,9 @@ importers:
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.19.0
+      '@tanstack/eslint-plugin-query':
+        specifier: ^5.64.2
+        version: 5.64.2(eslint@9.19.0)(typescript@5.6.3)
       '@types/node':
         specifier: ^22.10.10
         version: 22.10.10
@@ -546,6 +549,11 @@ packages:
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
+
+  '@tanstack/eslint-plugin-query@5.64.2':
+    resolution: {integrity: sha512-Xq7jRYvNtGMHjQEGUZLHgEMNB59hgTlqdmKor6cdJ6CMZ/nwmBGpnlr/dcHden7W7BPCdBVN4PWMZBICWvCNQQ==}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
 
   '@tanstack/query-core@5.64.2':
     resolution: {integrity: sha512-hdO8SZpWXoADNTWXV9We8CwTkXU88OVWRBcsiFrk7xJQnhm6WRlweDzMD+uH+GnuieTBVSML6xFa17C2cNV8+g==}
@@ -2392,6 +2400,14 @@ snapshots:
     optional: true
 
   '@rtsao/scc@1.1.0': {}
+
+  '@tanstack/eslint-plugin-query@5.64.2(eslint@9.19.0)(typescript@5.6.3)':
+    dependencies:
+      '@typescript-eslint/utils': 8.21.0(eslint@9.19.0)(typescript@5.6.3)
+      eslint: 9.19.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   '@tanstack/query-core@5.64.2': {}
 
