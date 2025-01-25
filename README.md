@@ -17,8 +17,11 @@
 | 개발 | 문희상 | 💻 개발 리드 | API 구현, ERD 설계, 서버 배포 |
 | 개발 | 김현원 | 💻 백엔드 | API 구현, ERD 설계, 서버 배포 |
 
+# 🎨 기획&디자인 링크
 
-# 그라운드 룰
+[기획&디자인 최종 산출물 링크 [figma]](https://www.figma.com/design/4fCa8NJFAmSbPJSLnaJM4h/Handoff_Do-reburn?node-id=0-1&p=f&t=jFLkPtaI60o34zv5-0)
+
+# 🤝 그라운드 룰
 
 ## 회의
 
