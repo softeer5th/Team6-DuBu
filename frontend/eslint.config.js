@@ -28,6 +28,7 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'no-console': 'error',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'import/no-named-as-default': 'off',
       'import/no-unresolved': 'off',
       'import/order': [
         'error',
