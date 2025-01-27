@@ -13,7 +13,7 @@ export const IconContainer = styled.div<IconContainerProps>`
   align-items: center;
   width: ${({ width }) => `${width}px`};
   height: ${({ height }) => `${height}px`};
-  transform: ${({ rotate }) => `rotate(${rotate})deg`};
+  transform: ${({ rotate }) => `rotate(${rotate}deg)`};
   transition: all 0.3s;
   cursor: ${({ cursor }) => cursor};
 `;
