@@ -70,6 +70,7 @@ body {
 	width: 375px;
 	height: 100vh;
 	margin: 0 auto;
+	border: 0.1px solid black;
 }
 
 body,
