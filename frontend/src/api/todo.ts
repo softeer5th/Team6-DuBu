@@ -7,6 +7,12 @@ export interface Todo {
   name: string;
 }
 
+export interface TodoResponse {
+  data: Todo[];
+}
+
 export const getTodayTodoList = async () => {
-  return await fetchClient.get<Todo[]>('/todos/today');
+  const result = await fetchClient.get<TodoResponse>('/todos/today');
+
+  return result.data;
 };
