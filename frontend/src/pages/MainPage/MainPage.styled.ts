@@ -5,7 +5,6 @@ export const MainPageLayout = styled.main`
   background-color: ${({ theme }) => theme.colors.green50};
   height: inherit;
 
-  padding: 0 2.4rem;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -17,7 +16,7 @@ export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  padding: 0 1.2rem;
+  padding: 0 3.6rem;
 `;
 
 export const DateHeader = styled.header`
@@ -78,6 +77,7 @@ export const ContentContainer = styled.div`
   padding: 1.6rem;
   gap: 1.2rem;
   border-radius: 2.4rem;
+  margin: 0 2.4rem;
 
   background: linear-gradient(
     to bottom,
@@ -132,6 +132,11 @@ export const TodoItem = styled.div`
 export const StartButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 13.9rem;
+  background: linear-gradient(to bottom, rgba(255, 225, 255, 0), rgba(255, 255, 255, 1));
+  position: absolute;
+  bottom: 0;
 `;
 
 export const StartButton = styled.button`
@@ -144,6 +149,6 @@ export const StartButton = styled.button`
   gap: 0.4rem;
   border-radius: 3.2rem;
 
-  position: fixed;
+  position: absolute;
   bottom: 1.6rem;
 `;
