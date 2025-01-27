@@ -30,6 +30,7 @@ export const colors = {
   lightGreen100: '#c5e1dc4d',
   lightWhite70: '#ffffffb3',
   lightWhite30: '#ffffff4d',
+  lightWhite: '#ffffff00',
 
   textRed: '#cd0e0e',
   textBlue: '#0e87d8',
