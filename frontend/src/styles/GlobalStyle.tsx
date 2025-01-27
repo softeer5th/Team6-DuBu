@@ -66,6 +66,12 @@ body {
 	line-height: 1;
 }
 
+#root {
+	width: 375px;
+	height: 100vh;
+	margin: 0 auto;
+}
+
 body,
   input,
   select,
@@ -94,7 +100,7 @@ table {
   }
 
   html {
-    font-size: 10px;
+    font-size: 62.5%;
   }
 
   button {
