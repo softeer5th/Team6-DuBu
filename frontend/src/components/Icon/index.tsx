@@ -21,7 +21,7 @@ export default function Icon({
   cursor = 'initial',
   width = 24,
   height = 24,
-  rotate,
+  rotate = 0,
   className,
   color,
   ...props
