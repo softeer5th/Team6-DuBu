@@ -3,6 +3,8 @@ import { http, HttpResponse } from 'msw';
 import TODAY_TODO from '../data/todayTodo.json';
 import TOMORROW_TODO from '../data/tomorrowTodo.json';
 
+import { MOCK_API_URL } from '@/constants/url';
+
 const getTodayTodoHandler = () => {
   return HttpResponse.json(TODAY_TODO);
 };
@@ -12,6 +14,6 @@ const getTomorrowTodoHandler = () => {
 };
 
 export const handlers = [
-  http.get('/todos/today', getTodayTodoHandler),
-  http.get('/todos/tomorrow', getTomorrowTodoHandler),
+  http.get(MOCK_API_URL.todayTodo, getTodayTodoHandler),
+  http.get(MOCK_API_URL.tomorrowTodo, getTomorrowTodoHandler),
 ];

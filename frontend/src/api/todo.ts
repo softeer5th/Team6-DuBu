@@ -1,5 +1,7 @@
 import fetchClient from './fetchClient';
 
+import { API_URL } from '@/constants/url';
+
 export interface Todo {
   todo_id: number;
   category: string; // 독서, 영어, 언어, 뉴스, 취미, 기타
@@ -12,13 +14,13 @@ export interface TodoResponse {
 }
 
 export const getTodayTodoList = async () => {
-  const result = await fetchClient.get<TodoResponse>('/todos/today');
+  const result = await fetchClient.get<TodoResponse>(API_URL.todayTodo);
 
   return result.data;
 };
 
 export const getTomorrowTodoList = async () => {
-  const result = await fetchClient.get<TodoResponse>('/todos/tomorrow');
+  const result = await fetchClient.get<TodoResponse>(API_URL.tomorrowTodo);
 
   return result.data;
 };
