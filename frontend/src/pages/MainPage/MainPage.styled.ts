@@ -10,6 +10,11 @@ export const MainPageLayout = styled.main`
   gap: 3.2rem;
 
   padding-top: 2rem;
+
+  background-image: url('/src/assets/images/backgroundMain.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 `;
 
 export const HeaderContainer = styled.div`
