@@ -59,6 +59,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadRequestException(BadRequestException e) {
+        log.warn(e.getMessage());
+
+        return new ErrorResponse(e);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException e) {
+        log.warn(e.getMessage());
+
+        return new ErrorResponse(e);
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNoResourceFoundException(NoResourceFoundException e) {
         log.warn(e.getMessage());
@@ -87,7 +103,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleInternalServerErrorException(InternalServerException e) {
         log.error(e.getMessage(), e);
 
-        return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ErrorResponse(ErrorCode.SERVER_ERROR);
     }
 
     @ExceptionHandler
@@ -95,6 +111,6 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleException(Exception e) {
         log.error(e.getMessage(), e);
 
-        return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ErrorResponse(ErrorCode.SERVER_ERROR);
     }
 }
