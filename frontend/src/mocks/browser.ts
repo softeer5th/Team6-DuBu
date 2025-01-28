@@ -1,8 +1,5 @@
 import { setupWorker } from 'msw/browser';
-import { http, HttpResponse } from 'msw';
 
-const testHandler = () => {
-  return HttpResponse.json({ test: 'test' });
-};
+import { handlers } from './handlers';
 
-export const worker = setupWorker(http.get('/test', testHandler));
+export const worker = setupWorker(...handlers);
