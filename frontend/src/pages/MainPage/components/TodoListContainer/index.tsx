@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import * as S from './TodoListContainer.styled';
+import { getKoreanTime } from '../../MainPage.utils';
 
-import { getTodayTodoList } from '@/api/todo';
+import { getTodayTodoList, getTomorrowTodoList } from '@/api/todo';
 import Icon from '@/components/Icon';
 
 // [최초 진입한 사용자의 경우]
@@ -17,16 +18,26 @@ import Icon from '@/components/Icon';
 // TODO: 오늘 할 일이 아직 없어요
 // TODO: plus 아이콘 + 추가하기 버튼 텍스트
 // TODO: fire 아이콘
-const TodoListContainer = () => {
+
+interface TodoListContainerProps {
+  currentTime: Date;
+}
+const TodoListContainer = ({ currentTime }: TodoListContainerProps) => {
+  const today = getKoreanTime();
+  const isToday = currentTime.toDateString() === today.toDateString();
+
   const { data: todoList } = useQuery({
-    queryKey: ['todoList'],
-    queryFn: getTodayTodoList,
+    queryKey: ['todoList', isToday],
+    queryFn: () => (isToday ? getTodayTodoList() : getTomorrowTodoList()),
+    staleTime: Infinity,
   });
 
   return (
     <S.TodoListContainerLayout>
       <S.ContentHeader>
-        <S.ContentTitle>오늘 할 일을 보여드려요</S.ContentTitle>
+        <S.ContentTitle>
+          {isToday ? '오늘 할 일을 보여드려요' : '할 일을 미리 선택해보세요'}
+        </S.ContentTitle>
         <S.EditButton>
           <Icon icon="Edit" width={16} height={16} />
           <S.EditLabel>수정하기</S.EditLabel>

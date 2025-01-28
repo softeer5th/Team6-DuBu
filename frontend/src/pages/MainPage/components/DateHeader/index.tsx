@@ -1,24 +1,16 @@
-import { useState } from 'react';
-
 import * as S from './DateHeader.styled';
-import { addDay, getDateHeaderFormat, getKoreanTime } from '../../MainPage.utils';
+import { getDateHeaderFormat, getKoreanTime } from '../../MainPage.utils';
 
 import Icon from '@/components/Icon';
 
-const DateHeader = () => {
-  const [currentTime, setCurrentTime] = useState(getKoreanTime());
+interface DateHeaderProps {
+  currentTime: Date;
+  handlePrevDate: () => void;
+  handleNextDate: () => void;
+}
+const DateHeader = ({ currentTime, handlePrevDate, handleNextDate }: DateHeaderProps) => {
   const koreanTime = getDateHeaderFormat(currentTime);
   const today = getKoreanTime();
-
-  const handlePrevDate = () => {
-    const yesterday = addDay(currentTime, -1);
-    setCurrentTime(yesterday);
-  };
-
-  const handleNextDate = () => {
-    const tomorrow = addDay(currentTime, 1);
-    setCurrentTime(tomorrow);
-  };
 
   const isToday = today.toDateString() === currentTime.toDateString();
 
