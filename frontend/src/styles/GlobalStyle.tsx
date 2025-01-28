@@ -1,6 +1,41 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Pretendard Bold'),
+    url('/src/assets/fonts/Pretendard-Bold.subset.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local('Pretendard SemiBold'),
+    url('/src/assets/fonts/Pretendard-SemiBold.subset.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Pretendard Medium'),
+    url('/src/assets/fonts/Pretendard-Medium.subset.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Pretendard Regular'),
+    url('/src/assets/fonts/Pretendard-Regular.subset.woff2') format('woff2');
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -30,6 +65,22 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
+
+#root {
+	width: 375px;
+	height: 100vh;
+	margin: 0 auto;
+	border: 0.1px solid black;
+}
+
+body,
+  input,
+  select,
+  textarea,
+  button {
+    font-family: Pretendard, system-ui, -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
 ol, ul {
 	list-style: none;
 }
@@ -50,9 +101,19 @@ table {
   }
 
   html {
-    font-size: 10px;
+    font-size: 62.5%;
   }
 
+  button {
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+  }
+  
+  a {
+	text-decoration: none;
+	color: inherit;
+  }
   
 `;
 
