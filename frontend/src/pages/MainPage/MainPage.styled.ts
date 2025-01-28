@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import backgroundMain from '/src/assets/images/backgroundMain.png';
+
 export const MainPageLayout = styled.main`
   position: relative;
   background-color: ${({ theme }) => theme.colors.green50};
@@ -11,7 +13,7 @@ export const MainPageLayout = styled.main`
 
   padding-top: 2rem;
 
-  background-image: url('/src/assets/images/backgroundMain.png');
+  background-image: url(${backgroundMain});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
