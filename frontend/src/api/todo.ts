@@ -16,3 +16,9 @@ export const getTodayTodoList = async () => {
 
   return result.data;
 };
+
+export const getTomorrowTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>('/todos/tomorrow');
+
+  return result.data;
+};
