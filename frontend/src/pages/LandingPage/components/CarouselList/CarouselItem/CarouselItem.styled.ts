@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const ItemLayout = styled.div<{ $status: 'focus' | 'blur' }>`
+import { CarouselItemStatusType } from '@/pages/LandingPage/LandingPage.types';
+
+export const ItemLayout = styled.div<{ $status: CarouselItemStatusType }>`
   display: flex;
   align-items: center;
   justify-content: flex-start;
