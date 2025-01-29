@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ItemLayout = styled.div<{ $status: 'blur' | 'focus' }>`
+export const ItemLayout = styled.div<{ $status: 'focus' | 'blur' }>`
   display: flex;
   align-items: center;
   justify-content: flex-start;

@@ -4,6 +4,7 @@ import * as S from './CarouselList.styled';
 import { IconType } from '@/components/Icon';
 import { useCarousel } from '@/pages/LandingPage/hooks/useCarousel';
 import { CAROUSEL_ITEMS, CAROUSEL_TIMEOUT } from '@/pages/LandingPage/LandingPage.constants';
+import { CarouselItemStatusType } from '@/pages/LandingPage/LandingPage.types';
 
 const CarouselList = () => {
   const visibleItems = useCarousel(CAROUSEL_ITEMS, CAROUSEL_TIMEOUT);
@@ -15,7 +16,7 @@ const CarouselList = () => {
           key={`${item.text}-${index}`}
           icon={item.icon as IconType}
           text={item.text}
-          status={item.status as 'blur' | 'focus'}
+          status={item.status as CarouselItemStatusType}
         />
       ))}
     </S.ListLayout>

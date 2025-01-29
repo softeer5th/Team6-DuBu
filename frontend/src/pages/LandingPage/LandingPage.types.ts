@@ -4,3 +4,5 @@ export type CarouselItemType = {
   icon: IconType;
   text: string;
 };
+
+export type CarouselItemStatusType = 'focus' | 'blur';

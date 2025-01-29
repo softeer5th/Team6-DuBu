@@ -1,10 +1,10 @@
 import * as S from './CarouselItem.styled';
 
 import Icon from '@/components/Icon';
-import { CarouselItemType } from '@/pages/LandingPage/LandingPage.types';
+import { CarouselItemStatusType, CarouselItemType } from '@/pages/LandingPage/LandingPage.types';
 
 export interface CarouselItemProps extends CarouselItemType {
-  status: 'blur' | 'focus';
+  status: CarouselItemStatusType;
 }
 
 const CarouselItem = ({ icon, text, status }: CarouselItemProps) => {
