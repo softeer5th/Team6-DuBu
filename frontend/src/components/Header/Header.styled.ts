@@ -35,7 +35,7 @@ export const Button = styled.button`
 export const HomeButton = styled(Button)`
   margin-left: 1.4rem;
   border: 0.1rem solid ${({ theme }) => theme.colors.gray200};
-  width: 11.3rem;
+  width: 11.4rem;
   height: 3.4rem;
   ${({ theme }) => theme.fonts.label13Med};
   font-weight: 400;
