@@ -14,7 +14,7 @@ const TabActiveIndicator = ({ tabLength }: TabActiveIndicatorProps) => {
 
 export default TabActiveIndicator;
 
-const ActiveIndicatorLayout = styled.div<{ $idx?: number; $tabLength: number }>`
+const ActiveIndicatorLayout = styled.div<{ $idx: number; $tabLength: number }>`
   position: absolute;
   bottom: -0.15rem;
   left: 0;
