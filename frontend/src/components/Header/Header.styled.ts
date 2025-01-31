@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const HeaderContainer = styled.div`
+  position: relative;
+`;
+
 export const HeaderLayout = styled.header`
   display: grid;
   grid-template-columns: auto 1fr 5.2rem;
