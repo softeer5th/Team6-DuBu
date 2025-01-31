@@ -1,8 +1,8 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 
 import { TabListType } from './Tab.types';
 
-import TabProvider from '@/providers/TabProvider';
+import { TabContext } from '@/contexts/TabContext';
 
 interface TabRootProps {
   tabList: TabListType;
@@ -10,10 +10,18 @@ interface TabRootProps {
 }
 
 const TabRoot = ({ tabList, defaultValue, children }: PropsWithChildren<TabRootProps>) => {
+  const [selectedTab, setSelectedTab] = useState(defaultValue || tabList[0].value);
+
+  const selectedIdx = tabList.findIndex((tab) => tab.value === selectedTab);
+
+  const handleClickTab = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSelectedTab(e.currentTarget.value);
+  };
+
   return (
-    <TabProvider tabList={tabList} defaultValue={defaultValue}>
+    <TabContext.Provider value={{ selectedTab, selectedIdx, handleClickTab, tabList }}>
       {children}
-    </TabProvider>
+    </TabContext.Provider>
   );
 };
 
