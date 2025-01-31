@@ -8,7 +8,7 @@ interface CompleteProps {
 
 export const Complete = ({ disabled = false, onClick }: CompleteProps) => {
   return (
-    <S.Button disabled={disabled} onClick={onClick} aria-label={BUTTONS.COMPLETE.text}>
+    <S.Button disabled={disabled} onClick={onClick}>
       {BUTTONS.COMPLETE.text}
     </S.Button>
   );

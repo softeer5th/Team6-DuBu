@@ -8,7 +8,7 @@ interface NextProps {
 
 export const Next = ({ disabled = false, onClick }: NextProps) => {
   return (
-    <S.Button disabled={disabled} aria-label={BUTTONS.NEXT.text} onClick={onClick}>
+    <S.Button disabled={disabled} onClick={onClick}>
       {BUTTONS.NEXT.text}
     </S.Button>
   );
