@@ -42,7 +42,7 @@ export const Content = styled.div<{ $isOpen: boolean }>`
   will-change: transform;
 `;
 
-export const ButtonWrapper = styled.div`
+export const MenuList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -50,7 +50,7 @@ export const ButtonWrapper = styled.div`
   gap: 1rem;
 `;
 
-export const Button = styled.button`
+export const MenuItem = styled.li`
   width: 100%;
   text-align: left;
   ${({ theme }) => theme.fonts.body16};
@@ -69,5 +69,9 @@ export const Button = styled.button`
     position: absolute;
     bottom: 0;
     left: 0;
+  }
+
+  a {
+    display: block;
   }
 `;

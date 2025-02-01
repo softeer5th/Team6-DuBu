@@ -1,3 +1,6 @@
+import { Link } from 'react-router';
+
+import { DRAWER_MENU } from './Drawer.constants';
 import * as S from './Drawer.styled';
 import { useDrawer } from './hooks/useDrawer';
 
@@ -11,11 +14,13 @@ const Drawer = () => {
       <S.Overlay onClick={closeDrawer} $isOpen={isOpen} />
       <S.Content $isOpen={isOpen}>
         <Icon icon="Doreburn" width={120} height={15} />
-        <S.ButtonWrapper>
-          <S.Button>주변 둘러보기</S.Button>
-          <S.Button>주간 통계</S.Button>
-          <S.Button>마이 페이지</S.Button>
-        </S.ButtonWrapper>
+        <S.MenuList>
+          {DRAWER_MENU.map((menu, idx) => (
+            <S.MenuItem key={idx}>
+              <Link to={menu.path}>{menu.text}</Link>
+            </S.MenuItem>
+          ))}
+        </S.MenuList>
       </S.Content>
     </S.DrawerLayout>
   );
