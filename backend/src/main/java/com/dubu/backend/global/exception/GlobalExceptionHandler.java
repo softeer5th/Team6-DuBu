@@ -1,5 +1,6 @@
 package com.dubu.backend.global.exception;
 
+import com.dubu.backend.global.domain.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
