@@ -16,7 +16,7 @@ const RecommendTab = () => {
         <TodoEditItem
           key={todo.todo_id}
           todo={todo}
-          left={<IconButton icon={<Icon icon="PlusCircle" />} />}
+          left={<IconButton icon={<Icon icon="PlusCircle" cursor="pointer" />} />}
         />
       ))}
     </S.RecommendTabLayout>

@@ -24,11 +24,15 @@ const TodoTab = () => {
           <TodoEditItem
             key={todo.todo_id}
             todo={todo}
-            left={<IconButton icon={<Icon icon="MinusCircle" />} />}
-            right={<IconButton icon={<Icon icon="Edit" />} />}
+            left={<IconButton icon={<Icon icon="MinusCircle" cursor="pointer" />} />}
+            right={<IconButton icon={<Icon icon="Edit" cursor="pointer" />} />}
           />
         ))}
-        <IconButton icon={<Icon icon="PlusCircle" />} text="직접 추가하기" isFull={true} />
+        <IconButton
+          icon={<Icon icon="PlusCircle" cursor="pointer" />}
+          text="직접 추가하기"
+          isFull={true}
+        />
       </S.TodoEditList>
     </S.TodoTabLayout>
   );
