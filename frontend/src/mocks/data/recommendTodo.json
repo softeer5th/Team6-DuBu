@@ -29,18 +29,6 @@
       "category": "English",
       "difficulty": "어려움",
       "name": "추천 리스트 조회5"
-    },
-    {
-      "todo_id": 16,
-      "category": "Language",
-      "difficulty": "어려움",
-      "name": "추천 리스트 조회6"
-    },
-    {
-      "todo_id": 17,
-      "category": "Others",
-      "difficulty": "어려움",
-      "name": "추천 리스트 조회7"
     }
   ]
 }

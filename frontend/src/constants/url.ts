@@ -4,12 +4,12 @@ export const API_URL = {
   todayTodo: `${BASE_URL}/todos/today`,
   tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
   favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendTodo: `${BASE_URL}/todos/recommend/all`,
+  recommendTodo: `${BASE_URL}/todos/recommend/limit`,
 };
 
 export const MOCK_API_URL = {
   todayTodo: `${BASE_URL}/todos/today`,
   tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
   favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendTodo: `${BASE_URL}/todos/recommend/all`,
+  recommendTodo: `${BASE_URL}/todos/recommend/limit`,
 };
