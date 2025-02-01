@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+import TodoTab from './components/TodoTab';
+
+import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
 
@@ -20,25 +23,27 @@ export const TABS = [
 
 const EditPage = () => {
   return (
-    <Tab.Root tabList={TABS}>
-      <TabList>
-        {TABS.map((tab) => (
-          <li key={tab.value}>
-            <Tab.Trigger value={tab.value}>{tab.label}</Tab.Trigger>
-          </li>
-        ))}
-      </TabList>
-      <Tab.Content>
-        <Recommend />
-        <Todo />
-        <Favorite />
-      </Tab.Content>
-    </Tab.Root>
+    <>
+      <Header>
+        <Header.BackButton />
+        <Header.Title>오늘 할 일 수정하기</Header.Title>
+      </Header>
+      <Tab.Root tabList={TABS}>
+        <TabList>
+          {TABS.map((tab) => (
+            <li key={tab.value}>
+              <Tab.Trigger value={tab.value}>{tab.label}</Tab.Trigger>
+            </li>
+          ))}
+        </TabList>
+        <Tab.Content>
+          <TodoTab />
+          <Favorite />
+          <Recommend />
+        </Tab.Content>
+      </Tab.Root>
+    </>
   );
-};
-
-const Todo = () => {
-  return <Icon icon="AddressHome" />;
 };
 
 const Favorite = () => {
