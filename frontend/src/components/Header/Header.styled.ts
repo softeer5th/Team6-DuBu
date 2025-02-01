@@ -12,6 +12,12 @@ export const HeaderLayout = styled.header`
   padding: 0 1rem 0 0.2rem;
 `;
 
+export const HeaderLeft = styled.div``;
+
+export const HeaderRight = styled.div`
+  grid-column: 3;
+`;
+
 export const HeaderTitle = styled.h1`
   color: ${({ theme }) => theme.colors.gray950};
   ${({ theme }) => theme.fonts.headline17Med};
@@ -43,8 +49,4 @@ export const HomeButton = styled(Button)`
   height: 3.4rem;
   ${({ theme }) => theme.fonts.label13Med};
   font-weight: 400;
-`;
-
-export const MenuButton = styled(Button)`
-  grid-column: 3;
 `;
