@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-
+import FavoriteTab from './components/FavoriteTab';
+import RecommendTab from './components/RecommendTab';
 import TodoTab from './components/TodoTab';
 import { TABS } from './EditPage.constants';
+import { TabList } from './EditPage.styled';
 
 import Header from '@/components/Header';
-import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
@@ -27,37 +27,12 @@ const EditPage = () => {
         </TabList>
         <Tab.Content>
           <TodoTab />
-          <Favorite />
-          <Recommend />
+          <FavoriteTab />
+          <RecommendTab />
         </Tab.Content>
       </Tab.Root>
     </>
   );
 };
 
-const Favorite = () => {
-  return <Icon icon="AddressUniv" />;
-};
-
-const Recommend = () => {
-  return <Icon icon="CheckCircle" />;
-};
-
 export default EditPage;
-
-export const TabList = styled(Tab.List)`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 4.8rem;
-
-  button {
-    ${({ theme }) => theme.fonts.body15};
-
-    color: ${({ theme }) => theme.colors.gray400};
-
-    &[data-state='active'] {
-      color: ${({ theme }) => theme.colors.green700};
-    }
-  }
-`;
