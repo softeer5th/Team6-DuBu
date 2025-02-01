@@ -18,7 +18,8 @@ const Header = ({ children }: HeaderProps) => {
         (rightChild) => React.isValidElement(rightChild) && rightChild.type === Buttons.Menu,
       );
     }
-    return false;
+
+    return child.type === Buttons.Menu;
   });
 
   const HeaderContent = (
@@ -32,6 +33,9 @@ const Header = ({ children }: HeaderProps) => {
 };
 
 Header.Left = ({ children }: { children: ReactNode }) => <S.HeaderLeft>{children}</S.HeaderLeft>;
+Header.Center = ({ children }: { children: ReactNode }) => (
+  <S.HeaderCenter>{children}</S.HeaderCenter>
+);
 Header.Right = ({ children }: { children: ReactNode }) => <S.HeaderRight>{children}</S.HeaderRight>;
 Header.Title = ({ children }: { children: ReactNode }) => <S.HeaderTitle>{children}</S.HeaderTitle>;
 Header.BackButton = Buttons.Back;
