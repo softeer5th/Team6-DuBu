@@ -1,7 +1,9 @@
 package com.dubu.backend.global.config;
 
+import com.dubu.backend.auth.api.OauthProviderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -28,5 +30,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name());
+    }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new OauthProviderConverter());
     }
 }

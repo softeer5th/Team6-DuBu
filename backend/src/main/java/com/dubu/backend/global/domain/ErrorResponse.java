@@ -1,5 +1,8 @@
-package com.dubu.backend.global.exception;
+package com.dubu.backend.global.domain;
 
+import com.dubu.backend.global.exception.BadRequestException;
+import com.dubu.backend.global.exception.ErrorCode;
+import com.dubu.backend.global.exception.UnauthorizedException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
