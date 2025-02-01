@@ -62,28 +62,23 @@ public class TokenService {
         return newAccessToken;
     }
 
-    public boolean validateToken(HttpServletRequest request) {
+    public void validateToken(HttpServletRequest request) {
         String token = resolveToken(request);
-        try {
-            Claims claims = jwtManager.parseClaims(token);
-            String jti = claims.getId();
+        Claims claims = jwtManager.parseClaims(token);
+        String jti = claims.getId();
 
-            if (tokenRedisRepository.isBlacklisted(jti)) {
-                throw new TokenBlacklistedException();
-            }
+        if (tokenRedisRepository.isBlacklisted(jti)) {
+            throw new TokenBlacklistedException();
+        }
 
-            String refreshToken = tokenRedisRepository.getRefreshToken(claims.getSubject());
-            if (refreshToken == null) {
-                throw new TokenExpiredException();
-            }
+        String refreshToken = tokenRedisRepository.getRefreshToken(claims.getSubject());
+        if (refreshToken == null) {
+            throw new TokenExpiredException();
+        }
 
-            String existingAccessToken = tokenRedisRepository.getAccessToken(refreshToken);
-            if (existingAccessToken == null || !existingAccessToken.equals(token)) {
-                tokenRedisRepository.addBlacklistToken(jti);
-                throw new TokenInvalidException();
-            }
-            return true;
-        } catch (Throwable exception) {
+        String existingAccessToken = tokenRedisRepository.getAccessToken(refreshToken);
+        if (existingAccessToken == null || !existingAccessToken.equals(token)) {
+            tokenRedisRepository.addBlacklistToken(jti);
             throw new TokenInvalidException();
         }
     }
