@@ -1,18 +1,18 @@
 import * as S from './TodoEditItem.styled';
 
 import { Todo } from '@/api/todo';
-import IconButton from '@/components/Button/IconButton';
-import Icon from '@/components/Icon';
 import { categoryMapper } from '@/pages/EditPage/EditPage.constants';
 
 interface TodoEditItemProps {
   todo: Todo;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
 }
 
-const TodoEditItem = ({ todo }: TodoEditItemProps) => {
+const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
   return (
     <S.TodoEditItem key={todo.todo_id}>
-      <IconButton icon={<Icon icon="MinusCircle" />} />
+      {left}
       <S.TodoTextWrapper>
         <S.TodoTitle>{todo.name}</S.TodoTitle>
         <S.TodoBadgeWrapper>
@@ -20,7 +20,7 @@ const TodoEditItem = ({ todo }: TodoEditItemProps) => {
           <S.TodoBadge>{`#${todo.difficulty}`}</S.TodoBadge>
         </S.TodoBadgeWrapper>
       </S.TodoTextWrapper>
-      <IconButton icon={<Icon icon="Edit" />} />
+      {right}
     </S.TodoEditItem>
   );
 };
