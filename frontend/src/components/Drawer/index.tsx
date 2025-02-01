@@ -10,7 +10,7 @@ const Drawer = () => {
   const { isOpen, closeDrawer } = useDrawer();
 
   return (
-    <S.DrawerLayout className="drawer" $isOpen={isOpen}>
+    <S.DrawerLayout $isOpen={isOpen}>
       <S.Overlay onClick={closeDrawer} $isOpen={isOpen} />
       <S.Content $isOpen={isOpen}>
         <Icon icon="Doreburn" width={120} height={15} />
