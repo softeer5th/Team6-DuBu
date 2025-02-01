@@ -6,6 +6,7 @@ const useRecommendTodoListQuery = () => {
   return useQuery({
     queryKey: ['recommend'],
     queryFn: getRecommendTodoList,
+    staleTime: Infinity,
   });
 };
 

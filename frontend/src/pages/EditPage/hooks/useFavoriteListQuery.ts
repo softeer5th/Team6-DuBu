@@ -6,6 +6,7 @@ const useFavoriteTodoListQuery = () => {
   return useQuery({
     queryKey: ['favorite'],
     queryFn: getFavoriteTodoList,
+    staleTime: Infinity,
   });
 };
 
