@@ -21,8 +21,13 @@ import useTodoListQuery from '@/hooks/useTodoListQuery';
 
 const TodoListContainer = () => {
   const navigate = useNavigate();
-  const { isToday } = useQueryParamsDate();
+  const { isToday, dateType } = useQueryParamsDate();
   const { data: todoList } = useTodoListQuery(isToday);
+
+  const handleClickEdit = () => {
+    const url = dateType ? `/edit?dateType=${dateType}` : '/edit';
+    navigate(url);
+  };
 
   return (
     <S.TodoListContainerLayout>
@@ -30,7 +35,7 @@ const TodoListContainer = () => {
         <S.ContentTitle>
           {isToday ? '오늘 할 일을 보여드려요' : '할 일을 미리 선택해보세요'}
         </S.ContentTitle>
-        <S.EditButton onClick={() => navigate('/edit')}>
+        <S.EditButton onClick={handleClickEdit}>
           <Icon icon="Edit" width={16} height={16} />
           <S.EditLabel>수정하기</S.EditLabel>
         </S.EditButton>

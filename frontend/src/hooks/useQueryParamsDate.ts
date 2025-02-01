@@ -23,7 +23,7 @@ const useQueryParamsDate = () => {
     setSearchParams({ dateType: DATE_TYPE.tomorrow });
   };
 
-  return { currentDay, isToday, handlePrevDate, handleNextDate };
+  return { currentDay, isToday, dateType, handlePrevDate, handleNextDate };
 };
 
 export default useQueryParamsDate;

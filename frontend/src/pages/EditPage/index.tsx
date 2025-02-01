@@ -6,13 +6,16 @@ import { TABS } from './EditPage.constants';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const EditPage = () => {
+  const { isToday } = useQueryParamsDate();
+
   return (
     <>
       <Header>
         <Header.BackButton />
-        <Header.Title>오늘 할 일 수정하기</Header.Title>
+        <Header.Title>{isToday ? '오늘' : '내일'} 할 일 수정하기</Header.Title>
       </Header>
       <Tab.Root tabList={TABS}>
         <TabList>

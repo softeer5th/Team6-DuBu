@@ -13,7 +13,7 @@ const TodoTab = () => {
   return (
     <S.TodoTabLayout>
       <S.SloganWrapper>
-        <span>오늘 할 일, 작은 목표로 시작해봐요</span>
+        <span>{isToday ? '오늘' : '내일'} 할 일, 작은 목표로 시작해봐요</span>
         <span>최대 3개까지 고를 수 있어요</span>
       </S.SloganWrapper>
 
