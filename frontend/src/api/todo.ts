@@ -25,3 +25,15 @@ export const getTomorrowTodoList = async () => {
 
   return result.data;
 };
+
+export const getFavoriteTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.favoriteTodo);
+
+  return result.data;
+};
+
+export const getRecommendTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.recommendTodo);
+
+  return result.data;
+};
