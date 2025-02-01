@@ -20,6 +20,13 @@ public enum ErrorCode {
     METHOD_NOT_SUPPORTED(METHOD_NOT_ALLOWED,"허용되지 않은 메서드입니다."),
     MEDIA_TYPE_NOT_SUPPORTED(UNSUPPORTED_MEDIA_TYPE,"허용되지 않은 미디어 타입입니다."),
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 오류가 발생했습니다. 관리자에게 문의하세요."),
+
+    // Token
+    TOKEN_INVALID(UNAUTHORIZED, "유효하지 않은 토큰입니다. 다시 로그인해 주세요."),
+    TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다."),
+    TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 사용이 금지되었습니다. 다시 로그인해 주세요."),
+    TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 발급받으세요."),
+    REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "세션이 만료되었습니다. 다시 로그인해 주세요."),
     ;
 
     public final HttpStatus httpStatus;
