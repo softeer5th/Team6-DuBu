@@ -2,19 +2,19 @@
   "data": [
     {
       "todo_id": 1,
-      "category": "news",
+      "category": "News",
       "difficulty": "쉬움",
       "name": "오늘 할 일 리스트 조회1"
     },
     {
       "todo_id": 2,
-      "category": "reading",
+      "category": "Reading",
       "difficulty": "어려움",
       "name": "오늘 할 일 리스트 조회2"
     },
     {
       "todo_id": 3,
-      "category": "english",
+      "category": "English",
       "difficulty": "보통",
       "name": "오늘 할 일 리스트 조회3"
     }
