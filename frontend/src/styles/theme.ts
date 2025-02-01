@@ -36,7 +36,29 @@ export const colors = {
   textBlue: '#0e87d8',
   iconRed: '#f67777',
   iconBlue: '#0e87d8',
-};
+
+  // category color
+  Reading: '#BA1A1A',
+  Hobby: '#C48430',
+  English: '#ACB337',
+  Language: '#83589A',
+  News: '#3C7AB0',
+  Others: '#656565',
+
+  // category background-color
+  background: {
+    Reading: '#BA1A1A1E',
+    Hobby: '#C484301E',
+    English: ',#ACB3371E',
+    Language: '#83589A1E',
+    News: '#3C7AB01E',
+    Others: '#6565651E',
+  },
+
+  // transport
+  Bus: '#9C50D3',
+  Subway: '#DC831E',
+} as const;
 
 export const fonts = {
   title36: {
@@ -149,7 +171,7 @@ export const fonts = {
     'line-height': '1.4rem',
     'font-weight': '600',
   },
-};
+} as const;
 
 const theme: {
   colors: typeof colors;
