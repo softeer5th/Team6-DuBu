@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -31,6 +32,7 @@ public class AuthService {
         return new TokenResponse(newAccessToken);
     }
 
+    @Transactional
     public TokenResponse issueTokenAfterKakaoLogin(String code) {
         String tokenFromKakao = kakaoTokenPort.getAccessTokenByCode(code);
         Member kakaoUser = kakaoUserPort.findUserFromKakao(tokenFromKakao);
