@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Category } from '@/types/category';
+
 export const TodoTabLayout = styled.div``;
 
 export const SloganWrapper = styled.div`
@@ -51,13 +53,11 @@ export const TodoBadgeWrapper = styled.div`
   gap: 0.4rem;
 `;
 
-export const TodoBadge = styled.span<{
-  icon?: 'Reading' | 'Hobby' | 'English' | 'Language' | 'News' | 'Others';
-}>`
+export const TodoBadge = styled.span<{ $category?: Category }>`
   ${({ theme }) => theme.fonts.caption12Reg};
-  color: ${({ theme, icon }) => (icon ? theme.colors[icon] : theme.colors.Others)};
-  background-color: ${({ theme, icon }) =>
-    icon ? theme.colors.background[icon] : theme.colors.gray100};
+  color: ${({ theme, $category }) => ($category ? theme.colors[$category] : theme.colors.Others)};
+  background-color: ${({ theme, $category }) =>
+    $category ? theme.colors.background[$category] : theme.colors.gray100};
 
   padding: 0.4rem 0.8rem;
   border-radius: 0.8rem;
