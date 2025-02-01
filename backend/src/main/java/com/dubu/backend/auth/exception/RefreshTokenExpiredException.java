@@ -6,7 +6,7 @@ import static com.dubu.backend.global.exception.ErrorCode.REFRESH_TOKEN_EXPIRED;
 
 public class RefreshTokenExpiredException extends UnauthorizedException {
     public RefreshTokenExpiredException() {
-        super(REFRESH_TOKEN_EXPIRED.getMessage().formatted());
+        super(REFRESH_TOKEN_EXPIRED.getMessage());
     }
 
     @Override
