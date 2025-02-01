@@ -3,6 +3,7 @@ package com.dubu.backend.todo.entity;
 import com.dubu.backend.global.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,9 @@ public class Category extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos = new ArrayList<>();
+
+    @Builder
+    public Category(String name) {
+        this.name = name;
+    }
 }
