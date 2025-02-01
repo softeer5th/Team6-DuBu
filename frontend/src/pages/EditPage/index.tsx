@@ -1,25 +1,11 @@
 import styled from 'styled-components';
 
 import TodoTab from './components/TodoTab';
+import { TABS } from './EditPage.constants';
 
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
-
-export const TABS = [
-  {
-    label: '할 일',
-    value: 'todo',
-  },
-  {
-    label: '즐겨찾기',
-    value: 'favorite',
-  },
-  {
-    label: '추천',
-    value: 'recommend',
-  },
-] as const;
 
 const EditPage = () => {
   return (
