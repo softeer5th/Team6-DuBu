@@ -7,7 +7,7 @@ import com.dubu.backend.todo.entity.TodoType;
 
 import java.time.LocalDate;
 
-public record TodoCreateRequest(String title, String category, String difficulty, String memo){
+public record CreateTodoRequest(String title, String category, String difficulty, String memo){
 
     public Todo toEntity(/* Member member, */ Category category){
         return Todo.builder()
