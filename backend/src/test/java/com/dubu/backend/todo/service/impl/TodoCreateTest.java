@@ -1,6 +1,7 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.exception.NotFoundMemberException;
 import com.dubu.backend.member.infrastructure.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.response.CreateTodoResponse;
@@ -8,6 +9,7 @@ import com.dubu.backend.todo.entity.Category;
 import com.dubu.backend.todo.entity.Todo;
 import com.dubu.backend.todo.entity.TodoDifficulty;
 import com.dubu.backend.todo.entity.TodoType;
+import com.dubu.backend.todo.exception.NotFoundCategoryException;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -82,5 +85,31 @@ class TodoCreateTest {
         then(todoRepository).should(times(1)).save(any(Todo.class));
         then(categoryRepository).should(times(1)).findByName("독서");
         then(memberRepository).should(times(1)).findById(1L);
+    }
+
+    @Test
+    @DisplayName("Todo 생성 실패 테스트 - 사용자 없음")
+    void testCreateTodoFailNotFoundMember(){
+        // given
+        CreateTodoRequest createTodoRequest = new CreateTodoRequest("노인과 바다 읽기", "독서", "어려움", null);
+
+        given(categoryRepository.findByName("독서")).willReturn(Optional.of(testCategory));
+        given(memberRepository.findById(any(Long.class))).willReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(NotFoundMemberException.class);
+    }
+
+    @Test
+    @DisplayName("Todo 생성 실패 테스트 - 카테고리 없음")
+    void testCreateTodoFailNotFoundCategory(){
+        // given
+        CreateTodoRequest createTodoRequest = new CreateTodoRequest("노인과 바다 읽기", "독서", "어려움", null);
+
+        given(categoryRepository.findByName("독서")).willReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(NotFoundCategoryException.class);
+
     }
 }
