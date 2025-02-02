@@ -49,7 +49,7 @@ export const colors = {
   background: {
     Reading: '#BA1A1A1E',
     Hobby: '#C484301E',
-    English: ',#ACB3371E',
+    English: '#ACB3371E',
     Language: '#83589A1E',
     News: '#3C7AB01E',
     Others: '#6565651E',
