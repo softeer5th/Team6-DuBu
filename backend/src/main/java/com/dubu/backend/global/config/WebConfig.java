@@ -1,24 +1,23 @@
 package com.dubu.backend.global.config;
 
 import com.dubu.backend.auth.api.OauthProviderConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dubu.backend.global.interceptor.TokenInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-    private OctetStreamReadMsgConverter octetStreamReadMsgConverter;
-
-    @Autowired
-    public WebConfig(OctetStreamReadMsgConverter octetStreamReadMsgConverter) {
-        this.octetStreamReadMsgConverter = octetStreamReadMsgConverter;
-    }
+    private final OctetStreamReadMsgConverter octetStreamReadMsgConverter;
+    private final TokenInterceptor tokenInterceptor;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -34,5 +33,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new OauthProviderConverter());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns("/members/**");
     }
 }

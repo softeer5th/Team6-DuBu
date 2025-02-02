@@ -62,10 +62,10 @@ public class TokenService {
         return newAccessToken;
     }
 
-    public void validateToken(HttpServletRequest request) {
-        String token = resolveToken(request);
+    public Long validateToken(String token) {
         Claims claims = jwtManager.parseClaims(token);
         String jti = claims.getId();
+        String memberId = claims.getSubject();
 
         if (tokenRedisRepository.isBlacklisted(jti)) {
             throw new TokenBlacklistedException();
@@ -81,6 +81,8 @@ public class TokenService {
             tokenRedisRepository.addBlacklistToken(jti);
             throw new TokenInvalidException();
         }
+
+        return Long.parseLong(memberId);
     }
 
     public String resolveToken(HttpServletRequest request) {

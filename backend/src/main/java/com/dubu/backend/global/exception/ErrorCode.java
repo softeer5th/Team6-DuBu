@@ -30,6 +30,12 @@ public enum ErrorCode {
 
     // OAuth
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
+
+    // Member
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
+
+    // Category
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s")
     ;
 
     public final HttpStatus httpStatus;

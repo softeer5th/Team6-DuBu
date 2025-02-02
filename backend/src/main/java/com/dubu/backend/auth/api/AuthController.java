@@ -44,4 +44,11 @@ public class AuthController {
 
         return new SuccessResponse<>(response);
     }
+
+    @PostMapping("/test/token")
+    public SuccessResponse<TokenResponse> testToken() {
+        TokenResponse response = authService.issueTokenForTest();
+
+        return new SuccessResponse<>(response);
+    }
 }
