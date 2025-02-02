@@ -6,7 +6,7 @@ import com.dubu.backend.auth.dto.TokenResponse;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoTokenPort;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoUserPort;
 import com.dubu.backend.member.domain.Member;
-import com.dubu.backend.member.infrastructure.repository.MemberRepository;
+import com.dubu.backend.member.infra.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +39,12 @@ public class AuthService {
         Member loginMember = memberRepository.findByProviderId(kakaoUser.getProviderId())
                         .orElseGet(() -> memberRepository.save(kakaoUser));
         String newAccessToken = tokenService.issue(loginMember.getId());
+
+        return new TokenResponse(newAccessToken);
+    }
+
+    public TokenResponse issueTokenForTest() {
+        String newAccessToken = tokenService.issue(1L);
 
         return new TokenResponse(newAccessToken);
     }
