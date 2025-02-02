@@ -10,6 +10,7 @@ import com.dubu.backend.todo.entity.TodoDifficulty;
 import com.dubu.backend.todo.entity.TodoType;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class TodoManagementServiceImplTest {
+class TodoCreateTest {
     @InjectMocks
     private TodoManagementServiceImpl todoManagementService;
 
@@ -39,35 +40,42 @@ class TodoManagementServiceImplTest {
     @Mock
     private MemberRepository memberRepository;
 
-    @Test
-    @DisplayName("Todo 생성 테스트")
-    void testCreateTodo(){
-        // given
-        Category category = Category.builder().name("독서").build();
+    private Category testCategory;
+    private Member testMember;
+    private Todo testTodo;
 
-        CreateTodoRequest createTodoRequest = new CreateTodoRequest("노인과 바다 읽기", "독서", "어려움", null);
+    @BeforeEach
+    void setUp(){
+        testCategory = Category.builder().name("독서").build();
 
-        Member member = Member.builder()
+        testMember = Member.builder()
                 .id(1L)
                 .build();
 
-        Todo savedTodo = Todo.builder()
+        testTodo = Todo.builder()
                 .id(1L)
                 .title("노인과 바다 읽기")
-                .category(category)
+                .category(testCategory)
                 .todoDifficulty(TodoDifficulty.getByName("어려움"))
                 .memo(null)
-                .member(member)
+                .member(testMember)
                 .scheduledDate(LocalDate.now().plusDays(1))
                 .type(TodoType.SCHEDULED)
                 .build();
+    }
 
-        given(categoryRepository.findByName("독서")).willReturn(Optional.of(category));
-        given(todoRepository.save(any(Todo.class))).willReturn(savedTodo);
-        given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(member));
+    @Test
+    @DisplayName("Todo 생성 성공 테스트")
+    void testCreateTodoSuccess(){
+        // given
+        CreateTodoRequest createTodoRequest = new CreateTodoRequest("노인과 바다 읽기", "독서", "어려움", null);
+
+        given(categoryRepository.findByName("독서")).willReturn(Optional.of(testCategory));
+        given(todoRepository.save(any(Todo.class))).willReturn(testTodo);
+        given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(testMember));
 
         // when
-        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);// Member 아직 구현 X, null 로 처리
+        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);
 
         // then
         assertThat(createTodoResponse.todoId()).isEqualTo(1L); //
