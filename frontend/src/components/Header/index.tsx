@@ -10,20 +10,33 @@ interface HeaderProps {
 }
 
 const Header = ({ children }: HeaderProps) => {
-  const hasMenuButton = React.Children.toArray(children).some(
-    (child) => React.isValidElement(child) && child.type === Buttons.Menu,
-  );
+  const hasMenuButton = React.Children.toArray(children).some((child) => {
+    if (!React.isValidElement(child)) return false;
 
-  const HeaderContent = (
-    <S.HeaderContainer>
-      <S.HeaderLayout>{children}</S.HeaderLayout>
-      {hasMenuButton && <Drawer />}
-    </S.HeaderContainer>
-  );
+    if (child.type === Header.Right) {
+      return React.Children.toArray(child.props.children).some(
+        (rightChild) => React.isValidElement(rightChild) && rightChild.type === Buttons.Menu,
+      );
+    }
 
-  return hasMenuButton ? <DrawerProvider>{HeaderContent}</DrawerProvider> : HeaderContent;
+    return child.type === Buttons.Menu;
+  });
+
+  return (
+    <DrawerProvider>
+      <S.HeaderContainer>
+        <S.HeaderLayout>{children}</S.HeaderLayout>
+        {hasMenuButton && <Drawer />}
+      </S.HeaderContainer>
+    </DrawerProvider>
+  );
 };
 
+Header.Left = ({ children }: { children: ReactNode }) => <S.HeaderLeft>{children}</S.HeaderLeft>;
+Header.Center = ({ children }: { children: ReactNode }) => (
+  <S.HeaderCenter>{children}</S.HeaderCenter>
+);
+Header.Right = ({ children }: { children: ReactNode }) => <S.HeaderRight>{children}</S.HeaderRight>;
 Header.Title = ({ children }: { children: ReactNode }) => <S.HeaderTitle>{children}</S.HeaderTitle>;
 Header.BackButton = Buttons.Back;
 Header.HomeButton = Buttons.Home;

@@ -1,4 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const FlexCenter = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const HeaderContainer = styled.div`
   position: relative;
@@ -12,6 +18,21 @@ export const HeaderLayout = styled.header`
   padding: 0 1rem 0 0.2rem;
 `;
 
+export const HeaderLeft = styled.div`
+  grid-column: 1;
+  ${FlexCenter}
+`;
+
+export const HeaderCenter = styled.div`
+  grid-column: 2;
+  ${FlexCenter}
+`;
+
+export const HeaderRight = styled.div`
+  grid-column: 3;
+  ${FlexCenter}
+`;
+
 export const HeaderTitle = styled.h1`
   color: ${({ theme }) => theme.colors.gray950};
   ${({ theme }) => theme.fonts.headline17Med};
@@ -19,9 +40,7 @@ export const HeaderTitle = styled.h1`
 `;
 
 export const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${FlexCenter}
   padding: 0.8rem;
   width: 5.2rem;
   height: 5.2rem;
@@ -43,8 +62,4 @@ export const HomeButton = styled(Button)`
   height: 3.4rem;
   ${({ theme }) => theme.fonts.label13Med};
   font-weight: 400;
-`;
-
-export const MenuButton = styled(Button)`
-  grid-column: 3;
 `;
