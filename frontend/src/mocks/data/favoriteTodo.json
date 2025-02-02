@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "todo_id": 11,
+      "category": "Hobby",
+      "difficulty": "쉬움",
+      "name": "즐겨찾기 리스트 조회1"
+    },
+    {
+      "todo_id": 12,
+      "category": "Others",
+      "difficulty": "어려움",
+      "name": "즐겨찾기 리스트 조회2"
+    }
+  ]
+}

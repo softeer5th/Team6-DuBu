@@ -1,18 +1,13 @@
 import * as S from './DateHeader.styled';
-import { getDateHeaderFormat, getKoreanTime } from '../../MainPage.utils';
 
 import Icon from '@/components/Icon';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import { getDateHeaderFormat } from '@/pages/MainPage/MainPage.utils';
 
-interface DateHeaderProps {
-  currentTime: Date;
-  handlePrevDate: () => void;
-  handleNextDate: () => void;
-}
-const DateHeader = ({ currentTime, handlePrevDate, handleNextDate }: DateHeaderProps) => {
-  const koreanTime = getDateHeaderFormat(currentTime);
-  const today = getKoreanTime();
+const DateHeader = () => {
+  const { currentDay, isToday, handlePrevDate, handleNextDate } = useQueryParamsDate();
 
-  const isToday = today.toDateString() === currentTime.toDateString();
+  const koreanTime = getDateHeaderFormat(currentDay);
 
   return (
     <S.DateHeaderLayout>

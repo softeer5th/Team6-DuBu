@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 import * as S from './TodoListContainer.styled';
-import { getKoreanTime } from '../../MainPage.utils';
 
-import { getTodayTodoList, getTomorrowTodoList } from '@/api/todo';
 import Icon from '@/components/Icon';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import useTodoListQuery from '@/hooks/useTodoListQuery';
 
 // [최초 진입한 사용자의 경우]
 // TODO: 최초 진입 여부 -> 유저 API 호출
@@ -19,18 +19,15 @@ import Icon from '@/components/Icon';
 // TODO: plus 아이콘 + 추가하기 버튼 텍스트
 // TODO: fire 아이콘
 
-interface TodoListContainerProps {
-  currentTime: Date;
-}
-const TodoListContainer = ({ currentTime }: TodoListContainerProps) => {
-  const today = getKoreanTime();
-  const isToday = currentTime.toDateString() === today.toDateString();
+const TodoListContainer = () => {
+  const navigate = useNavigate();
+  const { isToday, dateType } = useQueryParamsDate();
+  const { data: todoList } = useTodoListQuery(isToday);
 
-  const { data: todoList } = useQuery({
-    queryKey: ['todoList', isToday],
-    queryFn: () => (isToday ? getTodayTodoList() : getTomorrowTodoList()),
-    staleTime: Infinity,
-  });
+  const handleClickEdit = () => {
+    const url = dateType ? `/edit?dateType=${dateType}` : '/edit';
+    navigate(url);
+  };
 
   return (
     <S.TodoListContainerLayout>
@@ -38,7 +35,7 @@ const TodoListContainer = ({ currentTime }: TodoListContainerProps) => {
         <S.ContentTitle>
           {isToday ? '오늘 할 일을 보여드려요' : '할 일을 미리 선택해보세요'}
         </S.ContentTitle>
-        <S.EditButton>
+        <S.EditButton onClick={handleClickEdit}>
           <Icon icon="Edit" width={16} height={16} />
           <S.EditLabel>수정하기</S.EditLabel>
         </S.EditButton>

@@ -1,10 +1,11 @@
 import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
+import { Category } from '@/types/category';
 
 export interface Todo {
   todo_id: number;
-  category: string; // 독서, 영어, 언어, 뉴스, 취미, 기타
+  category: Category;
   difficulty: '쉬움' | '보통' | '어려움';
   name: string;
 }
@@ -21,6 +22,18 @@ export const getTodayTodoList = async () => {
 
 export const getTomorrowTodoList = async () => {
   const result = await fetchClient.get<TodoResponse>(API_URL.tomorrowTodo);
+
+  return result.data;
+};
+
+export const getFavoriteTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.favoriteTodo);
+
+  return result.data;
+};
+
+export const getRecommendTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.recommendTodo);
 
   return result.data;
 };

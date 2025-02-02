@@ -14,8 +14,7 @@ export const HeaderLayout = styled.header`
   display: grid;
   grid-template-columns: auto 1fr 5.2rem;
   align-items: center;
-  height: 5.2rem;
-  padding: 0 1rem 0 0.2rem;
+  padding: 1.5rem 1rem;
 `;
 
 export const HeaderLeft = styled.div`
@@ -43,7 +42,6 @@ export const Button = styled.button`
   ${FlexCenter}
   padding: 0.8rem;
   width: 5.2rem;
-  height: 5.2rem;
   border: none;
   border-radius: 0.8rem;
   color: ${({ theme }) => theme.colors.gray950};
