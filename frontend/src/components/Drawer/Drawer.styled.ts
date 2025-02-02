@@ -9,16 +9,20 @@ export const DrawerLayout = styled.div<{ $isOpen: boolean }>`
   width: 37.5rem;
   overflow: hidden;
 
-  z-index: ${({ $isOpen }) => ($isOpen ? 5 : -1)};
+  z-index: 5;
   visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
   opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+
+  transition:
+    visibility 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 `;
 
 export const Overlay = styled.div<{ $isOpen: boolean }>`
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 
 export const Content = styled.div<{ $isOpen: boolean }>`
@@ -30,8 +34,8 @@ export const Content = styled.div<{ $isOpen: boolean }>`
   height: 100%;
   padding: 2rem 2.8rem;
 
-  background: ${({ theme }) => theme.colors.white};
-  border-radius: 0 0 0 1.2rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 0 0 0 3.2rem;
 
   display: flex;
   flex-direction: column;
@@ -64,7 +68,7 @@ export const MenuItem = styled.li`
     display: block;
     width: 100%;
     height: 0.15rem;
-    background: ${({ theme }) => theme.colors.gray100};
+    background-color: ${({ theme }) => theme.colors.gray100};
 
     position: absolute;
     bottom: 0;
