@@ -32,17 +32,11 @@ public class Todo extends BaseTimeEntity {
     @Column(length = 500)
     private String memo ;
 
-    @Column(name = "scheduled_date", columnDefinition = "DATE")
-    private LocalDate scheduledDate;
-
     @Column(name = "spent_time", columnDefinition = "MEDIUMINT")
     private Integer spentTime;
 
     @Column(name = "is_done", columnDefinition = "TINYINT(1)")
     private Boolean isDone;
-
-    @Column(name = "is_deleted", columnDefinition = "TINYINT(1)")
-    private Boolean isDeleted;
 
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -56,6 +50,9 @@ public class Todo extends BaseTimeEntity {
     @JoinColumn(name = "parent_id")
     private Todo parentTodo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
     // Route 엔티티 구현되면 포함
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "route_id")
