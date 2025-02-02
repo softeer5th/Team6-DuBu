@@ -1,6 +1,9 @@
+import { useState } from 'react';
+
 import TodoEditItem from '../TodoEditItem';
 import * as S from './TodoTab.styled';
 
+import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
@@ -9,6 +12,16 @@ import useTodoListQuery from '@/hooks/useTodoListQuery';
 const TodoTab = () => {
   const { isToday } = useQueryParamsDate();
   const { data: todoList } = useTodoListQuery(isToday);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenBottomSheet = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setIsOpen(false);
+  };
 
   if (!todoList) return null;
 
@@ -32,8 +45,17 @@ const TodoTab = () => {
           icon={<Icon icon="PlusCircle" cursor="pointer" />}
           text="직접 추가하기"
           isFull={true}
+          onClick={handleOpenBottomSheet}
         />
       </S.TodoEditList>
+      <BottomSheet
+        isOpen={isOpen}
+        title="할 일 정보 추가하기"
+        content={<input placeholder="메모를 입력하세요." />}
+        confirmText="추가하기"
+        onClose={handleCloseBottomSheet}
+        onConfirm={() => {}}
+      />
     </S.TodoTabLayout>
   );
 };
