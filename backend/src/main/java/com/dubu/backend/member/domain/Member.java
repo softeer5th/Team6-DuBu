@@ -21,7 +21,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 50)
     private String nickname;
 
     @Column(nullable = false)
@@ -40,8 +40,16 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'STOP'")
+    @ColumnDefault("'ONBOARDING'")
     private Status status;
 
     private String recentRoute;
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
 }
