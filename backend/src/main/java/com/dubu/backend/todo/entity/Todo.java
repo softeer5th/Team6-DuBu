@@ -1,6 +1,7 @@
 package com.dubu.backend.todo.entity;
 
 import com.dubu.backend.global.domain.BaseTimeEntity;
+import com.dubu.backend.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -44,10 +45,9 @@ public class Todo extends BaseTimeEntity {
     @Column(name = "is_deleted", columnDefinition = "TINYINT(1)")
     private Boolean isDeleted;
 
-    // Member 엔티티 구현되면 포함
-    // @ManyToOne(fetch =  FetchType.LAZY)
-    // @JoinColumn(name = "member_id")
-    // private Member member;
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -59,7 +59,7 @@ public class Todo extends BaseTimeEntity {
     // private Route route;
 
     @Builder
-    public Todo(Long id, String title, TodoType type, TodoDifficulty todoDifficulty, String memo, LocalDate scheduledDate, Integer spentTime, Boolean isDone, Boolean isDeleted, Category category) {
+    public Todo(Long id, String title, TodoType type, TodoDifficulty todoDifficulty, String memo, LocalDate scheduledDate, Integer spentTime, Boolean isDone, Boolean isDeleted, Member member, Category category) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -69,6 +69,7 @@ public class Todo extends BaseTimeEntity {
         this.spentTime = spentTime;
         this.isDone = isDone;
         this.isDeleted = isDeleted;
+        this.member = member;
         this.category = category;
     }
 }
