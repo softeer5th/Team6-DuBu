@@ -3,16 +3,15 @@ package com.dubu.backend.todo.entity;
 import com.dubu.backend.global.domain.BaseTimeEntity;
 import com.dubu.backend.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class Todo extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,23 +52,12 @@ public class Todo extends BaseTimeEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Todo parentTodo;
+
     // Route 엔티티 구현되면 포함
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "route_id")
     // private Route route;
-
-    @Builder
-    public Todo(Long id, String title, TodoType type, TodoDifficulty todoDifficulty, String memo, LocalDate scheduledDate, Integer spentTime, Boolean isDone, Boolean isDeleted, Member member, Category category) {
-        this.id = id;
-        this.title = title;
-        this.type = type;
-        this.todoDifficulty = todoDifficulty;
-        this.memo = memo;
-        this.scheduledDate = scheduledDate;
-        this.spentTime = spentTime;
-        this.isDone = isDone;
-        this.isDeleted = isDeleted;
-        this.member = member;
-        this.category = category;
-    }
 }
