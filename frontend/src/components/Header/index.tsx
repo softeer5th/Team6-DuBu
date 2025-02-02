@@ -22,14 +22,14 @@ const Header = ({ children }: HeaderProps) => {
     return child.type === Buttons.Menu;
   });
 
-  const HeaderContent = (
-    <S.HeaderContainer>
-      <S.HeaderLayout>{children}</S.HeaderLayout>
-      {hasMenuButton && <Drawer />}
-    </S.HeaderContainer>
+  return (
+    <DrawerProvider>
+      <S.HeaderContainer>
+        <S.HeaderLayout>{children}</S.HeaderLayout>
+        {hasMenuButton && <Drawer />}
+      </S.HeaderContainer>
+    </DrawerProvider>
   );
-
-  return hasMenuButton ? <DrawerProvider>{HeaderContent}</DrawerProvider> : HeaderContent;
 };
 
 Header.Left = ({ children }: { children: ReactNode }) => <S.HeaderLeft>{children}</S.HeaderLeft>;
