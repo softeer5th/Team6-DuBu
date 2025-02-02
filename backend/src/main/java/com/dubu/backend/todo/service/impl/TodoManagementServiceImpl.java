@@ -24,11 +24,11 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     private final MemberRepository memberRepository;
 
     @Override
-    public CreateTodoResponse createTodo(Long memberId, CreateTodoRequest createTodoRequest) {
+    public CreateTodoResponse createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest) {
         Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
 
-        Todo todo = createTodoRequest.toEntity(member, category);
+        Todo todo = createTodoRequest.toEntity(member, todoType, category);
 
         Todo savedTodo = todoRepository.save(todo);
 

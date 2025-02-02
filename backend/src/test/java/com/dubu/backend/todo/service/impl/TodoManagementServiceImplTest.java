@@ -47,19 +47,19 @@ class TodoManagementServiceImplTest {
 
         CreateTodoRequest createTodoRequest = new CreateTodoRequest("노인과 바다 읽기", "독서", "어려움", null);
 
+        Member member = Member.builder()
+                .id(1L)
+                .build();
+
         Todo savedTodo = Todo.builder()
                 .id(1L)
                 .title("노인과 바다 읽기")
                 .category(category)
                 .todoDifficulty(TodoDifficulty.getByName("어려움"))
                 .memo(null)
-                //.member(member) 멤버 엔티티 아직 구현 X
-                .scheduledDate(LocalDate.now())
-                .type(TodoType.OTHER)
-                .build();
-
-        Member member = Member.builder()
-                .id(1L)
+                .member(member)
+                .scheduledDate(LocalDate.now().plusDays(1))
+                .type(TodoType.SCHEDULED)
                 .build();
 
         given(categoryRepository.findByName("독서")).willReturn(Optional.of(category));
@@ -67,7 +67,7 @@ class TodoManagementServiceImplTest {
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(member));
 
         // when
-        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, createTodoRequest);// Member 아직 구현 X, null 로 처리
+        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);// Member 아직 구현 X, null 로 처리
 
         // then
         assertThat(createTodoResponse.todoId()).isEqualTo(1L); //
