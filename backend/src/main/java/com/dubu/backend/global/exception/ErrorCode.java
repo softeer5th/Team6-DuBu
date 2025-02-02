@@ -38,7 +38,7 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
     // Todo
-    NOT_FOUND_TODO(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
+    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
     ;
 
     public final HttpStatus httpStatus;
