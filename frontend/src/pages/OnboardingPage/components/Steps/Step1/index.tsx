@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import * as S from './First.styled';
+import * as S from './Step1.styled';
 
 import backgroundEnglish from '@/assets/images/backgroundEnglish.png';
 import backgroundHobby from '@/assets/images/backgroundHobby.png';
@@ -20,7 +20,7 @@ const CATEGORIES = [
 const MIN_SELECTED_CATEGORIES = 1;
 const MAX_SELECTED_CATEGORIES = 3;
 
-const First = () => {
+const Step1 = () => {
   const { setStepValidity, userInfo, setUserInfo } = useOnboarding();
   const { categories } = userInfo;
 
@@ -67,4 +67,4 @@ const First = () => {
   );
 };
 
-export default First;
+export default Step1;
