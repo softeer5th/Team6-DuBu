@@ -36,7 +36,6 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
         Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
 
-        Todo todo = createTodoRequest.toEntity(member, todoType, category);
         // 내일 할 일 데이터 생성의 경우 내일 스케줄이 있는지를 조회하고 없으면 생성한다.
         if(todoType.equals("tomorrow")){
             boolean hasSchedule = scheduleRepository.findScheduleByMemberAndDate(member, ScheduledDateResolver.resolveScheduledDate(todoType)).isPresent();
