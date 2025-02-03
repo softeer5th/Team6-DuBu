@@ -5,6 +5,7 @@ export const API_URL = {
   tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
   favoriteTodo: `${BASE_URL}/todos/favorites`,
   recommendTodo: `${BASE_URL}/todos/recommend/limit`,
+  addTodo: (dateType: string) => `${BASE_URL}/todos/${dateType}`,
 };
 
 export const MOCK_API_URL = {
@@ -12,4 +13,5 @@ export const MOCK_API_URL = {
   tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
   favoriteTodo: `${BASE_URL}/todos/favorites`,
   recommendTodo: `${BASE_URL}/todos/recommend/limit`,
+  addTodo: `${BASE_URL}/todos/:dateType`,
 };
