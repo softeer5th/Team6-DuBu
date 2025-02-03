@@ -42,7 +42,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  padding: 2.4rem 0;
+  padding-top: 2.4rem;
 
   max-height: 50vh;
   overflow-y: auto;
