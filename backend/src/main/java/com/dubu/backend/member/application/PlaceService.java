@@ -2,6 +2,7 @@ package com.dubu.backend.member.application;
 
 import com.dubu.backend.member.dto.NaverPlaceApiResponse;
 import com.dubu.backend.member.dto.SearchPlaceResponse;
+import com.dubu.backend.member.exception.NaverApiServerException;
 import com.dubu.backend.member.infra.place.NaverPlaceApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class PlaceService {
 
     public List<SearchPlaceResponse> searchPlaces(String query) {
         NaverPlaceApiResponse response = naverPlaceApiClient.searchPlaces(query);
+
+        if(response == null) {
+            throw new NaverApiServerException();
+        }
+
         return response.places().stream()
                 .map(place -> new SearchPlaceResponse(
                                 place.title().replace("<b>", "").replace("</b>", ""),
