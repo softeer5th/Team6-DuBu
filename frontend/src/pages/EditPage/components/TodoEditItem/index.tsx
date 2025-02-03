@@ -11,7 +11,7 @@ interface TodoEditItemProps {
 
 const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
   return (
-    <S.TodoEditItem key={todo.todo_id}>
+    <S.TodoEditItem>
       {left}
       <S.TodoTextWrapper>
         <S.TodoTitle>{todo.name}</S.TodoTitle>

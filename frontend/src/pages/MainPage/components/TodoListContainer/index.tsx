@@ -22,7 +22,7 @@ import useTodoListQuery from '@/hooks/useTodoListQuery';
 const TodoListContainer = () => {
   const navigate = useNavigate();
   const { isToday, dateType } = useQueryParamsDate();
-  const { data: todoList } = useTodoListQuery(isToday);
+  const { data: todoList } = useTodoListQuery(dateType);
 
   const handleClickEdit = () => {
     const url = dateType ? `/edit?dateType=${dateType}` : '/edit';
