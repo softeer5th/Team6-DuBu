@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import TodoEditItem from '../TodoEditItem';
+import TodoAddForm from './TodoAddForm';
 import * as S from './TodoTab.styled';
 
 import BottomSheet from '@/components/BottomSheet';
@@ -48,13 +49,14 @@ const TodoTab = () => {
           onClick={handleOpenBottomSheet}
         />
       </S.TodoEditList>
+
       <BottomSheet
         isOpen={isOpen}
-        title="할 일 정보 추가하기"
-        content={<input placeholder="메모를 입력하세요." />}
+        title="할 일 추가하기"
+        content={<TodoAddForm />}
         confirmText="추가하기"
         onClose={handleCloseBottomSheet}
-        onConfirm={() => {}}
+        onConfirm={handleCloseBottomSheet}
       />
     </S.TodoTabLayout>
   );
