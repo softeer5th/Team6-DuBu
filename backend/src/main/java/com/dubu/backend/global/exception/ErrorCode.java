@@ -40,6 +40,8 @@ public enum ErrorCode {
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
 
+    ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
+
     // Schedule
     SCHEDULE_NOT_FOUND(NOT_FOUND, "스케줄을 찾을 수 없습니다.")
     ;
