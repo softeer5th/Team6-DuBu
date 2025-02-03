@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
-public interface TodoRepository extends JpaRepository<Todo, Long>, CustomTodoRepository{
+public interface TodoRepository extends JpaRepository<Todo, Long>{
     @Query("SELECT t FROM Todo t JOIN t.category c WHERE t.id = :todoId")
     Optional<Todo> findByIdWithCategory(@Param("todoId") Long todoId);
 
