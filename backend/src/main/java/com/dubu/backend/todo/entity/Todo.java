@@ -68,4 +68,31 @@ public class Todo extends BaseTimeEntity {
                 .schedule(schedule)
                 .build();
     }
+
+    public void clearParentTodo(){
+        this.parentTodo = null;
+    }
+
+    private void updateTitle(String title){
+        this.title = title;
+    }
+
+    private void updateCategory(Category category){
+        this.category = category;
+    }
+
+    private void updateDifficulty(TodoDifficulty difficulty){
+        this.difficulty = difficulty;
+    }
+
+    private void updateMemo(String memo){
+        this.memo = memo;
+    }
+
+    public void updateTodo(String title, Category category, TodoDifficulty difficulty, String memo){
+        if(title != null) updateTitle(title);
+        if(category != null) updateCategory(category);
+        if(difficulty != null) updateDifficulty(difficulty);
+        if(memo != null) updateMemo(memo);
+    }
 }
