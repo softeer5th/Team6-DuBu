@@ -80,7 +80,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
             todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
         }
-        Todo newTodo = Todo.of(parentTodo.getTitle(), parentTodo.getType(), parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
+        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.get(todoType), parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
         Todo savedTodo = todoRepository.save(newTodo);
 
         return CreateTodoResponse.fromEntity(savedTodo);
