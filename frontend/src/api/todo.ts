@@ -4,7 +4,7 @@ import { API_URL } from '@/constants/url';
 import { CategoryType, DifficultyType } from '@/types/filter';
 import { Todo } from '@/types/todo';
 
-export interface AddTodoParams {
+export interface TodoAddParams {
   name: string;
   category: CategoryType;
   difficulty: DifficultyType;
@@ -43,7 +43,7 @@ export const getRecommendTodoList = async () => {
   return result.data;
 };
 
-export const addTodo = async (dateType: string, todo: AddTodoParams) => {
+export const addTodo = async (dateType: string, todo: TodoAddParams) => {
   const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType), {
     body: { ...todo },
   });

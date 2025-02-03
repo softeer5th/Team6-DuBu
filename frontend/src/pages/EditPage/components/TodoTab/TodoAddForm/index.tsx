@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import * as S from './TodoAddForm.styled';
 
-import { AddTodoParams } from '@/api/todo';
+import { TodoAddParams } from '@/api/todo';
 import RadioGroup from '@/components/RadioGroup';
 import { categoryFilter, difficultyFilter } from '@/pages/EditPage/EditPage.constants';
 import { CategoryType, DifficultyType } from '@/types/filter';
 
 interface TodoAddFormProps {
-  handleAddTodo: (todo: AddTodoParams) => void;
+  handleAddTodo: (todo: TodoAddParams) => void;
 }
 
 const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {

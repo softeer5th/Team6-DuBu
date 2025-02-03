@@ -1,42 +1,17 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import TodoEditItem from '../TodoEditItem';
 import TodoAddForm from './TodoAddForm';
 import * as S from './TodoTab.styled';
+import useAddTodoMutation from '../../hooks/useAddTodoMutation';
+import useDeleteTodoMutation from '../../hooks/useDeleteTodoMutation';
 
-import { addTodo, AddTodoParams, deleteTodo } from '@/api/todo';
+import { TodoAddParams } from '@/api/todo';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
-import { QUERY_KEY } from '@/constants/queryKey';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
-
-const useAddTodoMutation = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ dateType, todo }: { dateType: string; todo: AddTodoParams }) =>
-      addTodo(dateType, todo),
-
-    onSuccess: (_, params) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, params.dateType] });
-    },
-  });
-};
-
-const useDeleteTodoMutation = (dateType: string) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ todoId }: { todoId: number }) => deleteTodo(todoId),
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
-    },
-  });
-};
 
 const TodoTab = () => {
   const { isToday, dateType } = useQueryParamsDate();
@@ -54,7 +29,7 @@ const TodoTab = () => {
     setIsOpen(false);
   };
 
-  const handleAddTodo = (todo: AddTodoParams) => {
+  const handleAddTodo = (todo: TodoAddParams) => {
     addTodo({ dateType, todo });
   };
 
