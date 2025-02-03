@@ -1,19 +1,13 @@
 import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
-import { Category } from '@/types/category';
-
-export interface Todo {
-  todo_id: number;
-  category: Category;
-  difficulty: '쉬움' | '보통' | '어려움';
-  name: string;
-}
+import { CategoryType, DifficultyType } from '@/types/filter';
+import { Todo } from '@/types/todo';
 
 export interface AddTodoParams {
   name: string;
-  category: string; // TODO: 카테고리 대문자
-  difficulty: string; // 'EASY' | 'NORMAL' | 'HARD';
+  category: CategoryType;
+  difficulty: DifficultyType;
   memo?: string;
 }
 

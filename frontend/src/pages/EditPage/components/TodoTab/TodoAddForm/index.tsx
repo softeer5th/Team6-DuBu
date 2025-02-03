@@ -5,6 +5,7 @@ import * as S from './TodoAddForm.styled';
 import { AddTodoParams } from '@/api/todo';
 import RadioGroup from '@/components/RadioGroup';
 import { categoryFilter, difficultyFilter } from '@/pages/EditPage/EditPage.constants';
+import { CategoryType, DifficultyType } from '@/types/filter';
 
 interface TodoAddFormProps {
   handleAddTodo: (todo: AddTodoParams) => void;
@@ -12,13 +13,15 @@ interface TodoAddFormProps {
 
 const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [difficulty, setDifficulty] = useState('');
+  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [difficulty, setDifficulty] = useState<DifficultyType | null>(null);
   const [memo, setMemo] = useState('');
 
   const isValidInput = title.trim().length > 0 && category && difficulty;
 
   const handleConfirm = () => {
+    if (category === null || difficulty === null) return;
+
     const todo = {
       name: title.trim(),
       category,
@@ -46,8 +49,8 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
         <RadioGroup
           name="category"
           filters={categoryFilter}
-          handleChange={(e) => setCategory(e.target.value)}
-          selectedValue={category}
+          handleChange={(e) => setCategory(e.target.value as CategoryType)}
+          selectedValue={category ?? ''}
         />
       </S.TodoInputWrapper>
 
@@ -56,8 +59,8 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
         <RadioGroup
           name="difficulty"
           filters={difficultyFilter}
-          handleChange={(e) => setDifficulty(e.target.value)}
-          selectedValue={difficulty}
+          handleChange={(e) => setDifficulty(e.target.value as DifficultyType)}
+          selectedValue={difficulty ?? ''}
         />
       </S.TodoInputWrapper>
 

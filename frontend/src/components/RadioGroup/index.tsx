@@ -1,6 +1,6 @@
 import * as S from './RadioGroup.styled';
 
-import { Filter } from '@/types/category';
+import { Filter } from '@/types/filter';
 
 interface RadioGroupProps {
   name: string;

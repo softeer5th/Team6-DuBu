@@ -14,12 +14,12 @@ export const TABS = [
 ] as const;
 
 export const categoryMapper = {
-  Reading: '독서',
-  Hobby: '취미',
-  English: '영어',
-  Language: '제2외국어',
-  News: '뉴스/시사',
-  Others: '기타',
+  READING: '독서',
+  HOBBY: '취미',
+  ENGLISH: '영어',
+  LANGUAGE: '제2외국어',
+  NEWS: '뉴스/시사',
+  OTHERS: '기타',
 } as const;
 
 export const categoryFilter = [
