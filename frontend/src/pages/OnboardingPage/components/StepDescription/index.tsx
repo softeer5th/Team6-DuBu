@@ -2,22 +2,31 @@ import styled from 'styled-components';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
+const stepDescriptions: { [key: number]: React.ReactNode } = {
+  1: (
+    <>
+      <span>이동시간을 활용하여</span>
+      <span>이루고 싶은 목표를 선택해 주세요</span>
+    </>
+  ),
+  2: (
+    <>
+      <span>집과 학교의 주소를</span>
+      <span>입력해 주세요</span>
+    </>
+  ),
+  3: (
+    <>
+      <span>마지막으로, 두리번에서</span>
+      <span>사용할 닉네임을 알려주세요</span>
+    </>
+  ),
+};
+
 const StepDescription = () => {
   const { step } = useOnboarding();
 
-  const stepDescriptions: { [key: number]: string[] } = {
-    1: ['이동시간을 활용하여', '이루고 싶은 목표를 선택해 주세요'],
-    2: ['집과 학교의 주소를', '입력해 주세요'],
-    3: ['마지막으로, 두리번에서', '사용할 닉네임을 알려주세요'],
-  };
-
-  return (
-    <DescriptionBox>
-      {stepDescriptions[step].map((description, index) => (
-        <span key={index}>{description}</span>
-      ))}
-    </DescriptionBox>
-  );
+  return <DescriptionBox>{stepDescriptions[step]}</DescriptionBox>;
 };
 
 const DescriptionBox = styled.div`
