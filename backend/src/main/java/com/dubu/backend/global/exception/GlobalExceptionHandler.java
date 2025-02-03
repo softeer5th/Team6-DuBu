@@ -78,6 +78,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus
+    public ErrorResponse handleNotFoundException(NotFoundException e){
+        log.warn(e.getMessage());
+
+        return new ErrorResponse(e);
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNoResourceFoundException(NoResourceFoundException e) {
         log.warn(e.getMessage());
