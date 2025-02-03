@@ -5,6 +5,7 @@ import com.dubu.backend.member.exception.NotFoundMemberException;
 import com.dubu.backend.member.infrastructure.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
+import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
 import com.dubu.backend.todo.dto.response.CreateTodoResponse;
 import com.dubu.backend.todo.entity.*;
 import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
@@ -84,5 +85,46 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         Todo savedTodo = todoRepository.save(newTodo);
 
         return CreateTodoResponse.fromEntity(savedTodo);
+    }
+
+    @Override
+    public void modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Todo todo = todoRepository.findById(todoId).orElseThrow(NotFoundTodoException::new);
+
+        if(updateTodoRequest.title() != null || updateTodoRequest.category() != null || updateTodoRequest.difficulty() != null){
+            TodoType type = todo.getType();
+
+            // 오늘, 내일 할 일의 경우 부모 할 일을 제거한다.
+            if (type.equals(TodoType.SCHEDULED)){
+                todo.clearParentTodo();
+            }
+            // 즐겨찾기 할 일의 경우
+            else if(type.equals(TodoType.SAVE)){
+                // 즐겨찾기에서 추가한 내일 할 일이 있으면 내일 할 일의 부모 아이디 제거
+                todoRepository.findByParentTodoAndScheduleDate(todo, LocalDate.now().plusDays(1)).ifPresent(Todo::clearParentTodo);
+
+                // 오늘 스케줄 조회
+                Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now()).orElseThrow(NotFoundScheduleException::new);
+
+                // 즐겨찾기에서 추가한 오늘 할 일이 있으면 오늘 할 일의 부모 아이디 제거
+                todoRepository.findByParentTodoAndSchedule(todo, todaySchedule).ifPresent(Todo::clearParentTodo);
+            }
+        }
+        // 수정
+        Category category = null;
+
+        if(updateTodoRequest.category() != null){
+            category = categoryRepository.findByName(updateTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
+        }
+        TodoDifficulty difficulty = null;
+
+        if(updateTodoRequest.difficulty() != null){
+            difficulty = TodoDifficulty.valueOf(updateTodoRequest.difficulty());
+        }
+
+        todo.updateTodo(updateTodoRequest.title(), category, difficulty, updateTodoRequest.memo());
+
+        todoRepository.save(todo);
     }
 }
