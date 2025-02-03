@@ -1,26 +1,18 @@
 package com.dubu.backend.todo.dto.request;
 
 import com.dubu.backend.member.domain.Member;
-import com.dubu.backend.todo.entity.Category;
-import com.dubu.backend.todo.entity.Todo;
-import com.dubu.backend.todo.entity.TodoDifficulty;
-import com.dubu.backend.todo.entity.TodoType;
-import com.dubu.backend.todo.service.resolver.ScheduledDateResolver;
-
-import java.time.LocalDate;
+import com.dubu.backend.todo.entity.*;
 
 public record CreateTodoRequest(String title, String category, String difficulty, String memo){
 
-    public Todo toEntity(/* Member member, */ Member member, String todoType, Category category){
-        LocalDate scheduledDate = ScheduledDateResolver.resolveScheduledDate(todoType);
-
+    public Todo toEntity(Member member, Category category, Schedule schedule, String todoType){
         return Todo.builder()
                 .title(title)
                 .category(category)
-                .todoDifficulty(TodoDifficulty.getByName(difficulty))
+                .difficulty(TodoDifficulty.valueOf(difficulty))
                 .memo(memo)
                 .member(member)
-                .scheduledDate(scheduledDate)
+                .schedule(schedule)
                 .type(TodoType.get(todoType))
                 .build();
     }
