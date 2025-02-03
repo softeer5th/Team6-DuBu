@@ -6,9 +6,8 @@ import com.dubu.backend.member.infrastructure.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.response.CreateTodoResponse;
-import com.dubu.backend.todo.entity.Category;
-import com.dubu.backend.todo.entity.Schedule;
-import com.dubu.backend.todo.entity.Todo;
+import com.dubu.backend.todo.entity.*;
+import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
 import com.dubu.backend.todo.exception.NotFoundCategoryException;
 import com.dubu.backend.todo.exception.NotFoundScheduleException;
 import com.dubu.backend.todo.exception.NotFoundTodoException;
@@ -77,6 +76,9 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         // 오늘 할 일 혹은 내일 할 일 생성의 경우 최신의 스케줄을 조회한다.
         if(todoType.equals("today") || todoType.equals("tomorrow")){
             schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType)).orElseThrow(NotFoundScheduleException::new);
+
+            todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
+
         }
         Todo newTodo = Todo.of(parentTodo.getTitle(), parentTodo.getType(), parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
         Todo savedTodo = todoRepository.save(newTodo);
