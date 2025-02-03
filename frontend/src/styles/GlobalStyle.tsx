@@ -64,10 +64,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-}
-
-#root {
-	width: 375px;
+  width: 375px;
 	height: 100vh;
 	margin: 0 auto;
 	border: 0.1px solid black;
