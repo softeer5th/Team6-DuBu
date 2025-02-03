@@ -70,6 +70,10 @@ body {
 	border: 0.1px solid black;
 }
 
+#root {
+  height: 100%;
+}
+
 body,
   input,
   select,
@@ -112,6 +116,25 @@ table {
 	text-decoration: none;
 	color: inherit;
   }
+
+  input {
+    outline: none;
+    border: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+  }
+
+  textarea {
+  padding: 0;
+  border: none;
+  height: auto;
+  resize: none;
+}
   
 `;
 
