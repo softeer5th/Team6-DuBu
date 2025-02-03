@@ -33,4 +33,10 @@ public class TodoController {
     public void patchTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId, @RequestBody UpdateTodoRequest request){
         todoManagementService.modifyTodo(memberId, todoId, request);
     }
+
+    @DeleteMapping("/{todoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId){
+        todoManagementService.removeTodo(memberId, todoId);
+    }
 }
