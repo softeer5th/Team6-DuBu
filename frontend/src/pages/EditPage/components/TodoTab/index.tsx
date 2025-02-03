@@ -5,7 +5,7 @@ import TodoEditItem from '../TodoEditItem';
 import TodoAddForm from './TodoAddForm';
 import * as S from './TodoTab.styled';
 
-import { addTodo, AddTodoParams } from '@/api/todo';
+import { addTodo, AddTodoParams, deleteTodo } from '@/api/todo';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
@@ -26,9 +26,22 @@ const useAddTodoMutation = () => {
   });
 };
 
+const useDeleteTodoMutation = (dateType: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ todoId }: { todoId: number }) => deleteTodo(todoId),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+    },
+  });
+};
+
 const TodoTab = () => {
   const { isToday, dateType } = useQueryParamsDate();
   const { data: todoList } = useTodoListQuery(dateType);
+  const { mutate: deleteTodo } = useDeleteTodoMutation(dateType);
   const { mutate: addTodo, isSuccess } = useAddTodoMutation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -65,7 +78,12 @@ const TodoTab = () => {
           <TodoEditItem
             key={todo.todo_id}
             todo={todo}
-            left={<IconButton icon={<Icon icon="MinusCircle" cursor="pointer" />} />}
+            left={
+              <IconButton
+                onClick={() => deleteTodo({ todoId: todo.todo_id })}
+                icon={<Icon icon="MinusCircle" cursor="pointer" />}
+              />
+            }
             right={<IconButton icon={<Icon icon="Edit" cursor="pointer" />} />}
           />
         ))}

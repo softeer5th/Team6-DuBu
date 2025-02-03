@@ -50,3 +50,7 @@ export const addTodo = async (dateType: string, todo: AddTodoParams) => {
 
   return result.data;
 };
+
+export const deleteTodo = async (todoId: number) => {
+  return await fetchClient.delete(API_URL.deleteTodo(todoId));
+};

@@ -7,8 +7,12 @@ import TOMORROW_TODO from '../data/tomorrowTodo.json';
 
 import { MOCK_API_URL } from '@/constants/url';
 
-interface AddTodoParams {
+interface TodoAddParams {
   dateType: string;
+}
+
+interface TodoDeleteParams {
+  todoId: string;
 }
 
 const getTodayTodoHandler = () => {
@@ -27,7 +31,7 @@ const getRecommendTodoHandler = () => {
   return HttpResponse.json(RECOMMEND_TODO);
 };
 
-const addTodoHandler = async ({ params, request }: { params: AddTodoParams; request: Request }) => {
+const addTodoHandler = async ({ params, request }: { params: TodoAddParams; request: Request }) => {
   const { dateType } = params;
 
   const newTodo = await request.json();
@@ -41,10 +45,20 @@ const addTodoHandler = async ({ params, request }: { params: AddTodoParams; requ
   return HttpResponse.json(newTodo);
 };
 
+const deleteTodoHandler = ({ params }: { params: TodoDeleteParams }) => {
+  const { todoId } = params;
+
+  TODAY_TODO.data = TODAY_TODO.data.filter((todo) => todo.todo_id !== Number(todoId));
+  TOMORROW_TODO.data = TOMORROW_TODO.data.filter((todo) => todo.todo_id !== Number(todoId));
+
+  return new HttpResponse(null, { status: 204 });
+};
+
 export const handlers = [
   http.get(MOCK_API_URL.todayTodo, getTodayTodoHandler),
   http.get(MOCK_API_URL.tomorrowTodo, getTomorrowTodoHandler),
   http.get(MOCK_API_URL.favoriteTodo, getFavoriteTodoHandler),
   http.get(MOCK_API_URL.recommendTodo, getRecommendTodoHandler),
-  http.post<AddTodoParams>(MOCK_API_URL.addTodo, addTodoHandler),
+  http.post<TodoAddParams>(MOCK_API_URL.addTodo, addTodoHandler),
+  http.delete(MOCK_API_URL.deleteTodo, deleteTodoHandler),
 ];
