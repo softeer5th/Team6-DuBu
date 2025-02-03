@@ -1,18 +1,35 @@
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 import TodoEditItem from '../TodoEditItem';
 import TodoAddForm from './TodoAddForm';
 import * as S from './TodoTab.styled';
 
+import { addTodo, AddTodoParams } from '@/api/todo';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { QUERY_KEY } from '@/constants/queryKey';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
 
+const useAddTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ dateType, todo }: { dateType: string; todo: AddTodoParams }) =>
+      addTodo(dateType, todo),
+
+    onSuccess: (_, params) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, params.dateType] });
+    },
+  });
+};
+
 const TodoTab = () => {
-  const { isToday } = useQueryParamsDate();
-  const { data: todoList } = useTodoListQuery(isToday);
+  const { isToday, dateType } = useQueryParamsDate();
+  const { data: todoList } = useTodoListQuery(dateType);
+  const { mutate: addTodo, isSuccess } = useAddTodoMutation();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +40,16 @@ const TodoTab = () => {
   const handleCloseBottomSheet = () => {
     setIsOpen(false);
   };
+
+  const handleAddTodo = (todo: AddTodoParams) => {
+    addTodo({ dateType, todo });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      handleCloseBottomSheet();
+    }
+  }, [isSuccess]);
 
   if (!todoList) return null;
 
@@ -53,10 +80,8 @@ const TodoTab = () => {
       <BottomSheet
         isOpen={isOpen}
         title="할 일 추가하기"
-        content={<TodoAddForm />}
-        confirmText="추가하기"
+        content={<TodoAddForm handleAddTodo={handleAddTodo} />}
         onClose={handleCloseBottomSheet}
-        onConfirm={handleCloseBottomSheet}
       />
     </S.TodoTabLayout>
   );

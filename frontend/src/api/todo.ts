@@ -10,8 +10,19 @@ export interface Todo {
   name: string;
 }
 
+export interface AddTodoParams {
+  name: string;
+  category: string; // TODO: 카테고리 대문자
+  difficulty: string; // 'EASY' | 'NORMAL' | 'HARD';
+  memo?: string;
+}
+
 export interface TodoResponse {
   data: Todo[];
+}
+
+export interface TodoCreateResponse {
+  data: Todo;
 }
 
 export const getTodayTodoList = async () => {
@@ -34,6 +45,14 @@ export const getFavoriteTodoList = async () => {
 
 export const getRecommendTodoList = async () => {
   const result = await fetchClient.get<TodoResponse>(API_URL.recommendTodo);
+
+  return result.data;
+};
+
+export const addTodo = async (dateType: string, todo: AddTodoParams) => {
+  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType), {
+    body: { ...todo },
+  });
 
   return result.data;
 };

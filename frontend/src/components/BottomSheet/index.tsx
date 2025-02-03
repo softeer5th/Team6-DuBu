@@ -8,8 +8,8 @@ import Icon from '../Icon';
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
   content: React.ReactNode;
+  onConfirm?: () => void;
   title?: string;
   cancelText?: string;
   confirmText?: string;
