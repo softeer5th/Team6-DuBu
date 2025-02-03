@@ -2,14 +2,14 @@ import * as S from './RadioGroup.styled';
 
 import { Filter } from '@/types/category';
 
-interface RadioButtonGroupProps {
+interface RadioGroupProps {
   name: string;
   filters: Filter[];
   selectedValue: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RadioGroup = ({ name, filters, selectedValue, handleChange }: RadioButtonGroupProps) => {
+const RadioGroup = ({ name, filters, selectedValue, handleChange }: RadioGroupProps) => {
   return (
     <S.RadioGroupWrapper>
       {filters.map((filter) => (
