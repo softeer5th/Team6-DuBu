@@ -32,10 +32,13 @@ public enum ErrorCode {
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
 
     // Member
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
+    MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Category
-    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s")
+    CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
+
+    // External API
+    NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다.")
     ;
 
     public final HttpStatus httpStatus;
