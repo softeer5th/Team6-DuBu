@@ -4,7 +4,6 @@ import EditPage from '@/pages/EditPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
-import { OnboardingProvider } from '@/pages/OnboardingPage/contexts/OnboardingProvider';
 
 export const router = createBrowserRouter([
   {
@@ -21,10 +20,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/onboarding',
-    element: (
-      <OnboardingProvider>
-        <OnboardingPage />
-      </OnboardingProvider>
-    ),
+    element: <OnboardingPage />,
   },
 ]);
