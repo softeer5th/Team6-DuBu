@@ -2,51 +2,20 @@ import { useState } from 'react';
 
 import * as S from './TodoAddForm.styled';
 
-const categoryFilter = [
-  {
-    label: '독서',
-    value: 'Reading',
-  },
-  {
-    label: '영어',
-    value: 'English',
-  },
-  {
-    label: '제2외국어',
-    value: 'Language',
-  },
-  {
-    label: '뉴스/시사',
-    value: 'News',
-  },
-  {
-    label: '취미',
-    value: 'Hobby',
-  },
-  {
-    label: '기타',
-    value: 'Others',
-  },
-];
-
-const difficultyFilter = [
-  {
-    label: '쉬움',
-    value: 'easy',
-  },
-  {
-    label: '보통',
-    value: 'medium',
-  },
-  {
-    label: '어려움',
-    value: 'difficulty',
-  },
-];
+import RadioGroup from '@/components/RadioGroup';
+import { categoryFilter, difficultyFilter } from '@/pages/EditPage/EditPage.constants';
 
 const TodoAddForm = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
+
+  const handleChangeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const handleChangeDifficulty = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDifficulty(e.target.value);
+  };
 
   return (
     <>
@@ -57,40 +26,22 @@ const TodoAddForm = () => {
 
       <S.TodoInputWrapper>
         <S.TodoInputLabel>목표</S.TodoInputLabel>
-        <S.RadioGroupWrapper>
-          {categoryFilter.map((category) => (
-            <label key={category.value}>
-              <S.HiddenInput
-                type="radio"
-                name="category"
-                value={category.value}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              />
-              <S.RadioBadge $isSelected={selectedCategory === category.value}>
-                {category.label}
-              </S.RadioBadge>
-            </label>
-          ))}
-        </S.RadioGroupWrapper>
+        <RadioGroup
+          name="category"
+          filters={categoryFilter}
+          handleChange={handleChangeCategory}
+          selectedValue={selectedCategory}
+        />
       </S.TodoInputWrapper>
 
       <S.TodoInputWrapper>
         <S.TodoInputLabel>난이도</S.TodoInputLabel>
-        <S.RadioGroupWrapper>
-          {difficultyFilter.map((category) => (
-            <label key={category.value}>
-              <S.HiddenInput
-                type="radio"
-                name="difficulty"
-                value={category.value}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-              />
-              <S.RadioBadge $isSelected={selectedDifficulty === category.value}>
-                {category.label}
-              </S.RadioBadge>
-            </label>
-          ))}
-        </S.RadioGroupWrapper>
+        <RadioGroup
+          name="difficulty"
+          filters={difficultyFilter}
+          handleChange={handleChangeDifficulty}
+          selectedValue={selectedDifficulty}
+        />
       </S.TodoInputWrapper>
 
       <S.TodoInputWrapper>
