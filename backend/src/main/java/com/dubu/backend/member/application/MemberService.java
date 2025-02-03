@@ -12,7 +12,7 @@ import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.entity.Category;
 import com.dubu.backend.todo.exception.CategoryNotFoundException;
-import com.dubu.backend.todo.infra.repository.CategoryRepository;
+import com.dubu.backend.todo.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
