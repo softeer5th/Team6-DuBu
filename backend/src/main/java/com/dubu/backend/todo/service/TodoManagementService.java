@@ -9,4 +9,5 @@ public interface TodoManagementService {
     CreateTodoResponse createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest);
     CreateTodoResponse createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest);
     void modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest);
+    void removeTodo(Long memberId, Long todoId);
 }

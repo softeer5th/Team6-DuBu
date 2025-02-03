@@ -127,4 +127,12 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
         todoRepository.save(todo);
     }
+
+    @Override
+    public void removeTodo(Long memberId, Long todoId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Todo todo = todoRepository.findById(todoId).orElseThrow(NotFoundTodoException::new);
+
+        todoRepository.delete(todo);
+    }
 }
