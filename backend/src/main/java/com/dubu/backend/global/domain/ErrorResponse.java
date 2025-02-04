@@ -2,6 +2,7 @@ package com.dubu.backend.global.domain;
 
 import com.dubu.backend.global.exception.BadRequestException;
 import com.dubu.backend.global.exception.ErrorCode;
+import com.dubu.backend.global.exception.NotFoundException;
 import com.dubu.backend.global.exception.ServiceUnavailableException;
 import com.dubu.backend.global.exception.UnauthorizedException;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,7 +31,12 @@ public record ErrorResponse(
         this(e.getErrorCode(), e.getMessage(), null, null);
     }
 
+    public <T extends NotFoundException> ErrorResponse(T e){
+        this(e.getErrorCode(), e.getMessage(), null, null);
+    }
+    
     public <T extends ServiceUnavailableException> ErrorResponse(T e) {
+
         this(e.getErrorCode(), e.getMessage(), null, null);
     }
 

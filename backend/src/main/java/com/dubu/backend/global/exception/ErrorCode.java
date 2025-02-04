@@ -40,8 +40,19 @@ public enum ErrorCode {
     // Category
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
+    // Todo
+    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
+
+    ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
+
+    TODO_LIMIT_EXCEEDED(BAD_REQUEST, "할 일은 최대 3개까지 추가할 수 있습니다."),
+
+    // Schedule
+    SCHEDULE_NOT_FOUND(NOT_FOUND, "스케줄을 찾을 수 없습니다."),
+
     // External API
-    NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다.")
+    NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다."),
+
     ;
 
     public final HttpStatus httpStatus;
