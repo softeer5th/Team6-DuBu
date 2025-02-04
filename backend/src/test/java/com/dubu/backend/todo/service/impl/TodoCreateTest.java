@@ -6,8 +6,8 @@ import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.entity.*;
-import com.dubu.backend.todo.exception.NotFoundCategoryException;
-import com.dubu.backend.todo.exception.NotFoundScheduleException;
+import com.dubu.backend.todo.exception.CategoryNotFoundException;
+import com.dubu.backend.todo.exception.ScheduleNotFoundException;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
@@ -141,7 +141,7 @@ class TodoCreateTest {
         given(categoryRepository.findByName("독서")).willReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(NotFoundCategoryException.class);
+        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(CategoryNotFoundException.class);
     }
 
     @Test
@@ -158,6 +158,6 @@ class TodoCreateTest {
 
 
         // when & then
-        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(NotFoundScheduleException.class);
+        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(ScheduleNotFoundException.class);
     }
 }

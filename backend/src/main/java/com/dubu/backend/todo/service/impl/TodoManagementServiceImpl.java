@@ -32,7 +32,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     @Override
     public TodoInfo createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-        Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
+        Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(() -> new CategoryNotFoundException(createTodoRequest.category()));
 
         // 내일 할 일 데이터 생성의 경우 내일 스케줄이 있는지를 조회하고 없으면 생성한다.
         if(todoType.equals("tomorrow")){
@@ -47,7 +47,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
         // 오늘 할 일 혹은 내일 할 일 생성의 경우 최신의 스케줄을 조회한다.
         if(todoType.equals("today") || todoType.equals("tomorrow")){
-            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(NotFoundScheduleException::new);
+            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(ScheduleNotFoundException::new);
 
             if(schedule.getTodos().size() == 3){
                 throw new TodoLimitExceededException();
@@ -62,7 +62,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     @Override
     public TodoInfo createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-        Todo parentTodo = todoRepository.findByIdWithCategory(todoCreateRequest.todoId()).orElseThrow(NotFoundTodoException::new);
+        Todo parentTodo = todoRepository.findByIdWithCategory(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
 
         // 내일 할 일 데이터 생성의 경우 내일 스케줄이 있는지를 조회하고 없으면 생성한다.
         if(todoType.equals("tomorrow")){
@@ -77,7 +77,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
         // 오늘 할 일 혹은 내일 할 일 생성의 경우 최신의 스케줄을 조회한다.
         if(todoType.equals("today") || todoType.equals("tomorrow")){
-            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(NotFoundScheduleException::new);
+            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(ScheduleNotFoundException::new);
 
             if(schedule.getTodos().size() == 3){
                 throw new TodoLimitExceededException();
@@ -94,7 +94,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     @Override
     public TodoInfo modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-        Todo todo = todoRepository.findById(todoId).orElseThrow(NotFoundTodoException::new);
+        Todo todo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
 
         if(updateTodoRequest.title() != null || updateTodoRequest.category() != null || updateTodoRequest.difficulty() != null){
             TodoType type = todo.getType();
@@ -110,7 +110,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
                 // 쿼리 개선 나중 -> 하나의 쿼리로 합칠 수 있지 않을까?
                 // 오늘 스케줄 조회
-                Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now(), false).orElseThrow(NotFoundScheduleException::new);
+                Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now(), false).orElseThrow(ScheduleNotFoundException::new);
 
                 // 즐겨찾기에서 추가한 오늘 할 일이 있으면 오늘 할 일의 부모 아이디 제거
                 todoRepository.findByParentTodoAndSchedule(todo, todaySchedule).ifPresent(Todo::clearParentTodo);
@@ -120,7 +120,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         Category category = null;
 
         if(updateTodoRequest.category() != null){
-            category = categoryRepository.findByName(updateTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
+            category = categoryRepository.findByName(updateTodoRequest.category()).orElseThrow(() -> new CategoryNotFoundException(updateTodoRequest.category()));
         }
         TodoDifficulty difficulty = null;
 
@@ -136,7 +136,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     @Override
     public void removeTodo(Long memberId, Long todoId) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-        Todo todo = todoRepository.findById(todoId).orElseThrow(NotFoundTodoException::new);
+        Todo todo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
 
         todoRepository.delete(todo);
     }

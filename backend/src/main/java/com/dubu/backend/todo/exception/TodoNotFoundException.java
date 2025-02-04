@@ -4,8 +4,8 @@ import com.dubu.backend.global.exception.NotFoundException;
 
 import static com.dubu.backend.global.exception.ErrorCode.TODO_NOT_FOUND;
 
-public class NotFoundTodoException extends NotFoundException {
-    public NotFoundTodoException() {
+public class TodoNotFoundException extends NotFoundException {
+    public TodoNotFoundException() {
         super(TODO_NOT_FOUND.getMessage());
     }
 

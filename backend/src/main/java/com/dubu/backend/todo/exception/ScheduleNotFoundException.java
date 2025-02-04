@@ -4,9 +4,9 @@ import com.dubu.backend.global.exception.NotFoundException;
 
 import static com.dubu.backend.global.exception.ErrorCode.*;
 
-public class NotFoundScheduleException extends NotFoundException {
+public class ScheduleNotFoundException extends NotFoundException {
 
-    public NotFoundScheduleException() {
+    public ScheduleNotFoundException() {
         super(SCHEDULE_NOT_FOUND.getMessage());
     }
 
