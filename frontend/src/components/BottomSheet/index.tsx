@@ -40,7 +40,7 @@ const BottomSheet = ({
   const handleAnimationEnd = () => {
     if (!isOpen) {
       setIsAnimating(false);
-      document.body.style.setProperty('overflow', 'visible');
+      document.body.style.setProperty('overflow', '');
     }
   };
 
