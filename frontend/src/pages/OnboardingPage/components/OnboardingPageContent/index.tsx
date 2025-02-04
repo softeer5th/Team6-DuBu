@@ -12,12 +12,14 @@ import Step3 from './Steps/Step3';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
+const ONBOARDING_STEP_COMPONENTS = [Step1, Step2, Step3];
+const ONBOARDING_LAST_STEP = 3;
+
 const OnboardingPage = () => {
-  const { step } = useOnboarding();
+  const { onboardingStep } = useOnboarding();
   const navigate = useNavigate();
 
-  const steps = [Step1, Step2, Step3];
-  const CurrentStepComponent = steps[step - 1];
+  const CurStepComponent = ONBOARDING_STEP_COMPONENTS[onboardingStep - 1];
 
   useEffect(() => {
     navigate('/onboarding');
@@ -30,9 +32,9 @@ const OnboardingPage = () => {
         <OnboardingProgress />
         <S.TextContainer>
           <StepDescription />
-          {step !== 3 && <StepGuide />}
+          {onboardingStep !== ONBOARDING_LAST_STEP && <StepGuide />}
         </S.TextContainer>
-        <CurrentStepComponent />
+        <CurStepComponent />
       </S.OnboardingMainLayout>
     </>
   );

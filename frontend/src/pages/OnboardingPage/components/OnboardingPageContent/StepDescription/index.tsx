@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
-const stepDescriptions: { [key: number]: React.ReactNode } = {
+const ONBOARDING_DESCRIPTIONS: { [key: number]: React.ReactNode } = {
   1: (
     <>
       <span>이동시간을 활용하여</span>
@@ -24,9 +24,9 @@ const stepDescriptions: { [key: number]: React.ReactNode } = {
 };
 
 const StepDescription = () => {
-  const { step } = useOnboarding();
+  const { onboardingStep: step } = useOnboarding();
 
-  return <DescriptionBox>{stepDescriptions[step]}</DescriptionBox>;
+  return <DescriptionBox>{ONBOARDING_DESCRIPTIONS[step]}</DescriptionBox>;
 };
 
 const DescriptionBox = styled.div`

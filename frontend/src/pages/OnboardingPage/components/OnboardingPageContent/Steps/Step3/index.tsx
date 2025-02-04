@@ -11,7 +11,11 @@ const MESSAGES = {
 };
 
 const Step3 = () => {
-  const { userInfo, setUserInfo, setStepValidity } = useOnboarding();
+  const {
+    onboardingUserInfo: userInfo,
+    setOnboardingUserInfo: setUserInfo,
+    setOnboardingStepValidity: setStepValidity,
+  } = useOnboarding();
 
   const [inputMessage, setInputMessage] = useState<string>(MESSAGES.DEFAULT);
   const [inputStatus, setInputStatus] = useState<string>('FIRST');

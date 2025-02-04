@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Icon from '@/components/Icon';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
-const stepGuides: { [key: number]: React.ReactNode } = {
+const ONBOARDING_GUIDES: { [key: number]: React.ReactNode } = {
   1: <span>최소 1개에서 최대 3개까지 선택할 수 있어요.</span>,
   2: (
     <>
@@ -14,12 +14,12 @@ const stepGuides: { [key: number]: React.ReactNode } = {
 };
 
 const StepGuide = () => {
-  const { step } = useOnboarding();
+  const { onboardingStep } = useOnboarding();
 
   return (
     <OnboardingGuideBox>
       <Icon icon="Alert" width={16} height={16} />
-      {stepGuides[step]}
+      {ONBOARDING_GUIDES[onboardingStep]}
     </OnboardingGuideBox>
   );
 };

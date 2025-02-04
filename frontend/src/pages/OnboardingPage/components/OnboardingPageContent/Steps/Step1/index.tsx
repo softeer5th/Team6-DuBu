@@ -21,7 +21,11 @@ const MIN_SELECTED_CATEGORIES = 1;
 const MAX_SELECTED_CATEGORIES = 3;
 
 const Step1 = () => {
-  const { setStepValidity, userInfo, setUserInfo } = useOnboarding();
+  const {
+    setOnboardingStepValidity: setStepValidity,
+    onboardingUserInfo: userInfo,
+    setOnboardingUserInfo: setUserInfo,
+  } = useOnboarding();
   const { categories } = userInfo;
 
   const toggleCategory = (category: string) => {

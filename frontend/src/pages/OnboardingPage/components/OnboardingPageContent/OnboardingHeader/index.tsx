@@ -3,28 +3,31 @@ import { useNavigate } from 'react-router';
 import Header from '@/components/Header';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
+const ONBOARDING_FIRST_STEP = 1;
+const ONBOARDING_LAST_STEP = 3;
+
 const OnboardingHeader = () => {
-  const { step, stepValidity, setStep } = useOnboarding();
+  const { onboardingStep, onboardingStepValidity, setOnboardingStep } = useOnboarding();
   const navigate = useNavigate();
 
-  const isButtonDisabled = !stepValidity[step];
+  const isButtonDisabled = !onboardingStepValidity[onboardingStep];
 
   const goToStep = (newStep: number) => {
-    setStep(newStep);
+    setOnboardingStep(newStep);
     navigate(`/onboarding?step=${newStep}`);
   };
 
   const goToBack = () => {
-    if (step === 1) {
+    if (onboardingStep === ONBOARDING_FIRST_STEP) {
       navigate('/landing');
     } else {
-      goToStep(step - 1);
+      goToStep(onboardingStep - 1);
     }
   };
 
   const goToNext = () => {
-    if (stepValidity[step]) {
-      goToStep(step + 1);
+    if (onboardingStepValidity[onboardingStep]) {
+      goToStep(onboardingStep + 1);
     }
   };
 
@@ -41,7 +44,7 @@ const OnboardingHeader = () => {
         <Header.Title>회원가입</Header.Title>
       </Header.Center>
       <Header.Right>
-        {step !== 3 ? (
+        {onboardingStep !== ONBOARDING_LAST_STEP ? (
           <Header.NextButton disabled={isButtonDisabled} onClick={goToNext} />
         ) : (
           <Header.CompleteButton disabled={isButtonDisabled} onClick={goToMain} />

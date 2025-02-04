@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import { UserInfoType } from '../OnboardingPage.types';
+import { OnboardingUserInfoType } from '../OnboardingPage.types';
 import { OnboardingContext } from './OnboardingContext';
 
 export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [step, setStep] = useState<number>(1);
-  const [userInfo, setUserInfo] = useState<UserInfoType>({
+  const [onboardingStep, setOnboardingStep] = useState<number>(1);
+  const [onboardingUserInfo, setOnboardingUserInfo] = useState<OnboardingUserInfoType>({
     categories: [],
     address: { home: '', school: '' },
     nickname: '',
   });
-  const [stepValidity, setStepValidity] = useState<{ [key: number]: boolean }>({
+  const [onboardingStepValidity, setOnboardingStepValidity] = useState<{ [key: number]: boolean }>({
     1: false,
     2: true,
     3: false,
@@ -18,7 +18,14 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   return (
     <OnboardingContext.Provider
-      value={{ step, setStep, userInfo, setUserInfo, stepValidity, setStepValidity }}
+      value={{
+        onboardingStep,
+        setOnboardingStep,
+        onboardingUserInfo,
+        setOnboardingUserInfo,
+        onboardingStepValidity,
+        setOnboardingStepValidity,
+      }}
     >
       {children}
     </OnboardingContext.Provider>
