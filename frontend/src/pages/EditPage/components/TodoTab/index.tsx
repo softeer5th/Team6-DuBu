@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
-
 import TodoEditItem from '../TodoEditItem';
-import TodoAddForm from './TodoAddForm';
 import * as S from './TodoTab.styled';
-import useAddTodoMutation from '../../hooks/useAddTodoMutation';
+import { useAddTodoBottomSheet } from '../../hooks/useAddTodoBottomSheet';
 import useDeleteTodoMutation from '../../hooks/useDeleteTodoMutation';
+import useEditTodoBottomSheet from '../../hooks/useEditTodoBottomSheet';
 
-import { TodoAddParams } from '@/api/todo';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
@@ -17,27 +14,22 @@ const TodoTab = () => {
   const { isToday, dateType } = useQueryParamsDate();
   const { data: todoList } = useTodoListQuery(dateType);
   const { mutate: deleteTodo } = useDeleteTodoMutation(dateType);
-  const { mutate: addTodo, isSuccess } = useAddTodoMutation();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const {
+    isOpen: isAddOpen,
+    open: openAddBottomSheet,
+    close: closeAddBottomSheet,
+    content: addContent,
+    title: addTodoForm,
+  } = useAddTodoBottomSheet(dateType);
 
-  const handleOpenBottomSheet = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseBottomSheet = () => {
-    setIsOpen(false);
-  };
-
-  const handleAddTodo = (todo: TodoAddParams) => {
-    addTodo({ dateType, todo });
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      handleCloseBottomSheet();
-    }
-  }, [isSuccess]);
+  const {
+    isOpen: isEditOpen,
+    open: openEditBottomSheet,
+    close: closeEditBottomSheet,
+    content: editTodoForm,
+    title: editTitle,
+  } = useEditTodoBottomSheet(dateType);
 
   if (!todoList) return null;
 
@@ -51,30 +43,41 @@ const TodoTab = () => {
       <S.TodoEditList>
         {todoList.map((todo) => (
           <TodoEditItem
-            key={todo.todo_id}
+            key={todo.todoId}
             todo={todo}
             left={
               <IconButton
-                onClick={() => deleteTodo({ todoId: todo.todo_id })}
                 icon={<Icon icon="MinusCircle" cursor="pointer" />}
+                onClick={() => deleteTodo({ todoId: todo.todoId })}
               />
             }
-            right={<IconButton icon={<Icon icon="Edit" cursor="pointer" />} />}
+            right={
+              <IconButton
+                icon={<Icon icon="Edit" cursor="pointer" />}
+                onClick={() => openEditBottomSheet(todo)}
+              />
+            }
           />
         ))}
         <IconButton
           icon={<Icon icon="PlusCircle" cursor="pointer" />}
           text="직접 추가하기"
           isFull={true}
-          onClick={handleOpenBottomSheet}
+          onClick={openAddBottomSheet}
         />
       </S.TodoEditList>
 
       <BottomSheet
-        isOpen={isOpen}
-        title="할 일 추가하기"
-        content={<TodoAddForm handleAddTodo={handleAddTodo} />}
-        onClose={handleCloseBottomSheet}
+        isOpen={isAddOpen}
+        title={addTodoForm}
+        content={addContent}
+        onClose={closeAddBottomSheet}
+      />
+      <BottomSheet
+        isOpen={isEditOpen}
+        title={editTitle}
+        content={editTodoForm}
+        onClose={closeEditBottomSheet}
       />
     </S.TodoTabLayout>
   );
