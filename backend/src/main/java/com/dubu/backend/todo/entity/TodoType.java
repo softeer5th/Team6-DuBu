@@ -4,13 +4,11 @@ public enum TodoType {
     SAVE, RECOMMEND, DONE, SCHEDULED;
 
     public static TodoType get(String type){
-        if(type.equals("today") || type.equals("tomorrow"))
-            return TodoType.SCHEDULED;
-        else if(type.equals("save"))
-            return TodoType.SAVE;
-        else if(type.equals("recommend"))
-            return TodoType.RECOMMEND;
-        else
-            return TodoType.DONE;
+        return switch(type){
+            case "TODAY", "tomorrow" -> TodoType.SCHEDULED;
+            case "SAVE" -> TodoType.SAVE;
+            case "RECOMMEND" -> TodoType.RECOMMEND;
+            default -> TodoType.DONE;
+        };
     }
 }
