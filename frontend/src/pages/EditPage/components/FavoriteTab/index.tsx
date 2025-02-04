@@ -22,12 +22,12 @@ const FavoriteTab = () => {
     <S.FavoriteTabLayout>
       {favoriteTodoList.map((todo) => (
         <TodoEditItem
-          key={todo.todo_id}
+          key={todo.todoId}
           todo={todo}
           left={
             <IconButton
               icon={<Icon icon="PlusCircle" cursor="pointer" />}
-              onClick={() => handleAddTodoFromFavorite(todo.todo_id)}
+              onClick={() => handleAddTodoFromFavorite(todo.todoId)}
             />
           }
         />

@@ -43,9 +43,9 @@ const TodoListContainer = () => {
 
       <S.TodoList>
         {todoList?.map((todo) => (
-          <S.TodoItem key={todo.todo_id}>
+          <S.TodoItem key={todo.todoId}>
             <Icon icon="Reading" />
-            <span>{todo.name}</span>
+            <span>{todo.title}</span>
           </S.TodoItem>
         ))}
       </S.TodoList>

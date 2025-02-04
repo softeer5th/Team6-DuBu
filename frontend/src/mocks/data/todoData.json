@@ -2,94 +2,94 @@
   "data": [
     {
       "type": "today",
-      "todo_id": 1,
+      "todoId": 1,
       "category": "NEWS",
       "difficulty": "EASY",
-      "name": "오늘 할 일 리스트 조회1"
+      "title": "오늘 할 일 리스트 조회1"
     },
     {
       "type": "today",
-      "todo_id": 2,
+      "todoId": 2,
       "category": "READING",
       "difficulty": "HARD",
-      "name": "오늘 할 일 리스트 조회2"
+      "title": "오늘 할 일 리스트 조회2"
     },
     {
       "type": "today",
-      "todo_id": 3,
+      "todoId": 3,
       "category": "ENGLISH",
       "difficulty": "NORMAL",
-      "name": "오늘 할 일 리스트 조회3"
+      "title": "오늘 할 일 리스트 조회3"
     },
     {
       "type": "tomorrow",
-      "todo_id": 4,
+      "todoId": 4,
       "category": "NEWS",
       "difficulty": "EASY",
-      "name": "내일 할 일 리스트 조회1"
+      "title": "내일 할 일 리스트 조회1"
     },
     {
       "type": "tomorrow",
-      "todo_id": 5,
+      "todoId": 5,
       "category": "ENGLISH",
       "difficulty": "NORMAL",
-      "name": "내일 할 일 리스트 조회3"
+      "title": "내일 할 일 리스트 조회3"
     },
     {
       "type": "tomorrow",
-      "todo_id": 6,
+      "todoId": 6,
       "category": "READING",
       "difficulty": "HARD",
-      "name": "내일 할 일 리스트 조회2"
+      "title": "내일 할 일 리스트 조회2"
     },
     {
       "type": "favorite",
-      "todo_id": 11,
+      "todoId": 11,
       "category": "HOBBY",
       "difficulty": "EASY",
-      "name": "즐겨찾기 리스트 조회1"
+      "title": "즐겨찾기 리스트 조회1"
     },
     {
       "type": "favorite",
-      "todo_id": 12,
+      "todoId": 12,
       "category": "OTHERS",
       "difficulty": "HARD",
-      "name": "즐겨찾기 리스트 조회2"
+      "title": "즐겨찾기 리스트 조회2"
     },
     {
       "type": "recommend",
-      "todo_id": 13,
+      "todoId": 13,
       "category": "HOBBY",
       "difficulty": "EASY",
-      "name": "추천 리스트 조회1"
+      "title": "추천 리스트 조회1"
     },
     {
       "type": "recommend",
-      "todo_id": 14,
+      "todoId": 14,
       "category": "OTHERS",
       "difficulty": "HARD",
-      "name": "추천 리스트 조회2"
+      "title": "추천 리스트 조회2"
     },
     {
       "type": "recommend",
-      "todo_id": 15,
+      "todoId": 15,
       "category": "LANGUAGE",
       "difficulty": "HARD",
-      "name": "추천 리스트 조회3"
+      "title": "추천 리스트 조회3"
     },
     {
       "type": "recommend",
-      "todo_id": 16,
+      "todoId": 16,
       "category": "NEWS",
       "difficulty": "HARD",
-      "name": "추천 리스트 조회4"
+      "title": "추천 리스트 조회4"
     },
     {
       "type": "recommend",
-      "todo_id": 17,
+      "todoId": 17,
       "category": "ENGLISH",
       "difficulty": "HARD",
-      "name": "추천 리스트 조회5"
+      "title": "추천 리스트 조회5"
     }
   ]
 }

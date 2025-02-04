@@ -20,7 +20,7 @@ const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
     <S.TodoEditItem>
       {left}
       <S.TodoTextWrapper>
-        <S.TodoTitle>{todo.name}</S.TodoTitle>
+        <S.TodoTitle>{todo.title}</S.TodoTitle>
         <S.TodoBadgeWrapper>
           <S.TodoBadge $category={todo.category}>{`#${categoryMapper[todo.category]}`}</S.TodoBadge>
           <S.TodoBadge>{`#${difficultyMapper[todo.difficulty]}`}</S.TodoBadge>

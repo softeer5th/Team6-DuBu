@@ -23,10 +23,10 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
     if (category === null || difficulty === null) return;
 
     const todo = {
-      name: title.trim(),
+      title: title.trim(),
       category,
       difficulty,
-      memo: memo.trim(),
+      memo: memo.trim() || null,
     };
 
     handleAddTodo(todo);

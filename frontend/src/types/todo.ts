@@ -1,9 +1,9 @@
 import { CategoryType, DifficultyType } from './filter';
 
 export interface Todo {
-  todo_id: number;
+  todoId: number;
   category: CategoryType;
   difficulty: DifficultyType;
-  name: string;
-  memo?: string;
+  title: string;
+  memo: string | null;
 }

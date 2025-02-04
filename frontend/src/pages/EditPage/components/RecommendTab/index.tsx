@@ -23,12 +23,12 @@ const RecommendTab = () => {
       <S.RecommendTabList>
         {recommendTodoList.map((todo) => (
           <TodoEditItem
-            key={todo.todo_id}
+            key={todo.todoId}
             todo={todo}
             left={
               <IconButton
                 icon={<Icon icon="PlusCircle" cursor="pointer" />}
-                onClick={() => handleAddTodoFromRecommend(todo.todo_id)}
+                onClick={() => handleAddTodoFromRecommend(todo.todoId)}
               />
             }
           />

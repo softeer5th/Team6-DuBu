@@ -54,9 +54,9 @@ const addTodoHandler = async ({ params, request }: { params: TodoAddParams; requ
   const newTodo = await request.json();
 
   if (dateType === 'today') {
-    TODO_DATA.data.push({ ...newTodo, type: 'today', todo_id: TODO_DATA.data.length + 1 });
+    TODO_DATA.data.push({ ...newTodo, type: 'today', todoId: TODO_DATA.data.length + 1 });
   } else if (dateType === 'tomorrow') {
-    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todo_id: TODO_DATA.data.length + 1 });
+    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todoId: TODO_DATA.data.length + 1 });
   }
 
   return HttpResponse.json(newTodo);
@@ -65,7 +65,7 @@ const addTodoHandler = async ({ params, request }: { params: TodoAddParams; requ
 const deleteTodoHandler = ({ params }: { params: TodoDeleteParams }) => {
   const { todoId } = params;
 
-  TODO_DATA.data = TODO_DATA.data.filter((todo) => todo.todo_id !== Number(todoId));
+  TODO_DATA.data = TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
 
   return new HttpResponse(null, { status: 204 });
 };
@@ -80,7 +80,9 @@ const editTodoHandler = async ({
   const { todoId } = params;
   const newTodo = await request.json();
 
-  TODO_DATA.data = TODO_DATA.data.map((todo) => (todo.todo_id === Number(todoId) ? newTodo : todo));
+  TODO_DATA.data = TODO_DATA.data.map((todo) =>
+    todo.todoId === Number(todoId) ? { ...newTodo, type: todo.type } : todo,
+  );
 
   return new HttpResponse(null, { status: 204 });
 };
@@ -95,16 +97,16 @@ const addTodoFromArchivedHandler = async ({
   const { dateType } = params;
   const { todoId } = await request.json();
 
-  const newTodo = TODO_DATA.data.find((todo) => todo.todo_id === todoId);
+  const newTodo = TODO_DATA.data.find((todo) => todo.todoId === todoId);
 
   if (newTodo === undefined) {
     throw new Error('즐겨찾기 또는 추천에 해당하는 todo가 없습니다.');
   }
 
   if (dateType === 'today') {
-    TODO_DATA.data.push({ ...newTodo, type: 'today', todo_id: TODO_DATA.data.length + 1 });
+    TODO_DATA.data.push({ ...newTodo, type: 'today', todoId: TODO_DATA.data.length + 1 });
   } else if (dateType === 'tomorrow') {
-    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todo_id: TODO_DATA.data.length + 1 });
+    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todoId: TODO_DATA.data.length + 1 });
   }
 
   return HttpResponse.json(newTodo);

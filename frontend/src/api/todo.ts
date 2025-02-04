@@ -3,7 +3,7 @@ import fetchClient from './fetchClient';
 import { API_URL } from '@/constants/url';
 import { Todo } from '@/types/todo';
 
-export type TodoAddParams = Omit<Todo, 'todo_id'>;
+export type TodoAddParams = Omit<Todo, 'todoId'>;
 
 export interface TodoResponse {
   data: Todo[];
