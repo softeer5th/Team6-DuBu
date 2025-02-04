@@ -47,7 +47,7 @@ const Step1 = () => {
       ...prev,
       1: categories.length >= MIN_SELECTED_NUM && categories.length <= MAX_SELECTED_NUM,
     }));
-  }, [categories, setStepValidity]);
+  }, [categories.length, setStepValidity]);
 
   const renderCategoryItems = (startIndex: number, endIndex: number) =>
     CATEGORIES.slice(startIndex, endIndex).map((category) => (
