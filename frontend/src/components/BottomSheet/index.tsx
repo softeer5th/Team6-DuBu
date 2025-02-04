@@ -50,7 +50,7 @@ const BottomSheet = ({
     <>
       {createPortal(
         <S.SheetContainer>
-          <S.Backdrop onClick={onClose} />
+          <S.Backdrop onClick={onClose} $isOpen={isOpen} />
           <S.Sheet $isOpen={isOpen} $delay={delay} onAnimationEnd={handleAnimationEnd}>
             {title && (
               <S.Header>

@@ -6,9 +6,9 @@ export const SheetContainer = styled.div`
   height: 100%;
 `;
 
-export const Backdrop = styled.div`
+export const Backdrop = styled.div<{ $isOpen: boolean }>`
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: ${({ $isOpen }) => ($isOpen ? 'rgba(0, 0, 0, 0.6)' : 'transparent')};
   width: 37.5rem; // 반응형 필요
   height: 100%;
 `;
