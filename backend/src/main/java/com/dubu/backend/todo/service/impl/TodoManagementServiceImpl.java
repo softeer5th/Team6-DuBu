@@ -124,8 +124,6 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         }
 
         todo.updateTodo(updateTodoRequest.title(), category, difficulty, updateTodoRequest.memo());
-
-        todoRepository.save(todo);
     }
 
     @Override
