@@ -1,7 +1,9 @@
 package com.dubu.backend.member.api;
 
+import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.member.application.MemberService;
 import com.dubu.backend.member.dto.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.MemberStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,5 +22,14 @@ public class MemberController {
             @RequestBody MemberOnboardingRequest request) {
 
         memberService.completeOnboarding(memberId, request);
+    }
+
+    @GetMapping("/status")
+    public SuccessResponse<MemberStatusResponse> getMemberStatus(
+            @RequestAttribute("memberId") Long memberId
+    ) {
+        MemberStatusResponse response = memberService.getMemberStatus(memberId);
+
+        return new SuccessResponse<>(response);
     }
 }
