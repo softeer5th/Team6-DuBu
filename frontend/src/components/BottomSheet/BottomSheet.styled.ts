@@ -43,9 +43,6 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 2.4rem;
   padding-top: 2.4rem;
-
-  max-height: 50vh;
-  overflow-y: auto;
 `;
 
 export const Footer = styled.div`
