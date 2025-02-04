@@ -3,6 +3,7 @@ package com.dubu.backend.member.api;
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.member.application.MemberService;
 import com.dubu.backend.member.dto.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.MemberStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,15 @@ public class MemberController {
             @RequestAttribute("memberId") Long memberId
     ) {
         MemberStatusResponse response = memberService.getMemberStatus(memberId);
+
+        return new SuccessResponse<>(response);
+    }
+
+    @GetMapping("/address")
+    public SuccessResponse<MemberSavedAddressResponse> getMemberSavedAddress(
+            @RequestAttribute("memberId") Long memberId
+    ) {
+        MemberSavedAddressResponse response = memberService.getMemberSavedAddress(memberId);
 
         return new SuccessResponse<>(response);
     }
