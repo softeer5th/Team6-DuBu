@@ -7,13 +7,13 @@ import TodoEditForm from '../components/TodoEditForm';
 import { Todo } from '@/types/todo';
 
 const useEditTodoBottomSheet = (dateType: string) => {
-  const { isOpen, open, close } = useBaseBottomSheet();
+  const { isOpen, dispatch } = useBaseBottomSheet();
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const { mutate: editTodo, isSuccess } = useEditTodoMutation(dateType);
+  const { mutate: editTodo, isSuccess, reset } = useEditTodoMutation(dateType);
 
   const handleOpen = (todo: Todo) => {
     setSelectedTodo(todo);
-    open();
+    dispatch.open();
   };
 
   const handleEditTodo = (todo: Todo) => {
@@ -22,14 +22,15 @@ const useEditTodoBottomSheet = (dateType: string) => {
 
   useEffect(() => {
     if (isSuccess) {
-      close();
+      dispatch.close();
+      reset();
     }
-  }, [isSuccess]);
+  }, [isSuccess, dispatch, reset]);
 
   return {
     isOpen,
     open: handleOpen,
-    close,
+    close: dispatch.close,
     handleEditTodo,
     content: selectedTodo && <TodoEditForm todo={selectedTodo} handleEditTodo={handleEditTodo} />,
     title: '할 일 수정하기',

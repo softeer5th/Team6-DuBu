@@ -7,8 +7,8 @@ import TodoAddForm from '../components/TodoTab/TodoAddForm';
 import { TodoAddParams } from '@/api/todo';
 
 export const useAddTodoBottomSheet = (dateType: string) => {
-  const { isOpen, open, close } = useBaseBottomSheet();
-  const { mutate: addTodo, isSuccess } = useAddTodoMutation();
+  const { isOpen, dispatch } = useBaseBottomSheet();
+  const { mutate: addTodo, isSuccess, reset } = useAddTodoMutation();
 
   const handleAddTodo = (todo: TodoAddParams) => {
     addTodo({ dateType, todo });
@@ -16,14 +16,15 @@ export const useAddTodoBottomSheet = (dateType: string) => {
 
   useEffect(() => {
     if (isSuccess) {
-      close();
+      dispatch.close();
+      reset();
     }
-  }, [isSuccess]);
+  }, [isSuccess, dispatch, reset]);
 
   return {
     isOpen,
-    open,
-    close,
+    open: dispatch.open,
+    close: dispatch.close,
     handleAddTodo,
     content: <TodoAddForm handleAddTodo={handleAddTodo} />,
     title: '할 일 추가하기',

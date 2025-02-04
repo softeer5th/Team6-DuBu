@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const useBaseBottomSheet = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,10 +6,15 @@ const useBaseBottomSheet = () => {
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
+  const dispatch = useMemo(
+    () => ({ open, close }),
+
+    [],
+  );
+
   return {
     isOpen,
-    open,
-    close,
+    dispatch,
   };
 };
 
