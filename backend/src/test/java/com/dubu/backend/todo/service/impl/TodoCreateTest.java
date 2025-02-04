@@ -1,7 +1,7 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
-import com.dubu.backend.member.exception.NotFoundMemberException;
+import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
@@ -128,7 +128,7 @@ class TodoCreateTest {
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(NotFoundMemberException.class);
+        assertThatThrownBy(() -> todoManagementService.createTodo(1L, "tomorrow", createTodoRequest)).isInstanceOf(MemberNotFoundException.class);
     }
 
     @Test
