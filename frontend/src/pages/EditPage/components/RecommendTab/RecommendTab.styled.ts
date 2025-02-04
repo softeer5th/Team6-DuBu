@@ -14,16 +14,18 @@ export const WatchMoreLinkWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 2.1rem;
+  margin-top: 0.8rem;
 `;
 
 export const WatchMoreLink = styled(Link)`
-  ${({ theme }) => theme.fonts.body15Med};
-  color: ${({ theme }) => theme.colors.gray700};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
   display: flex;
   justify-content: center;
+  ${({ theme }) => theme.fonts.body15Med};
+  color: ${({ theme }) => theme.colors.gray700};
+
+  padding: 1.3rem 2.4rem;
   border-radius: 3.2rem;
+
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
 `;
