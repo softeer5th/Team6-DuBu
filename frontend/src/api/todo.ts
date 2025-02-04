@@ -49,6 +49,10 @@ export const deleteTodo = async (todoId: number) => {
   return await fetchClient.delete(API_URL.deleteTodo(todoId));
 };
 
+export const editTodo = async (todo: Todo) => {
+  return await fetchClient.patch(API_URL.editTodo(todo.todoId), { body: { ...todo } });
+};
+
 export const addTodoFromArchived = async (dateType: string, todoId: number) => {
   const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodoFromArchived(dateType), {
     body: { todoId },
