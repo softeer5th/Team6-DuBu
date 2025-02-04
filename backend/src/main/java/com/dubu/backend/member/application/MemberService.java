@@ -6,6 +6,7 @@ import com.dubu.backend.member.domain.MemberCategory;
 import com.dubu.backend.member.domain.enums.AddressType;
 import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.dto.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.MemberStatusResponse;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.AddressRepository;
@@ -65,5 +66,11 @@ public class MemberService {
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
         return new MemberStatusResponse(member.getStatus().name());
+    }
+
+    public MemberSavedAddressResponse getMemberSavedAddress(Long memberId) {
+        List<Address> addresses = addressRepository.findByMemberId(memberId);
+
+        return MemberSavedAddressResponse.from(addresses);
     }
 }
