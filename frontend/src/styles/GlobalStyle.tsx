@@ -53,7 +53,6 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
 }
@@ -62,16 +61,29 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+html {
+    font-size: 62.5%;
+  }
+
 body {
 	line-height: 1;
   width: 375px;
 	height: 100vh;
 	margin: 0 auto;
 	border: 0.1px solid black;
+  
+  -ms-overflow-style: none;
+}
+ 
+/* 기본 스크롤바 제거 */
+::-webkit-scrollbar {
+  display: none;
 }
 
+
 #root {
-  height: 100%;
+  height: inherit;
 }
 
 body,
@@ -101,9 +113,7 @@ table {
     box-sizing: border-box;
   }
 
-  html {
-    font-size: 62.5%;
-  }
+
 
   button {
 	border: 0;
