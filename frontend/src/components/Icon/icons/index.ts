@@ -1,5 +1,6 @@
 export { default as AddressHome } from './AddressHome';
 export { default as AddressUniv } from './AddressUniv';
+export { default as Alert } from './Alert';
 export { default as Bus } from './Bus';
 export { default as Check } from './Check';
 export { default as CheckCircle } from './CheckCircle';
