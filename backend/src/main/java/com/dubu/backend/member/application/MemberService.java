@@ -9,6 +9,7 @@ import com.dubu.backend.member.dto.MemberOnboardingRequest;
 import com.dubu.backend.member.dto.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.MemberStatusResponse;
 import com.dubu.backend.member.exception.MemberNotFoundException;
+import com.dubu.backend.member.exception.MemberSavedAddressNotFoundException;
 import com.dubu.backend.member.infra.repository.AddressRepository;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
@@ -69,7 +70,13 @@ public class MemberService {
     }
 
     public MemberSavedAddressResponse getMemberSavedAddress(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
         List<Address> addresses = addressRepository.findByMemberId(memberId);
+        if (addresses.isEmpty()) {
+            throw new MemberSavedAddressNotFoundException(memberId);
+        }
 
         return MemberSavedAddressResponse.from(addresses);
     }
