@@ -4,7 +4,7 @@ import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
-import com.dubu.backend.todo.dto.response.CreateTodoResponse;
+import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.service.TodoManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,9 +29,8 @@ public class TodoController {
     }
 
     @PatchMapping("/{todoId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patchTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId, @RequestBody UpdateTodoRequest request){
-        todoManagementService.modifyTodo(memberId, todoId, request);
+    public SuccessResponse<TodoInfo> patchTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId, @RequestBody UpdateTodoRequest request){
+        return new SuccessResponse<>(todoManagementService.modifyTodo(memberId, todoId, request));
     }
 
     @DeleteMapping("/{todoId}")

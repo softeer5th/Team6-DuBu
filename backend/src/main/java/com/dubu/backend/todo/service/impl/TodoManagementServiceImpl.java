@@ -84,7 +84,6 @@ public class TodoManagementServiceImpl implements TodoManagementService {
             }
 
             todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
-
         }
         Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.get(todoType), parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
         Todo savedTodo = todoRepository.save(newTodo);
@@ -93,7 +92,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     }
 
     @Override
-    public void modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest) {
+    public TodoInfo modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
         Todo todo = todoRepository.findById(todoId).orElseThrow(NotFoundTodoException::new);
 
@@ -130,6 +129,8 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         }
 
         todo.updateTodo(updateTodoRequest.title(), category, difficulty, updateTodoRequest.memo());
+
+        return TodoInfo.fromEntity(todo);
     }
 
     @Override
