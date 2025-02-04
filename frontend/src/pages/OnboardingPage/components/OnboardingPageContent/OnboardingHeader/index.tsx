@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router';
 
 import Header from '@/components/Header';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
-
-const ONBOARDING_FIRST_STEP = 1;
-const ONBOARDING_LAST_STEP = 3;
+import {
+  ONBOARDING_FIRST_STEP,
+  ONBOARDING_LAST_STEP,
+} from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const OnboardingHeader = () => {
   const { onboardingStep, onboardingStepValidity, setOnboardingStep } = useOnboarding();

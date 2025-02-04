@@ -4,12 +4,11 @@ import * as S from './OnboardingProgress.styled';
 
 import Icon from '@/components/Icon';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
-
-const TOTAL_ONBOARDING_STEP = 3;
+import { ONBOARDING_LAST_STEP } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const OnboardingProgress = () => {
   const { onboardingStep } = useOnboarding();
-  const progressPercent = Math.ceil((onboardingStep / TOTAL_ONBOARDING_STEP) * 100);
+  const progressPercent = Math.ceil((onboardingStep / ONBOARDING_LAST_STEP) * 100);
   const theme = useTheme();
 
   return (
@@ -19,7 +18,7 @@ const OnboardingProgress = () => {
         <S.ProgressMarker $progressPercent={progressPercent}>
           <Icon icon="Fire" width={32} height={32} color={theme.colors.green600} />
           <S.ProgressStepText>
-            {onboardingStep}/{TOTAL_ONBOARDING_STEP}
+            {onboardingStep}/{ONBOARDING_LAST_STEP}
           </S.ProgressStepText>
         </S.ProgressMarker>
       </S.ProgressBackground>
