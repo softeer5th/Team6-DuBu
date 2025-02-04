@@ -23,7 +23,7 @@ export const Sheet = styled.div<{ $isOpen: boolean; $delay: number }>`
   background-color: ${({ theme }) => theme.colors.white};
 
   animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)}
-    ${({ $delay }) => `${($delay / 1000).toFixed(1)}s`} ease-out;
+    ${({ $delay }) => `${($delay / 1000).toFixed(1)}s`} ease-out forwards;
 `;
 
 export const Header = styled.div`
