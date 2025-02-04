@@ -17,8 +17,8 @@ const CATEGORIES = [
   { key: 'News', label: '뉴스/시사', bg: backgroundNews },
 ];
 
-const MIN_SELECTED_CATEGORIES = 1;
-const MAX_SELECTED_CATEGORIES = 3;
+const MIN_SELECTED_NUM = 1;
+const MAX_SELECTED_NUM = 3;
 
 const Step1 = () => {
   const {
@@ -35,7 +35,7 @@ const Step1 = () => {
         ? prev.categories.filter((item) => item !== category)
         : [...prev.categories, category];
 
-      if (updatedCategories.length <= MAX_SELECTED_CATEGORIES) {
+      if (updatedCategories.length <= MAX_SELECTED_NUM) {
         return { ...prev, categories: updatedCategories };
       }
       return prev;
@@ -45,9 +45,7 @@ const Step1 = () => {
   useEffect(() => {
     setStepValidity((prev) => ({
       ...prev,
-      1:
-        categories.length >= MIN_SELECTED_CATEGORIES &&
-        categories.length <= MAX_SELECTED_CATEGORIES,
+      1: categories.length >= MIN_SELECTED_NUM && categories.length <= MAX_SELECTED_NUM,
     }));
   }, [categories, setStepValidity]);
 
