@@ -124,4 +124,12 @@ public class GlobalExceptionHandler {
 
         return new ErrorResponse(ErrorCode.SERVER_ERROR);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponse handleServiceUnavailableException(ServiceUnavailableException e) {
+        log.warn(e.getMessage());
+
+        return new ErrorResponse(e);
+    }
 }
