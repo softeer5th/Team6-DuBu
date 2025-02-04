@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import styled from 'styled-components';
 
 export const RecommendTabList = styled.ul`
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   flex-direction: column;
 
@@ -10,19 +11,19 @@ export const RecommendTabList = styled.ul`
 `;
 
 export const WatchMoreLinkWrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1.2rem 0;
-  width: 100%;
+  margin-top: 2.1rem;
 `;
 
 export const WatchMoreLink = styled(Link)`
-  ${({ theme }) => theme.fonts.body16};
-  background-color: ${({ theme }) => theme.colors.green600};
-  color: ${({ theme }) => theme.colors.white};
+  ${({ theme }) => theme.fonts.body15Med};
+  color: ${({ theme }) => theme.colors.gray700};
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
 
   display: flex;
   justify-content: center;
-  padding: 0.8rem 3.2rem;
   border-radius: 3.2rem;
 `;

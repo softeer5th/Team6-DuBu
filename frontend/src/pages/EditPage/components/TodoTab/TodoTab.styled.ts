@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-export const TodoTabLayout = styled.div``;
+export const TodoTabLayout = styled.div`
+  padding-top: 1.6rem;
+  background-color: ${({ theme }) => theme.colors.white};
+`;
 
 export const SloganWrapper = styled.div`
-  margin: 1.6rem 2.4rem;
+  margin: 0 2.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
