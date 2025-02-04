@@ -5,4 +5,5 @@ export interface Todo {
   category: CategoryType;
   difficulty: DifficultyType;
   name: string;
+  memo?: string;
 }

@@ -7,6 +7,7 @@ export const API_URL = {
   recommendTodo: `${BASE_URL}/todos/recommend/limit`,
   addTodo: (dateType: string) => `${BASE_URL}/todos/${dateType}/manual`,
   deleteTodo: (todoId: number) => `${BASE_URL}/todo/${todoId}`,
+  addTodoFromArchived: (dateType: string) => `${BASE_URL}/todos/${dateType}/from-archived`,
 };
 
 export const MOCK_API_URL = {
@@ -16,4 +17,5 @@ export const MOCK_API_URL = {
   recommendTodo: `${BASE_URL}/todos/recommend/limit`,
   addTodo: `${BASE_URL}/todos/:dateType/manual`,
   deleteTodo: `${BASE_URL}/todo/:todoId`,
+  addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived`,
 };
