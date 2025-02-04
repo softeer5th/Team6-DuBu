@@ -3,7 +3,7 @@ package com.dubu.backend.todo.service.impl;
 import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
-import com.dubu.backend.todo.dto.response.CreateTodoResponse;
+import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.entity.*;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
@@ -84,10 +84,10 @@ public class TodoCreateFromArchivedTest {
         given(todoRepository.save(any(Todo.class))).willReturn(testSavedTodo);
 
         // when
-        CreateTodoResponse todoResponse = todoManagementService.createTodoFromArchived(1L, "tomorrow", createTodoRequest);
+        TodoInfo todoInfo = todoManagementService.createTodoFromArchived(1L, "tomorrow", createTodoRequest);
 
         // then
-        assertThat(todoResponse.todoId()).isEqualTo(2L);
+        assertThat(todoInfo.todoId()).isEqualTo(2L);
         then(todoRepository).should(times(1)).save(any(Todo.class));
     }
 }

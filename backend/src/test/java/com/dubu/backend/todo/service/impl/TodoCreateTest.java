@@ -4,7 +4,7 @@ import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.exception.NotFoundMemberException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
-import com.dubu.backend.todo.dto.response.CreateTodoResponse;
+import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.entity.*;
 import com.dubu.backend.todo.exception.NotFoundCategoryException;
 import com.dubu.backend.todo.exception.NotFoundScheduleException;
@@ -85,10 +85,10 @@ class TodoCreateTest {
         given(todoRepository.save(any(Todo.class))).willReturn(testTodo);
 
         // when
-        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);
+        TodoInfo todoInfo = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);
 
         // then
-        assertThat(createTodoResponse.todoId()).isEqualTo(1L); //
+        assertThat(todoInfo.todoId()).isEqualTo(1L); //
         then(memberRepository).should(times(1)).findById(1L);
         then(categoryRepository).should(times(1)).findByName("독서");
         then(scheduleRepository).shouldHaveNoMoreInteractions();
@@ -109,10 +109,10 @@ class TodoCreateTest {
         given(todoRepository.save(any(Todo.class))).willReturn(testTodo);
 
         // when
-        CreateTodoResponse createTodoResponse = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);
+        TodoInfo todoInfo = todoManagementService.createTodo(1L, "tomorrow", createTodoRequest);
 
         // then
-        assertThat(createTodoResponse.todoId()).isEqualTo(1L);
+        assertThat(todoInfo.todoId()).isEqualTo(1L);
         then(memberRepository).should(times(1)).findById(1L);
         then(categoryRepository).should(times(1)).findByName("독서");
         then(scheduleRepository).should(times(1)).save(any(Schedule.class));

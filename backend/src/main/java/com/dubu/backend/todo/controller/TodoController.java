@@ -18,13 +18,13 @@ public class TodoController {
 
     @PostMapping("/{type}/manual")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<CreateTodoResponse> postTodo(@RequestAttribute Long memberId, @PathVariable("type") String type, @RequestBody CreateTodoRequest request){
+    public SuccessResponse<TodoInfo> postTodo(@RequestAttribute Long memberId, @PathVariable("type") String type, @RequestBody CreateTodoRequest request){
         return new SuccessResponse<>(todoManagementService.createTodo(memberId, type, request));
     }
 
     @PostMapping("/{type}/from-archived")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessResponse<CreateTodoResponse> postTodoFromArchived(@RequestAttribute Long memberId, @PathVariable("type") String type, @RequestBody CreateTodoFromArchivedRequest request){
+    public SuccessResponse<TodoInfo> postTodoFromArchived(@RequestAttribute Long memberId, @PathVariable("type") String type, @RequestBody CreateTodoFromArchivedRequest request){
         return new SuccessResponse<>(todoManagementService.createTodoFromArchived(memberId, type, request));
     }
 

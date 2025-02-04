@@ -6,12 +6,9 @@ import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
-import com.dubu.backend.todo.dto.response.CreateTodoResponse;
+import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.entity.*;
-import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
-import com.dubu.backend.todo.exception.NotFoundCategoryException;
-import com.dubu.backend.todo.exception.NotFoundScheduleException;
-import com.dubu.backend.todo.exception.NotFoundTodoException;
+import com.dubu.backend.todo.exception.*;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
@@ -33,7 +30,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
     private final ScheduleRepository scheduleRepository;
 
     @Override
-    public CreateTodoResponse createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest) {
+    public TodoInfo createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
         Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(NotFoundCategoryException::new);
 
@@ -59,11 +56,11 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         Todo todo = createTodoRequest.toEntity(member, category, schedule, todoType);
         Todo savedTodo = todoRepository.save(todo);
 
-        return CreateTodoResponse.fromEntity(savedTodo);
+        return TodoInfo.fromEntity(savedTodo);
     }
 
     @Override
-    public CreateTodoResponse createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest) {
+    public TodoInfo createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
         Todo parentTodo = todoRepository.findByIdWithCategory(todoCreateRequest.todoId()).orElseThrow(NotFoundTodoException::new);
 
@@ -92,7 +89,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
         Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.get(todoType), parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
         Todo savedTodo = todoRepository.save(newTodo);
 
-        return CreateTodoResponse.fromEntity(savedTodo);
+        return TodoInfo.fromEntity(savedTodo);
     }
 
     @Override
