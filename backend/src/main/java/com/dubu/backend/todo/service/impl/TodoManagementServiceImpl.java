@@ -1,7 +1,7 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
-import com.dubu.backend.member.exception.NotFoundMemberException;
+import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
@@ -31,7 +31,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
     @Override
     public TodoInfo createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Category category = categoryRepository.findByName(createTodoRequest.category()).orElseThrow(() -> new CategoryNotFoundException(createTodoRequest.category()));
 
         // 내일 할 일 데이터 생성의 경우 내일 스케줄이 있는지를 조회하고 없으면 생성한다.
@@ -61,7 +61,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
     @Override
     public TodoInfo createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Todo parentTodo = todoRepository.findByIdWithCategory(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
 
         // 내일 할 일 데이터 생성의 경우 내일 스케줄이 있는지를 조회하고 없으면 생성한다.
@@ -93,7 +93,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
     @Override
     public TodoInfo modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Todo todo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
 
         if(updateTodoRequest.title() != null || updateTodoRequest.category() != null || updateTodoRequest.difficulty() != null){
@@ -135,7 +135,7 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
     @Override
     public void removeTodo(Long memberId, Long todoId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Todo todo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
 
         todoRepository.delete(todo);
