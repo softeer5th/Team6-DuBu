@@ -80,7 +80,7 @@ public class TodoCreateFromArchivedTest {
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(testMember));
         given(todoRepository.findByIdWithCategory(any(Long.class))).willReturn(Optional.of(testTodo));
         given(scheduleRepository.findScheduleByMemberAndDate(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.of(testSchedule));
-        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.of(testSchedule));
+        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1), true)).willReturn(Optional.of(testSchedule));
         given(todoRepository.save(any(Todo.class))).willReturn(testSavedTodo);
 
         // when

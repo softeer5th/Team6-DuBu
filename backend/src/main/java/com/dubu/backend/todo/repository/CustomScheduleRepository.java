@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface CustomScheduleRepository {
-    Optional<Schedule> findFirstScheduleByMemberAndDateOrderByDateDesc(Member member, LocalDate date);
+    Optional<Schedule> findFirstScheduleByMemberAndDateOrderByDateDesc(Member member, LocalDate date, boolean includeJoinTodo);
 }

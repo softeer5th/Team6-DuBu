@@ -81,7 +81,7 @@ class TodoCreateTest {
         given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(testMember));
         given(categoryRepository.findByName("독서")).willReturn(Optional.of(testCategory));
         given(scheduleRepository.findScheduleByMemberAndDate(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.of(testTomorrowSchedule));
-        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.of(testTomorrowSchedule));
+        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1), true)).willReturn(Optional.of(testTomorrowSchedule));
         given(todoRepository.save(any(Todo.class))).willReturn(testTodo);
 
         // when
@@ -105,7 +105,7 @@ class TodoCreateTest {
         given(categoryRepository.findByName("독서")).willReturn(Optional.of(testCategory));
         given(scheduleRepository.findScheduleByMemberAndDate(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.empty());
         given(scheduleRepository.save(any(Schedule.class))).willReturn(testTomorrowSchedule);
-        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.of(testSchedule));
+        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1), true)).willReturn(Optional.of(testSchedule));
         given(todoRepository.save(any(Todo.class))).willReturn(testTodo);
 
         // when
@@ -154,7 +154,7 @@ class TodoCreateTest {
         given(categoryRepository.findByName("독서")).willReturn(Optional.of(testCategory));
         given(scheduleRepository.findScheduleByMemberAndDate(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.empty());
         given(scheduleRepository.save(any(Schedule.class))).willReturn(testTomorrowSchedule);
-        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1))).willReturn(Optional.empty());
+        given(scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(testMember, LocalDate.now().plusDays(1), true)).willReturn(Optional.empty());
 
 
         // when & then

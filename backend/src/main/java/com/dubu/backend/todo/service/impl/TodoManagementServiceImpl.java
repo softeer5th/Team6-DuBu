@@ -50,7 +50,11 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
         // 오늘 할 일 혹은 내일 할 일 생성의 경우 최신의 스케줄을 조회한다.
         if(todoType.equals("today") || todoType.equals("tomorrow")){
-            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType)).orElseThrow(NotFoundScheduleException::new);
+            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(NotFoundScheduleException::new);
+
+            if(schedule.getTodos().size() == 3){
+                throw new TodoLimitExceededException();
+            }
         }
         Todo todo = createTodoRequest.toEntity(member, category, schedule, todoType);
         Todo savedTodo = todoRepository.save(todo);
@@ -76,7 +80,11 @@ public class TodoManagementServiceImpl implements TodoManagementService {
 
         // 오늘 할 일 혹은 내일 할 일 생성의 경우 최신의 스케줄을 조회한다.
         if(todoType.equals("today") || todoType.equals("tomorrow")){
-            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType)).orElseThrow(NotFoundScheduleException::new);
+            schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, ScheduledDateResolver.resolveScheduledDate(todoType), true).orElseThrow(NotFoundScheduleException::new);
+
+            if(schedule.getTodos().size() == 3){
+                throw new TodoLimitExceededException();
+            }
 
             todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
@@ -104,8 +112,9 @@ public class TodoManagementServiceImpl implements TodoManagementService {
                 // 즐겨찾기에서 추가한 내일 할 일이 있으면 내일 할 일의 부모 아이디 제거
                 todoRepository.findByParentTodoAndScheduleDate(todo, LocalDate.now().plusDays(1)).ifPresent(Todo::clearParentTodo);
 
+                // 쿼리 개선 나중 -> 하나의 쿼리로 합칠 수 있지 않을까?
                 // 오늘 스케줄 조회
-                Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now()).orElseThrow(NotFoundScheduleException::new);
+                Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now(), false).orElseThrow(NotFoundScheduleException::new);
 
                 // 즐겨찾기에서 추가한 오늘 할 일이 있으면 오늘 할 일의 부모 아이디 제거
                 todoRepository.findByParentTodoAndSchedule(todo, todaySchedule).ifPresent(Todo::clearParentTodo);
