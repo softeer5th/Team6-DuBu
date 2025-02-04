@@ -34,6 +34,9 @@ public enum ErrorCode {
     // Member
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
+    // Address
+    MEMBER_SAVED_ADDRESS_NOT_FOUND(NOT_FOUND, "회원이 저장한 주소를 찾을 수 없습니다. memberId : %d"),
+
     // Category
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
