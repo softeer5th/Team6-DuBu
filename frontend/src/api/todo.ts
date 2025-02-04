@@ -1,15 +1,9 @@
 import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
-import { CategoryType, DifficultyType } from '@/types/filter';
 import { Todo } from '@/types/todo';
 
-export interface TodoAddParams {
-  name: string;
-  category: CategoryType;
-  difficulty: DifficultyType;
-  memo?: string;
-}
+export type TodoAddParams = Omit<Todo, 'todo_id'>;
 
 export interface TodoResponse {
   data: Todo[];
@@ -53,4 +47,12 @@ export const addTodo = async (dateType: string, todo: TodoAddParams) => {
 
 export const deleteTodo = async (todoId: number) => {
   return await fetchClient.delete(API_URL.deleteTodo(todoId));
+};
+
+export const addTodoFromArchived = async (dateType: string, todoId: number) => {
+  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodoFromArchived(dateType), {
+    body: { todoId },
+  });
+
+  return result.data;
 };
