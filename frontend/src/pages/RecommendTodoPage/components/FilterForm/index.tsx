@@ -61,7 +61,9 @@ const FilterForm = ({
               $isSelected={categories[filter.value]}
               onClick={handleClickCategory}
             >
-              {categories[filter.value] && <Icon icon="Check" width={16} height={16} />}
+              {categories[filter.value] && (
+                <Icon icon="Check" cursor="pointer" width={16} height={16} />
+              )}
               {filter.label}
             </S.CheckedBadge>
           ))}
