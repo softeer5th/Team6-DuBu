@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getRecommendTodoList } from '@/api/todo';
+import { getRecommendLimitTodoList } from '@/api/todo';
 import { QUERY_KEY } from '@/constants/queryKey';
 
 const useRecommendTodoListQuery = () => {
   return useQuery({
-    queryKey: [QUERY_KEY.recommend],
-    queryFn: getRecommendTodoList,
+    queryKey: [QUERY_KEY.recommendLimit],
+    queryFn: getRecommendLimitTodoList,
     staleTime: Infinity,
   });
 };
