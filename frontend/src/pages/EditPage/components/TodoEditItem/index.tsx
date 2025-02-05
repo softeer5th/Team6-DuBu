@@ -1,13 +1,7 @@
 import * as S from './TodoEditItem.styled';
 
-import { CATEGORY_MAPPER } from '@/pages/EditPage/EditPage.constants';
+import { CATEGORY_MAPPER, DIFFICULTY_MAPPER } from '@/pages/EditPage/EditPage.constants';
 import { Todo } from '@/types/todo';
-
-const difficultyMapper = {
-  EASY: '쉬움',
-  NORMAL: '보통',
-  HARD: '어려움',
-};
 
 interface TodoEditItemProps {
   todo: Todo;
@@ -25,7 +19,7 @@ const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
           <S.TodoBadge
             $category={todo.category}
           >{`#${CATEGORY_MAPPER[todo.category]}`}</S.TodoBadge>
-          <S.TodoBadge>{`#${difficultyMapper[todo.difficulty]}`}</S.TodoBadge>
+          <S.TodoBadge>{`#${DIFFICULTY_MAPPER[todo.difficulty]}`}</S.TodoBadge>
         </S.TodoBadgeWrapper>
       </S.TodoTextWrapper>
       {right}

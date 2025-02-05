@@ -22,6 +22,20 @@ export const CATEGORY_MAPPER = {
   OTHERS: '기타',
 } as const;
 
+export const DIFFICULTY_MAPPER = {
+  EASY: '쉬움',
+  NORMAL: '보통',
+  HARD: '어려움',
+} as const;
+
+export const CATEGORY_LABEL_MAPPER = {
+  READING: '독서',
+  ENGLISH: '영어',
+  LANGUAGE: '제2외국어',
+  NEWS: '뉴스/시사',
+  OTHERS: '기타',
+} as const;
+
 export const CATEGORY_OPTIONS = [
   {
     label: '독서',
