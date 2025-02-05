@@ -1,42 +1,25 @@
 import React, { useState } from 'react';
 
 import * as S from './FilterForm.styled';
+import { getFilterCategories, getFilterDifficulties } from '../../RecommendTodoPage.utils';
 
 import Icon from '@/components/Icon';
 import { CATEGORY_OPTIONS, DIFFICULTY_OPTIONS } from '@/pages/EditPage/EditPage.constants';
 import { CategoryType, DifficultyType } from '@/types/filter';
 
-const getFilterCategories = (selectedCategoryList: CategoryType[]) => {
-  return CATEGORY_OPTIONS.reduce(
-    (acc, { value }) => {
-      acc[value] = selectedCategoryList.includes(value);
-      return acc;
-    },
-    {} as Record<CategoryType, boolean>,
-  );
-};
-
-const getFilterDifficulties = (selectedDifficultyList: DifficultyType[]) => {
-  return DIFFICULTY_OPTIONS.reduce(
-    (acc, { value }) => {
-      acc[value] = selectedDifficultyList.includes(value);
-      return acc;
-    },
-    {} as Record<DifficultyType, boolean>,
-  );
-};
+interface FilterFormProps {
+  selectedCategoryList: CategoryType[];
+  selectedDifficultyList: DifficultyType[];
+  onClose: () => void;
+  onConfirm: (selectedCategories: CategoryType[], selectedDifficulties: DifficultyType[]) => void;
+}
 
 const FilterForm = ({
   selectedCategoryList,
   selectedDifficultyList,
   onClose,
   onConfirm,
-}: {
-  selectedCategoryList: CategoryType[];
-  selectedDifficultyList: DifficultyType[];
-  onClose: () => void;
-  onConfirm: (selectedCategories: CategoryType[], selectedDifficulties: DifficultyType[]) => void;
-}) => {
+}: FilterFormProps) => {
   const [categories, setCategories] = useState(() => getFilterCategories(selectedCategoryList));
   const [difficulties, setDifficulties] = useState(() =>
     getFilterDifficulties(selectedDifficultyList),
