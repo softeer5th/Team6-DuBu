@@ -31,6 +31,11 @@ export default tseslint.config(
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'import/no-named-as-default': 'off',
       'import/no-unresolved': 'off',
+      'import/newline-after-import': ['error', { count: 1 }],
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: ['const', 'let', 'var'], next: ['if', 'for', 'while'] },
+      ],
       'import/order': [
         'error',
         {
