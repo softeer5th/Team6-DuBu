@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TodoQueryService {
     List<TodoInfo> findTodayTodos(Long memberId);
+    List<TodoInfo> findTomorrowTodos(Long memberId);
 }
