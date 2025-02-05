@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
+import RECOMMEND_TODO_DATA from '../data/recommendTodo.json';
 import TODO_DATA from '../data/todoData.json';
 
 import { MOCK_API_URL } from '@/constants/url';
@@ -40,13 +41,65 @@ const getFavoriteTodoHandler = () => {
   return HttpResponse.json(favoriteTodo);
 };
 
-const getRecommendTodoHandler = () => {
+const getRecommendLimitTodoHandler = () => {
   const recommendTodo = {
     ...TODO_DATA,
     data: TODO_DATA.data.filter((todo) => todo.type === 'recommend'),
   };
 
   return HttpResponse.json(recommendTodo);
+};
+
+const getRecommendAllTodoHandler = async ({ request }: { request: Request }) => {
+  const url = new URL(request.url);
+
+  const category = url.searchParams.get('category');
+  const difficulty = url.searchParams.get('difficulty');
+
+  if (category && difficulty) {
+    // 둘 다 있는 경우
+    const categoryList = category.split(',');
+    const difficultyList = difficulty.split(',');
+
+    const filteredTodo = {
+      ...RECOMMEND_TODO_DATA,
+      data: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
+        return categoryList.includes(todo.category) && difficultyList.includes(todo.difficulty);
+      }),
+    };
+
+    return HttpResponse.json(filteredTodo);
+  } else if (category) {
+    // 카테고리만 있는 경우
+    const categoryList = category.split(',');
+
+    const filteredTodo = {
+      ...RECOMMEND_TODO_DATA,
+      data: {
+        categoryList: [...RECOMMEND_TODO_DATA.data.categoryList],
+        todoList: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
+          return categoryList.includes(todo.category);
+        }),
+      },
+    };
+
+    return HttpResponse.json(filteredTodo);
+  } else if (difficulty) {
+    // 난이도만 있는 경우
+    const difficultyList = difficulty.split(',');
+
+    const filteredTodo = {
+      ...RECOMMEND_TODO_DATA,
+      data: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
+        return difficultyList.includes(todo.difficulty);
+      }),
+    };
+
+    return HttpResponse.json(filteredTodo);
+  }
+
+  // 둘 다 없는 경우
+  return HttpResponse.json(RECOMMEND_TODO_DATA);
 };
 
 const addTodoHandler = async ({ params, request }: { params: TodoAddParams; request: Request }) => {
@@ -116,7 +169,8 @@ export const handlers = [
   http.get(MOCK_API_URL.todayTodo, getTodayTodoHandler),
   http.get(MOCK_API_URL.tomorrowTodo, getTomorrowTodoHandler),
   http.get(MOCK_API_URL.favoriteTodo, getFavoriteTodoHandler),
-  http.get(MOCK_API_URL.recommendTodo, getRecommendTodoHandler),
+  http.get(MOCK_API_URL.recommendLimitTodo, getRecommendLimitTodoHandler),
+  http.get(MOCK_API_URL.recommendAllTodo, getRecommendAllTodoHandler),
   http.post<TodoAddParams>(MOCK_API_URL.addTodo, addTodoHandler),
   http.delete(MOCK_API_URL.deleteTodo, deleteTodoHandler),
   http.patch<TodoEditParams>(MOCK_API_URL.editTodo, editTodoHandler),
