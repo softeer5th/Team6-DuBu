@@ -63,9 +63,12 @@ const getRecommendAllTodoHandler = async ({ request }: { request: Request }) => 
 
     const filteredTodo = {
       ...RECOMMEND_TODO_DATA,
-      data: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
-        return categoryList.includes(todo.category) && difficultyList.includes(todo.difficulty);
-      }),
+      data: {
+        categoryList: [...RECOMMEND_TODO_DATA.data.categoryList],
+        todoList: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
+          return categoryList.includes(todo.category) && difficultyList.includes(todo.difficulty);
+        }),
+      },
     };
 
     return HttpResponse.json(filteredTodo);
@@ -90,9 +93,12 @@ const getRecommendAllTodoHandler = async ({ request }: { request: Request }) => 
 
     const filteredTodo = {
       ...RECOMMEND_TODO_DATA,
-      data: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
-        return difficultyList.includes(todo.difficulty);
-      }),
+      data: {
+        categoryList: [...RECOMMEND_TODO_DATA.data.categoryList],
+        todoList: RECOMMEND_TODO_DATA.data.todoList.filter((todo) => {
+          return difficultyList.includes(todo.difficulty);
+        }),
+      },
     };
 
     return HttpResponse.json(filteredTodo);
