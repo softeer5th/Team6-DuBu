@@ -8,6 +8,7 @@ import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.entity.Schedule;
 import com.dubu.backend.todo.entity.Todo;
 import com.dubu.backend.todo.entity.TodoType;
+import com.dubu.backend.todo.exception.ScheduleNotFoundException;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import com.dubu.backend.todo.service.TodoQueryService;
@@ -55,6 +56,17 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 
         List<Todo> todos = todoRepository.findTodosBySchedule(todaySchedule);
 
+        return todos.stream().map(TodoInfo::fromEntity).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TodoInfo> findTomorrowTodos(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        Schedule schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now().plusDays(1), true).orElseThrow(ScheduleNotFoundException::new);
+
+        List<Todo> todos = todoRepository.findTodosBySchedule(schedule);
         return todos.stream().map(TodoInfo::fromEntity).toList();
     }
 }
