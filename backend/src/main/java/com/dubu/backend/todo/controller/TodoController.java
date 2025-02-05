@@ -6,15 +6,19 @@ import com.dubu.backend.todo.dto.request.CreateTodoRequest;
 import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.service.TodoManagementService;
+import com.dubu.backend.todo.service.TodoQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
 public class TodoController {
     private final TodoManagementService todoManagementService;
+    private final TodoQueryService todoQueryService;
 
     @PostMapping("/{type}/manual")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,5 +41,15 @@ public class TodoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId){
         todoManagementService.removeTodo(memberId, todoId);
+    }
+
+    @GetMapping("/today")
+    public SuccessResponse<List<TodoInfo>> getTodayTodos(@RequestAttribute Long memberId){
+        return new SuccessResponse<>(todoQueryService.findTodayTodos(memberId));
+    }
+
+    @GetMapping("/tomorrow")
+    public SuccessResponse<List<TodoInfo>> getTomorrowTodos(@RequestAttribute Long memberId){
+        return new SuccessResponse<>(todoQueryService.findTomorrowTodos(memberId));
     }
 }
