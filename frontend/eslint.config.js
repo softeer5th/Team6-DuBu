@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import pluginQuery from '@tanstack/eslint-plugin-query';
+import unusedImports from 'eslint-plugin-unused-imports';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -23,6 +24,7 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'unused-imports': unusedImports,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -35,6 +37,11 @@ export default tseslint.config(
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: ['if', 'for', 'while'] },
+      ],
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
       ],
       'import/order': [
         'error',
