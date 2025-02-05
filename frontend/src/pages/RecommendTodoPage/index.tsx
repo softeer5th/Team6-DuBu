@@ -1,11 +1,10 @@
 import RecommendTodoContainer from './components/RecommendTodoContainer';
-import * as S from './RecommendTodoPage.styled';
 
 import Header from '@/components/Header';
 
 const RecommendTodoPage = () => {
   return (
-    <S.RecommendTodoLayout>
+    <>
       <Header>
         <Header.Left>
           <Header.BackButton />
@@ -16,7 +15,7 @@ const RecommendTodoPage = () => {
       </Header>
 
       <RecommendTodoContainer />
-    </S.RecommendTodoLayout>
+    </>
   );
 };
 

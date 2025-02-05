@@ -12,7 +12,7 @@ const EditPage = () => {
   const { isToday } = useQueryParamsDate();
 
   return (
-    <S.EditLayout>
+    <>
       <Header>
         <Header.BackButton />
         <Header.Title>{isToday ? '오늘' : '내일'} 할 일 수정하기</Header.Title>
@@ -31,7 +31,7 @@ const EditPage = () => {
           <RecommendTab />
         </S.TabContent>
       </Tab.Root>
-    </S.EditLayout>
+    </>
   );
 };
 

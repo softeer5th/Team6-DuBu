@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 
+import FlexPageLayout from './layout/FlexPageLayout';
+
 import EditPage from '@/pages/EditPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
@@ -17,6 +19,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/edit',
+    element: <FlexPageLayout />,
     children: [
       {
         index: true,
