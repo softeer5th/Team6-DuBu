@@ -1,8 +1,15 @@
 package com.dubu.backend.plan.application;
 
+import com.dubu.backend.member.exception.MemberNotFoundException;
+import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.domain.Path;
+import com.dubu.backend.plan.domain.Plan;
+import com.dubu.backend.plan.domain.vo.RouteIdentifier;
 import com.dubu.backend.plan.dto.OdsayRouteApiResponse;
 import com.dubu.backend.plan.dto.RouteSearchResponseDto;
 import com.dubu.backend.plan.infra.client.OdsayApiClient;
+import com.dubu.backend.plan.infra.repository.PathRepository;
+import com.dubu.backend.plan.infra.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RouteService {
     private final OdsayApiClient odsayApiClient;
+    private final MemberRepository memberRepository;
+    private final PlanRepository planRepository;
+    private final PathRepository pathRepository;
 
     /**
      * 같은 의미인 명칭 정리
@@ -20,19 +30,82 @@ public class RouteService {
      * Route = Path
      * Path = SubPath
      */
-    public List<RouteSearchResponseDto> getRoutesByStartAndDestination(Double startX, Double startY, Double endX, Double endY) {
+    public List<RouteSearchResponseDto> getRoutesByStartAndDestination(Long memberId, Double startX, Double startY, Double endX, Double endY) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        List<RouteIdentifier> recentlyUsedRoute = loadRecentlyUsedRoute(memberId);
+
         OdsayRouteApiResponse odsayRouteApiResponse = odsayApiClient.searchPublicTransportRoute(startX, startY, endX, endY);
 
         List<RouteSearchResponseDto> response = new ArrayList<>();
-
-        boolean isRecentlyUsed = false;
-
         for (OdsayRouteApiResponse.Path apiPath : odsayRouteApiResponse.result().path()) {
+            boolean isRecentlyUsed = isSameAsRecentlyUsedRoute(apiPath, recentlyUsedRoute);
             RouteSearchResponseDto routeDto = convertApiPathToRoute(apiPath, isRecentlyUsed);
             response.add(routeDto);
         }
+
         return response;
     }
+
+    private List<RouteIdentifier> loadRecentlyUsedRoute(Long memberId) {
+        Plan latestPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
+                .orElse(null);
+
+        if (latestPlan == null) {
+            return List.of();
+        }
+
+        List<Path> pathList = pathRepository.findByPlanIdOrderByPathOrderAsc(latestPlan.getId());
+
+        return pathList.stream()
+                .map(p -> {
+                    String startName = p.getStartName();
+                    String endName = p.getEndName();
+
+                    return new RouteIdentifier(
+                            p.getTrafficType().name(),
+                            startName,
+                            endName
+                    );
+                })
+                .toList();
+    }
+
+    private boolean isSameAsRecentlyUsedRoute(OdsayRouteApiResponse.Path apiPath,
+                                              List<RouteIdentifier> recentlyUsedRoute) {
+        List<RouteIdentifier> currentRouteKeys = extractRouteKeys(apiPath);
+
+        if (currentRouteKeys.size() != recentlyUsedRoute.size()) {
+            return false;
+        }
+        for (int i = 0; i < currentRouteKeys.size(); i++) {
+            if (!currentRouteKeys.get(i).equals(recentlyUsedRoute.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<RouteIdentifier> extractRouteKeys(OdsayRouteApiResponse.Path apiPath) {
+        List<RouteIdentifier> result = new ArrayList<>();
+        for (OdsayRouteApiResponse.SubPath subPath : apiPath.subPath()) {
+            int tType = subPath.trafficType();
+            if (tType == 1 || tType == 2) {
+                String trafficType = (tType == 1) ? "SUBWAY" : "BUS";
+
+                String startName = subPath.startName();
+                String endName = subPath.endName();
+                if (tType == 1) { // 지하철
+                    startName += "역";
+                    endName += "역";
+                }
+                result.add(new RouteIdentifier(trafficType, startName, endName));
+            }
+        }
+        return result;
+    }
+
 
     private RouteSearchResponseDto convertApiPathToRoute(OdsayRouteApiResponse.Path apiPath, boolean isRecentlyUsed) {
         OdsayRouteApiResponse.Info info = apiPath.info();
