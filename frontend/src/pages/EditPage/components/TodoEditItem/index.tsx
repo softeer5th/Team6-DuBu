@@ -1,6 +1,6 @@
 import * as S from './TodoEditItem.styled';
 
-import { categoryMapper } from '@/pages/EditPage/EditPage.constants';
+import { CATEGORY_MAPPER } from '@/pages/EditPage/EditPage.constants';
 import { Todo } from '@/types/todo';
 
 const difficultyMapper = {
@@ -22,7 +22,9 @@ const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
       <S.TodoTextWrapper>
         <S.TodoTitle>{todo.title}</S.TodoTitle>
         <S.TodoBadgeWrapper>
-          <S.TodoBadge $category={todo.category}>{`#${categoryMapper[todo.category]}`}</S.TodoBadge>
+          <S.TodoBadge
+            $category={todo.category}
+          >{`#${CATEGORY_MAPPER[todo.category]}`}</S.TodoBadge>
           <S.TodoBadge>{`#${difficultyMapper[todo.difficulty]}`}</S.TodoBadge>
         </S.TodoBadgeWrapper>
       </S.TodoTextWrapper>

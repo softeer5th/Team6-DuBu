@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import * as S from './TodoEditForm.styled';
-import { categoryFilter, difficultyFilter } from '../../EditPage.constants';
+import { CATEGORY_OPTIONS, DIFFICULTY_OPTIONS } from '../../EditPage.constants';
 
 import RadioGroup from '@/components/RadioGroup';
 import { CategoryType, DifficultyType } from '@/types/filter';
@@ -48,7 +48,7 @@ const TodoEditForm = ({ todo, handleEditTodo }: TodoEditFormProps) => {
         <S.TodoInputLabel>목표</S.TodoInputLabel>
         <RadioGroup
           name="category"
-          filters={categoryFilter}
+          filters={CATEGORY_OPTIONS}
           handleChange={(e) => setCategory(e.target.value as CategoryType)}
           selectedValue={category ?? ''}
         />
@@ -58,7 +58,7 @@ const TodoEditForm = ({ todo, handleEditTodo }: TodoEditFormProps) => {
         <S.TodoInputLabel>난이도</S.TodoInputLabel>
         <RadioGroup
           name="difficulty"
-          filters={difficultyFilter}
+          filters={DIFFICULTY_OPTIONS}
           handleChange={(e) => setDifficulty(e.target.value as DifficultyType)}
           selectedValue={difficulty ?? ''}
         />

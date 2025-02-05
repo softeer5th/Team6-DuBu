@@ -13,7 +13,7 @@ export const TABS = [
   },
 ] as const;
 
-export const categoryMapper = {
+export const CATEGORY_MAPPER = {
   READING: '독서',
   HOBBY: '취미',
   ENGLISH: '영어',
@@ -22,7 +22,7 @@ export const categoryMapper = {
   OTHERS: '기타',
 } as const;
 
-export const categoryFilter = [
+export const CATEGORY_OPTIONS = [
   {
     label: '독서',
     value: 'READING',
@@ -49,7 +49,7 @@ export const categoryFilter = [
   },
 ];
 
-export const difficultyFilter = [
+export const DIFFICULTY_OPTIONS = [
   {
     label: '쉬움',
     value: 'EASY',

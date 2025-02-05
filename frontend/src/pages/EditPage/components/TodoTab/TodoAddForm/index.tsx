@@ -4,7 +4,7 @@ import * as S from './TodoAddForm.styled';
 
 import { TodoAddParams } from '@/api/todo';
 import RadioGroup from '@/components/RadioGroup';
-import { categoryFilter, difficultyFilter } from '@/pages/EditPage/EditPage.constants';
+import { CATEGORY_OPTIONS, DIFFICULTY_OPTIONS } from '@/pages/EditPage/EditPage.constants';
 import { CategoryType, DifficultyType } from '@/types/filter';
 
 interface TodoAddFormProps {
@@ -48,7 +48,7 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
         <S.TodoInputLabel>목표</S.TodoInputLabel>
         <RadioGroup
           name="category"
-          filters={categoryFilter}
+          filters={CATEGORY_OPTIONS}
           handleChange={(e) => setCategory(e.target.value as CategoryType)}
           selectedValue={category ?? ''}
         />
@@ -58,7 +58,7 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
         <S.TodoInputLabel>난이도</S.TodoInputLabel>
         <RadioGroup
           name="difficulty"
-          filters={difficultyFilter}
+          filters={DIFFICULTY_OPTIONS}
           handleChange={(e) => setDifficulty(e.target.value as DifficultyType)}
           selectedValue={difficulty ?? ''}
         />
