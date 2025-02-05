@@ -13,7 +13,7 @@ import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import com.dubu.backend.todo.service.TodoManagementService;
-import com.dubu.backend.todo.service.resolver.ScheduledDateResolver;
+import com.dubu.backend.todo.support.ScheduledDateResolver;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
