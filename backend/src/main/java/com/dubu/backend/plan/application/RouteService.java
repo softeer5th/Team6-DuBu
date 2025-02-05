@@ -4,7 +4,7 @@ import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
-import com.dubu.backend.plan.domain.vo.RouteIdentifier;
+import com.dubu.backend.plan.domain.vo.PathIdentifier;
 import com.dubu.backend.plan.dto.OdsayRouteApiResponse;
 import com.dubu.backend.plan.dto.RouteSearchResponseDto;
 import com.dubu.backend.plan.infra.client.OdsayApiClient;
@@ -34,7 +34,7 @@ public class RouteService {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
-        List<RouteIdentifier> recentlyUsedRoute = loadRecentlyUsedRoute(memberId);
+        List<PathIdentifier> recentlyUsedRoute = loadRecentlyUsedRoute(memberId);
 
         OdsayRouteApiResponse odsayRouteApiResponse = odsayApiClient.searchPublicTransportRoute(startX, startY, endX, endY);
 
@@ -48,7 +48,7 @@ public class RouteService {
         return response;
     }
 
-    private List<RouteIdentifier> loadRecentlyUsedRoute(Long memberId) {
+    private List<PathIdentifier> loadRecentlyUsedRoute(Long memberId) {
         Plan latestPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
                 .orElse(null);
 
@@ -63,7 +63,7 @@ public class RouteService {
                     String startName = p.getStartName();
                     String endName = p.getEndName();
 
-                    return new RouteIdentifier(
+                    return new PathIdentifier(
                             p.getTrafficType().name(),
                             startName,
                             endName
@@ -73,8 +73,8 @@ public class RouteService {
     }
 
     private boolean isSameAsRecentlyUsedRoute(OdsayRouteApiResponse.Path apiPath,
-                                              List<RouteIdentifier> recentlyUsedRoute) {
-        List<RouteIdentifier> currentRouteKeys = extractRouteKeys(apiPath);
+                                              List<PathIdentifier> recentlyUsedRoute) {
+        List<PathIdentifier> currentRouteKeys = extractRouteKeys(apiPath);
 
         if (currentRouteKeys.size() != recentlyUsedRoute.size()) {
             return false;
@@ -87,8 +87,8 @@ public class RouteService {
         return true;
     }
 
-    private List<RouteIdentifier> extractRouteKeys(OdsayRouteApiResponse.Path apiPath) {
-        List<RouteIdentifier> result = new ArrayList<>();
+    private List<PathIdentifier> extractRouteKeys(OdsayRouteApiResponse.Path apiPath) {
+        List<PathIdentifier> result = new ArrayList<>();
         for (OdsayRouteApiResponse.SubPath subPath : apiPath.subPath()) {
             int tType = subPath.trafficType();
             if (tType == 1 || tType == 2) {
@@ -100,7 +100,7 @@ public class RouteService {
                     startName += "역";
                     endName += "역";
                 }
-                result.add(new RouteIdentifier(trafficType, startName, endName));
+                result.add(new PathIdentifier(trafficType, startName, endName));
             }
         }
         return result;

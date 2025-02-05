@@ -1,6 +1,6 @@
 package com.dubu.backend.plan.domain.vo;
 
-public record RouteIdentifier(
+public record PathIdentifier(
         String trafficType,
         String startName,
         String endName
