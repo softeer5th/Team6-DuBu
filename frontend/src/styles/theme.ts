@@ -38,21 +38,21 @@ export const colors = {
   iconBlue: '#0e87d8',
 
   // category color
-  Reading: '#BA1A1A',
-  Hobby: '#C48430',
-  English: '#ACB337',
-  Language: '#83589A',
-  News: '#3C7AB0',
-  Others: '#656565',
+  READING: '#BA1A1A',
+  HOBBY: '#C48430',
+  ENGLISH: '#ACB337',
+  LANGUAGE: '#83589A',
+  NEWS: '#3C7AB0',
+  OTHERS: '#656565',
 
   // category background-color
   background: {
-    Reading: '#BA1A1A1E',
-    Hobby: '#C484301E',
-    English: '#ACB3371E',
-    Language: '#83589A1E',
-    News: '#3C7AB01E',
-    Others: '#6565651E',
+    READING: '#BA1A1A1E',
+    HOBBY: '#C484301E',
+    ENGLISH: '#ACB3371E',
+    LANGUAGE: '#83589A1E',
+    NEWS: '#3C7AB01E',
+    OTHERS: '#6565651E',
   },
 
   // transport

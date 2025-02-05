@@ -22,7 +22,7 @@ import useTodoListQuery from '@/hooks/useTodoListQuery';
 const TodoListContainer = () => {
   const navigate = useNavigate();
   const { isToday, dateType } = useQueryParamsDate();
-  const { data: todoList } = useTodoListQuery(isToday);
+  const { data: todoList } = useTodoListQuery(dateType);
 
   const handleClickEdit = () => {
     const url = dateType ? `/edit?dateType=${dateType}` : '/edit';
@@ -43,9 +43,9 @@ const TodoListContainer = () => {
 
       <S.TodoList>
         {todoList?.map((todo) => (
-          <S.TodoItem key={todo.todo_id}>
+          <S.TodoItem key={todo.todoId}>
             <Icon icon="Reading" />
-            <span>{todo.name}</span>
+            <span>{todo.title}</span>
           </S.TodoItem>
         ))}
       </S.TodoList>
