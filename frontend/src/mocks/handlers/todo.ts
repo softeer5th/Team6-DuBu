@@ -43,8 +43,8 @@ const getFavoriteTodoHandler = () => {
 
 const getRecommendLimitTodoHandler = () => {
   const recommendTodo = {
-    ...TODO_DATA,
-    data: TODO_DATA.data.filter((todo) => todo.type === 'recommend'),
+    ...RECOMMEND_TODO_DATA,
+    data: RECOMMEND_TODO_DATA.data.todoList.slice(0, 5),
   };
 
   return HttpResponse.json(recommendTodo);
@@ -156,7 +156,7 @@ const addTodoFromArchivedHandler = async ({
   const { dateType } = params;
   const { todoId } = await request.json();
 
-  const newTodo = TODO_DATA.data.find((todo) => todo.todoId === todoId);
+  const newTodo = RECOMMEND_TODO_DATA.data.todoList.find((todo) => todo.todoId === todoId);
 
   if (newTodo === undefined) {
     throw new Error('즐겨찾기 또는 추천에 해당하는 todo가 없습니다.');

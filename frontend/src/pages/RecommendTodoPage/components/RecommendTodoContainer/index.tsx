@@ -8,16 +8,20 @@ import FilterForm from '../FilterForm';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import TodoEditItem from '@/pages/EditPage/components/TodoEditItem';
+import useAddTodoFromArchivedMutation from '@/pages/EditPage/hooks/useAddTodoFromArchivedMutation';
 import { CategoryType, DifficultyType } from '@/types/filter';
 
 const RecommendTodoContainer = () => {
+  const { dateType } = useQueryParamsDate();
   const { isOpen, open, close } = useFilterBottomSheet();
   const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
   const [difficultyList, setDifficultyList] = useState<DifficultyType[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const { data, isLoading } = useRecommendTodoFilterQuery(categoryList, difficultyList);
+  const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
 
   const isCategory = categoryList.length > 0;
   const isDifficulty = difficultyList.length > 0;
@@ -26,6 +30,10 @@ const RecommendTodoContainer = () => {
     setCategoryList(categoryList);
     setDifficultyList(difficultyList);
     close();
+  };
+
+  const handleAddTodoFromRecommendAll = (todoId: number) => {
+    addTodoFromArchived({ dateType, todoId });
   };
 
   // 초기 로딩 시에만 응답값 설정
@@ -64,7 +72,12 @@ const RecommendTodoContainer = () => {
           <TodoEditItem
             key={todo.todoId}
             todo={todo}
-            left={<IconButton icon={<Icon icon="PlusCircle" cursor="pointer" />} />}
+            left={
+              <IconButton
+                icon={<Icon icon="PlusCircle" cursor="pointer" />}
+                onClick={() => handleAddTodoFromRecommendAll(todo.todoId)}
+              />
+            }
           />
         ))}
       </S.RecommendTabList>
