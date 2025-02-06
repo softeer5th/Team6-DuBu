@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 
+import { postOnboarding } from '@/api/onboarding';
 import Header from '@/components/Header';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 import {
@@ -8,7 +9,8 @@ import {
 } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const OnboardingHeader = () => {
-  const { onboardingStep, onboardingStepValidity, setOnboardingStep } = useOnboarding();
+  const { onboardingStep, onboardingStepValidity, setOnboardingStep, onboardingUserInfo } =
+    useOnboarding();
   const navigate = useNavigate();
 
   const isButtonDisabled = !onboardingStepValidity[onboardingStep];
@@ -32,8 +34,10 @@ const OnboardingHeader = () => {
     }
   };
 
-  const goToMain = () => {
-    navigate('/');
+  const goToMain = async () => {
+    postOnboarding(onboardingUserInfo).then(() => {
+      navigate('/');
+    });
   };
 
   return (
