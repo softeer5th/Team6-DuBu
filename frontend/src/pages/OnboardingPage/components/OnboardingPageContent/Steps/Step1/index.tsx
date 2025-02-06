@@ -1,24 +1,15 @@
 import { useEffect } from 'react';
 
+import {
+  CAGETORY_BACKGROUNDS_IMG,
+  ONBOARDING_CATEGORIES as CATEGORIES,
+  ONBOARDING_CATEGORY_DIVISION_NUM as DIVISION_NUM,
+  ONBOARDING_CATEGORY_MAX_NUM as MAX_NUM,
+  ONBOARDING_CATEGORY_MIN_NUM as MIN_NUM,
+} from './Step1.constants';
 import * as S from './Step1.styled';
 
-import backgroundEnglish from '@/assets/images/backgroundEnglish.png';
-import backgroundHobby from '@/assets/images/backgroundHobby.png';
-import backgroundLanguage from '@/assets/images/backgroundLanguage.png';
-import backgroundNews from '@/assets/images/backgroundNews.png';
-import backgroundReading from '@/assets/images/backgroundReading.png';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
-
-const CATEGORIES = [
-  { key: 'Reading', label: '독서', bg: backgroundReading },
-  { key: 'English', label: '영어', bg: backgroundEnglish },
-  { key: 'Hobby', label: '취미', bg: backgroundHobby },
-  { key: 'Language', label: '제2외국어', bg: backgroundLanguage },
-  { key: 'News', label: '뉴스/시사', bg: backgroundNews },
-];
-
-const MIN_SELECTED_NUM = 1;
-const MAX_SELECTED_NUM = 3;
 
 const Step1 = () => {
   const {
@@ -35,7 +26,7 @@ const Step1 = () => {
         ? prev.categories.filter((item) => item !== category)
         : [...prev.categories, category];
 
-      if (updatedCategories.length <= MAX_SELECTED_NUM) {
+      if (updatedCategories.length <= MAX_NUM) {
         return { ...prev, categories: updatedCategories };
       }
       return prev;
@@ -45,26 +36,26 @@ const Step1 = () => {
   useEffect(() => {
     setStepValidity((prev) => ({
       ...prev,
-      1: categories.length >= MIN_SELECTED_NUM && categories.length <= MAX_SELECTED_NUM,
+      1: categories.length >= MIN_NUM && categories.length <= MAX_NUM,
     }));
   }, [categories.length, setStepValidity]);
 
   const renderCategoryItems = (startIndex: number, endIndex: number) =>
     CATEGORIES.slice(startIndex, endIndex).map((category) => (
       <S.CategoryItem
-        key={category.key}
-        $isSelected={categories.includes(category.key)}
-        $bgImage={category.bg}
-        onClick={() => toggleCategory(category.key)}
+        key={category.label}
+        $isSelected={categories.includes(category.label)}
+        $bgImage={CAGETORY_BACKGROUNDS_IMG[category.label as keyof typeof CAGETORY_BACKGROUNDS_IMG]}
+        onClick={() => toggleCategory(category.label)}
       >
-        {category.label}
+        {category.value}
       </S.CategoryItem>
     ));
 
   return (
     <S.CategoryWrapper>
-      <S.IconColumn>{renderCategoryItems(0, 3)}</S.IconColumn>
-      <S.IconColumn>{renderCategoryItems(3, 5)}</S.IconColumn>
+      <S.CategoryColumn>{renderCategoryItems(0, DIVISION_NUM)}</S.CategoryColumn>
+      <S.CategoryColumn>{renderCategoryItems(DIVISION_NUM, CATEGORIES.length)}</S.CategoryColumn>
     </S.CategoryWrapper>
   );
 };
