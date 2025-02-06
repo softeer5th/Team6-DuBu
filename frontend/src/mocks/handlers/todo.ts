@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import RECOMMEND_TODO_DATA from '../data/recommendTodo.json';
+import ROUTE_TODO_DATA from '../data/routeTodo.json';
 import TODO_DATA from '../data/todoData.json';
 
 import { MOCK_API_URL } from '@/constants/url';
@@ -112,11 +113,7 @@ const addTodoHandler = async ({ params, request }: { params: TodoAddParams; requ
   const { dateType } = params;
   const newTodo = await request.json();
 
-  if (dateType === 'today') {
-    TODO_DATA.data.push({ ...newTodo, type: 'today', todoId: TODO_DATA.data.length + 1 });
-  } else if (dateType === 'tomorrow') {
-    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todoId: TODO_DATA.data.length + 1 });
-  }
+  TODO_DATA.data.push({ ...newTodo, type: dateType, todoId: TODO_DATA.data.length + 1 });
 
   return HttpResponse.json(newTodo);
 };
@@ -159,16 +156,21 @@ const addTodoFromArchivedHandler = async ({
   const newTodo = RECOMMEND_TODO_DATA.data.todoList.find((todo) => todo.todoId === todoId);
 
   if (newTodo === undefined) {
-    throw new Error('즐겨찾기 또는 추천에 해당하는 todo가 없습니다.');
+    return new HttpResponse(
+      JSON.stringify({ message: '즐겨찾기 또는 추천에 해당하는 todo가 없습니다.' }),
+      {
+        status: 404,
+      },
+    );
   }
 
-  if (dateType === 'today') {
-    TODO_DATA.data.push({ ...newTodo, type: 'today', todoId: TODO_DATA.data.length + 1 });
-  } else if (dateType === 'tomorrow') {
-    TODO_DATA.data.push({ ...newTodo, type: 'tomorrow', todoId: TODO_DATA.data.length + 1 });
-  }
+  TODO_DATA.data.push({ ...newTodo, type: dateType, todoId: TODO_DATA.data.length + 1 });
 
   return HttpResponse.json(newTodo);
+};
+
+const getRouteTodoListHandler = () => {
+  return HttpResponse.json(ROUTE_TODO_DATA);
 };
 
 export const handlers = [
@@ -181,4 +183,5 @@ export const handlers = [
   http.delete(MOCK_API_URL.deleteTodo, deleteTodoHandler),
   http.patch<TodoEditParams>(MOCK_API_URL.editTodo, editTodoHandler),
   http.post<TodoAddParams>(MOCK_API_URL.addTodoFromArchived, addTodoFromArchivedHandler),
+  http.get(MOCK_API_URL.routeTodo, getRouteTodoListHandler),
 ];

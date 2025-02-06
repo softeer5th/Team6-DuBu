@@ -92,3 +92,9 @@ export const addTodoFromArchived = async (dateType: string, todoId: number) => {
 
   return result.data;
 };
+
+export const getRouteTodoList = async (routeId: number) => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.routeTodo(routeId));
+
+  return result.data;
+};
