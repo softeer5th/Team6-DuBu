@@ -34,7 +34,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
     close: closeAddBottomSheet,
     content: addContent,
     title: addTodoForm,
-  } = useAddTodoBottomSheet(tabType);
+  } = useAddTodoBottomSheet(tabType, routeId);
 
   const {
     isOpen: isEditOpen,

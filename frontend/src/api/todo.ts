@@ -4,7 +4,13 @@ import { API_URL } from '@/constants/url';
 import { CategoryType, DifficultyType } from '@/types/filter';
 import { Todo } from '@/types/todo';
 
-export type TodoAddParams = Omit<Todo, 'todoId'>;
+export type TodoCreateParams = Omit<Todo, 'todoId'>;
+
+export interface TodoAddParams {
+  dateType: string;
+  todo: TodoCreateParams;
+  routeId?: number;
+}
 
 export interface TodoResponse {
   data: Todo[];
@@ -69,8 +75,8 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
   return result.data;
 };
 
-export const addTodo = async (dateType: string, todo: TodoAddParams) => {
-  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType), {
+export const addTodo = async ({ dateType, todo, routeId }: TodoAddParams) => {
+  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType, routeId), {
     body: { ...todo },
   });
 

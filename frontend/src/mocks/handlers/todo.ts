@@ -6,8 +6,9 @@ import TODO_DATA from '../data/todoData.json';
 
 import { MOCK_API_URL } from '@/constants/url';
 
-interface TodoAddParams {
+interface TodoCreateParams {
   dateType: string;
+  routeId?: string;
 }
 
 interface TodoDeleteParams {
@@ -109,11 +110,31 @@ const getRecommendAllTodoHandler = async ({ request }: { request: Request }) => 
   return HttpResponse.json(RECOMMEND_TODO_DATA);
 };
 
-const addTodoHandler = async ({ params, request }: { params: TodoAddParams; request: Request }) => {
-  const { dateType } = params;
+const addTodoHandler = async ({
+  params,
+  request,
+}: {
+  params: TodoCreateParams;
+  request: Request;
+}) => {
+  const requestParams = params;
   const newTodo = await request.json();
 
-  TODO_DATA.data.push({ ...newTodo, type: dateType, todoId: TODO_DATA.data.length + 1 });
+  if (requestParams.routeId) {
+    ROUTE_TODO_DATA.data.push({
+      ...newTodo,
+      type: requestParams.dateType,
+      todoId: ROUTE_TODO_DATA.data.length + 1,
+    });
+
+    return HttpResponse.json(newTodo);
+  }
+
+  TODO_DATA.data.push({
+    ...newTodo,
+    type: requestParams.dateType,
+    todoId: TODO_DATA.data.length + 1,
+  });
 
   return HttpResponse.json(newTodo);
 };
@@ -147,7 +168,7 @@ const addTodoFromArchivedHandler = async ({
   params,
   request,
 }: {
-  params: TodoAddParams;
+  params: TodoCreateParams;
   request: Request;
 }) => {
   const { dateType } = params;
@@ -179,9 +200,9 @@ export const handlers = [
   http.get(MOCK_API_URL.favoriteTodo, getFavoriteTodoHandler),
   http.get(MOCK_API_URL.recommendLimitTodo, getRecommendLimitTodoHandler),
   http.get(MOCK_API_URL.recommendAllTodo, getRecommendAllTodoHandler),
-  http.post<TodoAddParams>(MOCK_API_URL.addTodo, addTodoHandler),
+  http.post<TodoCreateParams>(MOCK_API_URL.addTodo, addTodoHandler),
   http.delete(MOCK_API_URL.deleteTodo, deleteTodoHandler),
   http.patch<TodoEditParams>(MOCK_API_URL.editTodo, editTodoHandler),
-  http.post<TodoAddParams>(MOCK_API_URL.addTodoFromArchived, addTodoFromArchivedHandler),
+  http.post<TodoCreateParams>(MOCK_API_URL.addTodoFromArchived, addTodoFromArchivedHandler),
   http.get(MOCK_API_URL.routeTodo, getRouteTodoListHandler),
 ];
