@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { colors } from '@/styles/theme';
+
 const FlexCenter = css`
   display: flex;
   justify-content: center;
@@ -32,8 +34,8 @@ export const HeaderRight = styled.div`
   ${FlexCenter}
 `;
 
-export const HeaderTitle = styled.h1`
-  color: ${({ theme }) => theme.colors.gray950};
+export const HeaderTitle = styled.h1<{ $color?: keyof typeof colors }>`
+  color: ${({ theme, $color }) => ($color ? theme.colors[$color] : theme.colors.gray950)};
   ${({ theme }) => theme.fonts.headline17Med};
   text-align: center;
 `;
