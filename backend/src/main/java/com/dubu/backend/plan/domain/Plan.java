@@ -22,4 +22,11 @@ public class Plan extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer totalTime;
+
+    public static Plan createPlan(Member member, Integer totalTime) {
+        return Plan.builder()
+                .member(member)
+                .totalTime(totalTime)
+                .build();
+    }
 }
