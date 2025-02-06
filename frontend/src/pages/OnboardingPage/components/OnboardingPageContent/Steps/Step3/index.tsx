@@ -3,12 +3,10 @@ import { useState } from 'react';
 import * as S from './Step3.styled';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
+import { ONBOARDING_NICKNAME_MESSAGES as MESSAGES } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
-const MESSAGES = {
-  DEFAULT: '공백없이 한글, 숫자, 영문자 8자 이내로 입력해주세요',
-  ERROR: '공백없이 한글, 숫자, 영문자 8자 이내로만 가능해요',
-  VALID: '닉네임 사용이 가능해요',
-};
+const isNicknameValid = (nickname: string) =>
+  /^[a-zA-Z0-9가-힣]+$/.test(nickname) && nickname.length <= 8;
 
 const Step3 = () => {
   const {
@@ -17,36 +15,38 @@ const Step3 = () => {
     setOnboardingStepValidity: setStepValidity,
   } = useOnboarding();
 
-  const [inputMessage, setInputMessage] = useState<string>(MESSAGES.DEFAULT);
-  const [inputStatus, setInputStatus] = useState<string>('FIRST');
+  const initialStatus = userInfo.nickname
+    ? isNicknameValid(userInfo.nickname)
+      ? 'VALID'
+      : 'ERROR'
+    : 'FIRST';
+
+  const initialMessage =
+    userInfo.nickname && isNicknameValid(userInfo.nickname)
+      ? MESSAGES.VALID
+      : userInfo.nickname
+        ? MESSAGES.ERROR
+        : MESSAGES.DEFAULT;
+
+  const [inputStatus, setInputStatus] = useState<'FIRST' | 'ERROR' | 'VALID'>(initialStatus);
+  const [inputMessage, setInputMessage] = useState<string>(initialMessage);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
+    const isValid = isNicknameValid(nickname);
 
-    if (nickname.length <= 8) {
-      setUserInfo((prev) => ({ ...prev, nickname }));
-    }
-
-    if (nickname.length === 0) {
-      setInputMessage(MESSAGES.DEFAULT);
-      setInputStatus('FIRST');
-      setStepValidity((prev) => ({ ...prev, 3: false }));
-    } else if (!/^[a-zA-Z0-9가-힣]+$/.test(nickname)) {
-      setInputMessage(MESSAGES.ERROR);
-      setInputStatus('ERROR');
-      setStepValidity((prev) => ({ ...prev, 3: false }));
-    } else {
-      setInputMessage(MESSAGES.VALID);
-      setInputStatus('VALID');
-      setStepValidity((prev) => ({ ...prev, 3: true }));
-    }
+    setUserInfo((prev) => ({ ...prev, nickname }));
+    setInputStatus(nickname.length === 0 ? 'FIRST' : isValid ? 'VALID' : 'ERROR');
+    setInputMessage(
+      nickname.length === 0 ? MESSAGES.DEFAULT : isValid ? MESSAGES.VALID : MESSAGES.ERROR,
+    );
+    setStepValidity((prev) => ({ ...prev, 3: isValid }));
   };
 
   return (
     <S.InputMessageContainer>
       <S.NicknameInput
         type="text"
-        autoFocus
         placeholder="닉네임을 입력해주세요."
         onChange={handleNicknameChange}
         value={userInfo.nickname || ''}
