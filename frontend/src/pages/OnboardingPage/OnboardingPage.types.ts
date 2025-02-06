@@ -1,6 +1,11 @@
-export interface OnboardingUserInfoType {
+export interface OnboardingUserInfoType extends Record<string, string | number | string[]> {
   categories: string[];
-  address: { home: string; school: string };
+  homeAddress: string;
+  homeAddressX: number;
+  homeAddressY: number;
+  schoolAddress: string;
+  schoolAddressX: number;
+  schoolAddressY: number;
   nickname: string;
 }
 
