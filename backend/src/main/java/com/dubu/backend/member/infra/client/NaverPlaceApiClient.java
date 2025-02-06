@@ -1,4 +1,4 @@
-package com.dubu.backend.member.infra.place;
+package com.dubu.backend.member.infra.client;
 
 import com.dubu.backend.member.dto.NaverPlaceApiResponse;
 import lombok.RequiredArgsConstructor;
