@@ -2,12 +2,6 @@ import styled from 'styled-components';
 
 import { Tab } from '@/components/Tab';
 
-export const EditLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`;
-
 export const TabContent = styled(Tab.Content)`
   background-color: ${({ theme }) => theme.colors.gray50};
   flex: 1;

@@ -53,7 +53,7 @@ export const CATEGORY_OPTIONS = [
     label: '기타',
     value: 'OTHERS',
   },
-];
+] as const;
 
 export const DIFFICULTY_OPTIONS = [
   {
@@ -68,4 +68,4 @@ export const DIFFICULTY_OPTIONS = [
     label: '어려움',
     value: 'HARD',
   },
-];
+] as const;
