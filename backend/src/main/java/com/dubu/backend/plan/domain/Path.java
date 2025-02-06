@@ -3,6 +3,7 @@ package com.dubu.backend.plan.domain;
 import com.dubu.backend.global.domain.BaseTimeEntity;
 import com.dubu.backend.plan.domain.enums.CongestionLevel;
 import com.dubu.backend.plan.domain.enums.TrafficType;
+import com.dubu.backend.plan.dto.request.PlanSaveRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,4 +44,14 @@ public class Path extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer pathOrder;
+
+    public static Path createPath(Plan plan, PlanSaveRequest.Path pathRequest) {
+        return Path.builder()
+                .plan(plan)
+                .trafficType(TrafficType.from(pathRequest.trafficType()))
+                .startName(pathRequest.startName())
+                .endName(pathRequest.endName())
+                .sectionTime(pathRequest.sectionTime())
+                .build();
+    }
 }
