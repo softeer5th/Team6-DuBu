@@ -15,22 +15,13 @@ const Step2 = () => {
   const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school' | null>(null);
 
-  const setHomeAddress = (address: string, coordinateX: number, coordinateY: number) => {
-    setUserInfo({
-      ...userInfo,
-      homeAddress: address,
-      homeAddressX: coordinateX,
-      homeAddressY: coordinateY,
-    });
-  };
-
-  const setSchoolAddress = (address: string, coordinateX: number, coordinateY: number) => {
-    setUserInfo({
-      ...userInfo,
-      schoolAddress: address,
-      schoolAddressX: coordinateX,
-      schoolAddressY: coordinateY,
-    });
+  const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
+    setUserInfo((prev) => ({
+      ...prev,
+      [`${selectedAddressType}Address`]: address,
+      [`${selectedAddressType}AddressX`]: coordinateX,
+      [`${selectedAddressType}AddressY`]: coordinateY,
+    }));
   };
 
   const handleAddressButtonClick = (type: 'home' | 'school') => {
@@ -53,14 +44,7 @@ const Step2 = () => {
       {isSearchAddressOpen && (
         <SearchAddress
           onClose={() => setIsSearchAddressOpen(false)}
-          onSelectAddress={(address: string, coordinateX: number, coordinateY: number) => {
-            if (selectedAddressType === 'home') {
-              setHomeAddress(address, coordinateX, coordinateY);
-            } else if (selectedAddressType === 'school') {
-              setSchoolAddress(address, coordinateX, coordinateY);
-            }
-            setIsSearchAddressOpen(false);
-          }}
+          onSelectAddress={updateAddress}
         />
       )}
     </S.Step2Layout>
