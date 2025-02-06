@@ -1,6 +1,7 @@
 import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
+import { CategoryType, DifficultyType } from '@/types/filter';
 import { Todo } from '@/types/todo';
 
 export type TodoAddParams = Omit<Todo, 'todoId'>;
@@ -11,6 +12,18 @@ export interface TodoResponse {
 
 export interface TodoCreateResponse {
   data: Todo;
+}
+
+interface RecommendAllTodoResponse {
+  data: {
+    todoList: Todo[];
+    categoryList: CategoryType[];
+  };
+}
+
+interface RecommendAllTodoParams {
+  category: CategoryType[];
+  difficulty: DifficultyType[];
 }
 
 export const getTodayTodoList = async () => {
@@ -31,8 +44,27 @@ export const getFavoriteTodoList = async () => {
   return result.data;
 };
 
-export const getRecommendTodoList = async () => {
-  const result = await fetchClient.get<TodoResponse>(API_URL.recommendTodo);
+export const getRecommendLimitTodoList = async () => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.recommendLimitTodo);
+
+  return result.data;
+};
+
+export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) => {
+  const urlQueryParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value) && value.length > 0) {
+      urlQueryParams.append(key, value.join(','));
+    }
+  });
+
+  const queryString = urlQueryParams.toString();
+  const queryParams = queryString ? `?${queryString}` : queryString;
+
+  const result = await fetchClient.get<RecommendAllTodoResponse>(
+    API_URL.recommendAllTodo(queryParams),
+  );
 
   return result.data;
 };

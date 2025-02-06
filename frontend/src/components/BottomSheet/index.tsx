@@ -59,17 +59,16 @@ const BottomSheet = ({
               </S.Header>
             )}
             <S.Content>{content}</S.Content>
-            {cancelText ||
-              (confirmText && (
-                <S.Footer>
-                  {cancelText && <S.CancelButton onClick={onClose}>{cancelText}</S.CancelButton>}
-                  {confirmText && (
-                    <S.ConfirmButton onClick={onConfirm} disabled={confirmDisabled}>
-                      {confirmText}
-                    </S.ConfirmButton>
-                  )}
-                </S.Footer>
-              ))}
+            {(cancelText || confirmText) && (
+              <S.Footer>
+                {cancelText && <S.CancelButton onClick={onClose}>{cancelText}</S.CancelButton>}
+                {confirmText && (
+                  <S.ConfirmButton onClick={onConfirm} disabled={confirmDisabled}>
+                    {confirmText}
+                  </S.ConfirmButton>
+                )}
+              </S.Footer>
+            )}
           </S.Sheet>
         </S.SheetContainer>,
         document.body,

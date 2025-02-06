@@ -4,7 +4,7 @@ import { Filter } from '@/types/filter';
 
 interface RadioGroupProps {
   name: string;
-  filters: Filter[];
+  filters: Filter[] | readonly Filter[];
   selectedValue: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

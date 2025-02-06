@@ -1,0 +1,182 @@
+{
+  "data": {
+    "categoryList": ["READING", "NEWS"],
+    "todoList": [
+      {
+        "type": "recommend",
+        "todoId": 13,
+        "category": "READING",
+        "difficulty": "EASY",
+        "title": "추천 리스트 조회1"
+      },
+      {
+        "type": "recommend",
+        "todoId": 14,
+        "category": "OTHERS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회2"
+      },
+      {
+        "type": "recommend",
+        "todoId": 15,
+        "category": "LANGUAGE",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회3"
+      },
+      {
+        "type": "recommend",
+        "todoId": 16,
+        "category": "NEWS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회4"
+      },
+      {
+        "type": "recommend",
+        "todoId": 17,
+        "category": "ENGLISH",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회5"
+      },
+      {
+        "type": "recommend",
+        "todoId": 18,
+        "category": "READING",
+        "difficulty": "EASY",
+        "title": "추천 리스트 조회1"
+      },
+      {
+        "type": "recommend",
+        "todoId": 19,
+        "category": "OTHERS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회2"
+      },
+      {
+        "type": "recommend",
+        "todoId": 20,
+        "category": "LANGUAGE",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회3"
+      },
+      {
+        "type": "recommend",
+        "todoId": 21,
+        "category": "NEWS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회4"
+      },
+      {
+        "type": "recommend",
+        "todoId": 22,
+        "category": "ENGLISH",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회5"
+      },
+      {
+        "type": "recommend",
+        "todoId": 23,
+        "category": "READING",
+        "difficulty": "EASY",
+        "title": "추천 리스트 조회1"
+      },
+      {
+        "type": "recommend",
+        "todoId": 24,
+        "category": "OTHERS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회2"
+      },
+      {
+        "type": "recommend",
+        "todoId": 25,
+        "category": "LANGUAGE",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회3"
+      },
+      {
+        "type": "recommend",
+        "todoId": 26,
+        "category": "NEWS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회4"
+      },
+      {
+        "type": "recommend",
+        "todoId": 27,
+        "category": "ENGLISH",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회5"
+      },
+      {
+        "type": "recommend",
+        "todoId": 28,
+        "category": "READING",
+        "difficulty": "EASY",
+        "title": "추천 리스트 조회1"
+      },
+      {
+        "type": "recommend",
+        "todoId": 29,
+        "category": "OTHERS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회2"
+      },
+      {
+        "type": "recommend",
+        "todoId": 30,
+        "category": "LANGUAGE",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회3"
+      },
+      {
+        "type": "recommend",
+        "todoId": 31,
+        "category": "NEWS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회4"
+      },
+      {
+        "type": "recommend",
+        "todoId": 32,
+        "category": "ENGLISH",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회5"
+      },
+      {
+        "type": "recommend",
+        "todoId": 33,
+        "category": "READING",
+        "difficulty": "EASY",
+        "title": "추천 리스트 조회1"
+      },
+      {
+        "type": "recommend",
+        "todoId": 34,
+        "category": "OTHERS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회2"
+      },
+      {
+        "type": "recommend",
+        "todoId": 35,
+        "category": "LANGUAGE",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회3"
+      },
+      {
+        "type": "recommend",
+        "todoId": 36,
+        "category": "NEWS",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회4"
+      },
+      {
+        "type": "recommend",
+        "todoId": 37,
+        "category": "ENGLISH",
+        "difficulty": "HARD",
+        "title": "추천 리스트 조회5"
+      }
+    ]
+  }
+}

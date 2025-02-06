@@ -35,7 +35,7 @@ const RecommendTab = () => {
         ))}
       </S.RecommendTabList>
       <S.WatchMoreLinkWrapper>
-        <S.WatchMoreLink to="/recommend">더보기</S.WatchMoreLink>
+        <S.WatchMoreLink to="recommend">더보기</S.WatchMoreLink>
       </S.WatchMoreLinkWrapper>
     </>
   );

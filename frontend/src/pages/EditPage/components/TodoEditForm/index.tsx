@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
 import * as S from './TodoEditForm.styled';
 import { CATEGORY_OPTIONS, DIFFICULTY_OPTIONS } from '../../EditPage.constants';
@@ -13,7 +13,7 @@ interface TodoEditFormProps {
 }
 
 const TodoEditForm = ({ todo, handleEditTodo }: TodoEditFormProps) => {
-  const [title, setTitle] = useState(todo.title || '');
+  const [title, setTitle] = useState(todo.title);
   const [category, setCategory] = useState<CategoryType>(todo.category);
   const [difficulty, setDifficulty] = useState<DifficultyType>(todo.difficulty);
   const [memo, setMemo] = useState(todo.memo || '');
@@ -38,7 +38,7 @@ const TodoEditForm = ({ todo, handleEditTodo }: TodoEditFormProps) => {
         <S.TodoInputLabel>제목</S.TodoInputLabel>
         <S.TodoInput
           value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="할 일을 입력하세요"
           maxLength={30}
         />
