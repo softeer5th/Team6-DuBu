@@ -1,4 +1,4 @@
-package com.dubu.backend.plan.dto;
+package com.dubu.backend.plan.dto.response;
 
 import java.util.List;
 

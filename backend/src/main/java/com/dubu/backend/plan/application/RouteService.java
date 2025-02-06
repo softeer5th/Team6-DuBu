@@ -5,18 +5,20 @@ import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
 import com.dubu.backend.plan.domain.vo.PathIdentifier;
-import com.dubu.backend.plan.dto.OdsayRouteApiResponse;
-import com.dubu.backend.plan.dto.RouteSearchResponseDto;
+import com.dubu.backend.plan.dto.response.OdsayRouteApiResponse;
+import com.dubu.backend.plan.dto.response.RouteSearchResponseDto;
 import com.dubu.backend.plan.infra.client.OdsayApiClient;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RouteService {
     private final OdsayApiClient odsayApiClient;
