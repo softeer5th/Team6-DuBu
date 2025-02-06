@@ -9,6 +9,8 @@ export const API_URL = {
   deleteTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
   editTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
   addTodoFromArchived: (dateType: string) => `${BASE_URL}/todos/${dateType}/from-archived`,
+  searchAddress: `${BASE_URL}/address/search`,
+  onboarding: `${BASE_URL}/members/onboarding`,
 };
 
 export const MOCK_API_URL = {
@@ -20,4 +22,6 @@ export const MOCK_API_URL = {
   deleteTodo: `${BASE_URL}/todos/:todoId`,
   editTodo: `${BASE_URL}/todos/:todoId`,
   addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived`,
+  searchAddress: `${BASE_URL}/address/search`,
+  onboarding: `${BASE_URL}/members/onboarding`,
 };
