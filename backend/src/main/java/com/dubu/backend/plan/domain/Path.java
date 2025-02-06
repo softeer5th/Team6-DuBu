@@ -1,7 +1,6 @@
 package com.dubu.backend.plan.domain;
 
 import com.dubu.backend.global.domain.BaseTimeEntity;
-import com.dubu.backend.plan.domain.enums.CongestionLevel;
 import com.dubu.backend.plan.domain.enums.TrafficType;
 import com.dubu.backend.plan.dto.request.PlanSaveRequest;
 import jakarta.persistence.*;
@@ -37,10 +36,6 @@ public class Path extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer sectionTime;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private CongestionLevel congestionLevel;
 
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer pathOrder;
