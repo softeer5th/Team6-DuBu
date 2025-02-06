@@ -2,7 +2,7 @@ package com.dubu.backend.plan.dto.response;
 
 import java.util.List;
 
-public record RouteSearchResponseDto(
+public record RouteSearchResponse(
         Boolean isRecentlyUsed,
         Integer totalTime,
         Integer totalSectionTime,
