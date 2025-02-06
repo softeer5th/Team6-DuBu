@@ -5,7 +5,7 @@ export const TodoTabLayout = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-export const SloganWrapper = styled.div`
+export const SloganWrapper = styled.p`
   margin: 0 2.4rem;
   display: flex;
   flex-direction: column;
@@ -13,11 +13,11 @@ export const SloganWrapper = styled.div`
   padding: 1.2rem 0;
   background-color: ${({ theme }) => theme.colors.gray50};
   border-radius: 0.8rem;
+  white-space: pre-wrap;
+  text-align: center;
 
-  span {
-    ${({ theme }) => theme.fonts.label14Med};
-    color: ${({ theme }) => theme.colors.gray900};
-  }
+  ${({ theme }) => theme.fonts.label14Med};
+  color: ${({ theme }) => theme.colors.gray900};
 `;
 
 export const TodoEditList = styled.ul`
