@@ -40,6 +40,9 @@ public enum ErrorCode {
     // Category
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
+    // Plan
+    PLAN_NOT_FOUND(NOT_FOUND, "계획을 찾을 수 없습니다. planId : %d"),
+
     // Path
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
 
