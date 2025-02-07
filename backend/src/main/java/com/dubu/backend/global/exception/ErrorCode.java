@@ -40,6 +40,9 @@ public enum ErrorCode {
     // Category
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
+    // Member_Category
+    MEMBER_CATEGORY_NOT_FOUND(NOT_FOUND, "회원의 카테고리 정보를 찾을 수 없습니다. memberId : %d"),
+
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
 

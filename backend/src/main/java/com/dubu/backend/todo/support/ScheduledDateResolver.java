@@ -1,13 +1,14 @@
-package com.dubu.backend.todo.service.resolver;
+package com.dubu.backend.todo.support;
 
 import java.time.LocalDate;
 
 public class ScheduledDateResolver {
     public static LocalDate resolveScheduledDate(String todoType){
+        // 오늘
         if(todoType.equals("today"))
             return LocalDate.now();
-        else if(todoType.equals("tomorrow"))
-            return LocalDate.now().plusDays(1);
-        return null;
+
+        // 내일
+        return LocalDate.now().plusDays(1);
     }
 }
