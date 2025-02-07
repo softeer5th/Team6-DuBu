@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PlanService {
     private final MemberRepository memberRepository;
@@ -72,6 +71,7 @@ public class PlanService {
         currentMember.updateStatus(Status.MOVE);
     }
 
+    @Transactional(readOnly = true)
     public PlanRecentResponse findRecentPlan(Long memberId) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
@@ -82,5 +82,13 @@ public class PlanService {
         List<Path> paths = pathRepository.findByPlanWithTodosOrderByPathOrder(recentPlan);
 
         return PlanRecentResponse.of(recentPlan, paths);
+    }
+
+    @Transactional
+    public void removePlan(Long memberId, Long planId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        planRepository.deleteById(planId);
     }
 }
