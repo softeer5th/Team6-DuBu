@@ -77,7 +77,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 
     @Transactional(readOnly = true)
     @Override
-    public PageResponse<List<TodoInfo>> findFavoritesTodos(Long memberId, SaveTodoQueryRequest request) {
+    public PageResponse<List<TodoInfo>> findSaveTodos(Long memberId, SaveTodoQueryRequest request) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
 
         Pageable pageable = PageRequest.ofSize(request.size());

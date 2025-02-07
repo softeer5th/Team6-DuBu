@@ -57,6 +57,6 @@ public class TodoController {
 
     @GetMapping("/save")
     public PageResponse<List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @ModelAttribute SaveTodoQueryRequest request){
-        return todoQueryService.findFavoritesTodos(memberId, request);
+        return todoQueryService.findSaveTodos(memberId, request);
     }
 }

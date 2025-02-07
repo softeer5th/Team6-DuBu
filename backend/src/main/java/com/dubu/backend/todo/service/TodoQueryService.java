@@ -9,5 +9,5 @@ import java.util.List;
 public interface TodoQueryService {
     List<TodoInfo> findTodayTodos(Long memberId);
     List<TodoInfo> findTomorrowTodos(Long memberId);
-    PageResponse<List<TodoInfo>> findFavoritesTodos(Long memberId, SaveTodoQueryRequest request);
+    PageResponse<List<TodoInfo>> findSaveTodos(Long memberId, SaveTodoQueryRequest request);
 }
