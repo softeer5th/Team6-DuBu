@@ -1,15 +1,32 @@
 import styled from 'styled-components';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
-import { ONBOARDING_DESCRIPTIONS } from '@/pages/OnboardingPage/OnboardingPage.constants';
+import { useStepValidity } from '@/pages/OnboardingPage/hooks/useStepValidity';
+import {
+  ONBOARDING_DESCRIPTIONS,
+  ONBOARDING_LAST_STEP,
+} from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const StepDescription = () => {
-  const { onboardingStep } = useOnboarding();
+  const { onboardingUserInfo, onboardingStep } = useOnboarding();
+  const { StepValidityMapper } = useStepValidity();
+
+  const isLastStepValid =
+    onboardingStep === ONBOARDING_LAST_STEP && StepValidityMapper[onboardingStep]?.();
+
+  if (isLastStepValid) {
+    return (
+      <DescriptionBox>
+        <span>{onboardingUserInfo.nickname}님,</span>
+        <span>두리번을 시작해볼까요?</span>
+      </DescriptionBox>
+    );
+  }
 
   return (
     <DescriptionBox>
-      {ONBOARDING_DESCRIPTIONS[onboardingStep].map((description, index) => (
-        <span key={index}>{description}</span>
+      {ONBOARDING_DESCRIPTIONS[onboardingStep]?.map((description, index) => (
+        <span key={`desc-${onboardingStep}-${index}`}>{description}</span>
       ))}
     </DescriptionBox>
   );

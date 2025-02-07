@@ -1,6 +1,11 @@
-export interface OnboardingUserInfoType {
+export interface OnboardingUserInfoType extends Record<string, string | number | string[]> {
   categories: string[];
-  address: { home: string; school: string };
+  homeAddress: string;
+  homeAddressX: number;
+  homeAddressY: number;
+  schoolAddress: string;
+  schoolAddressX: number;
+  schoolAddressY: number;
   nickname: string;
 }
 
@@ -9,6 +14,4 @@ export interface OnboardingContextType {
   setOnboardingStep: React.Dispatch<React.SetStateAction<number>>;
   onboardingUserInfo: OnboardingUserInfoType;
   setOnboardingUserInfo: React.Dispatch<React.SetStateAction<OnboardingUserInfoType>>;
-  onboardingStepValidity: { [key: number]: boolean };
-  setOnboardingStepValidity: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
 }

@@ -4,4 +4,5 @@ export const QUERY_KEY = {
   recommend: 'recommend',
   recommendLimit: 'recommendLimit',
   recommendAll: 'recommendAll',
+  searchAddress: 'searchAddress',
 } as const;
