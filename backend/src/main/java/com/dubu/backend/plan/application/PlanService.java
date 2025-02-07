@@ -36,3 +36,16 @@ public class PlanService {
         pathRepository.saveAll(paths);
     }
 }
+
+    public PlanRecentResponse findRecentPlan(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        Plan recentPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
+                .orElseThrow(() -> new PlanNotFoundException());
+
+        List<Path> paths = pathRepository.findByPlanWithTodosOrderByPathOrder(recentPlan);
+
+        return PlanRecentResponse.of(recentPlan, paths);
+    }
+}
