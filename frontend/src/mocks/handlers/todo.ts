@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
+import ARCHIVED_TODO_DATA from '../data/archivedTodo.json';
 import RECOMMEND_TODO_DATA from '../data/recommendTodo.json';
 import ROUTE_TODO_DATA from '../data/routeTodo.json';
 import TODO_DATA from '../data/todoData.json';
@@ -13,10 +14,12 @@ interface TodoCreateParams {
 
 interface TodoDeleteParams {
   todoId: string;
+  routeId?: string;
 }
 
 interface TodoEditParams {
   todoId: string;
+  routeId?: string;
 }
 
 const getTodayTodoHandler = () => {
@@ -36,8 +39,8 @@ const getTomorrowTodoHandler = () => {
 
 const getFavoriteTodoHandler = () => {
   const favoriteTodo = {
-    ...TODO_DATA,
-    data: TODO_DATA.data.filter((todo) => todo.type === 'favorite'),
+    ...ARCHIVED_TODO_DATA,
+    data: ARCHIVED_TODO_DATA.data.filter((todo) => todo.type === 'favorite'),
   };
 
   return HttpResponse.json(favoriteTodo);
@@ -45,8 +48,7 @@ const getFavoriteTodoHandler = () => {
 
 const getRecommendLimitTodoHandler = () => {
   const recommendTodo = {
-    ...RECOMMEND_TODO_DATA,
-    data: RECOMMEND_TODO_DATA.data.todoList.slice(0, 5),
+    data: ARCHIVED_TODO_DATA.data.filter((todo) => todo.type === 'recommend').slice(0, 5),
   };
 
   return HttpResponse.json(recommendTodo);
@@ -140,9 +142,13 @@ const addTodoHandler = async ({
 };
 
 const deleteTodoHandler = ({ params }: { params: TodoDeleteParams }) => {
-  const { todoId } = params;
+  const { todoId, routeId } = params;
 
-  TODO_DATA.data = TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
+  if (routeId) {
+    ROUTE_TODO_DATA.data = ROUTE_TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
+  } else {
+    TODO_DATA.data = TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
+  }
 
   return new HttpResponse(null, { status: 204 });
 };
@@ -154,12 +160,18 @@ const editTodoHandler = async ({
   params: TodoEditParams;
   request: Request;
 }) => {
-  const { todoId } = params;
+  const { todoId, routeId } = params;
   const newTodo = await request.json();
 
-  TODO_DATA.data = TODO_DATA.data.map((todo) =>
-    todo.todoId === Number(todoId) ? { ...newTodo, type: todo.type } : todo,
-  );
+  if (routeId) {
+    ROUTE_TODO_DATA.data = ROUTE_TODO_DATA.data.map((todo) =>
+      todo.todoId === Number(todoId) ? { ...newTodo, type: todo.type } : todo,
+    );
+  } else {
+    TODO_DATA.data = TODO_DATA.data.map((todo) =>
+      todo.todoId === Number(todoId) ? { ...newTodo, type: todo.type } : todo,
+    );
+  }
 
   return new HttpResponse(null, { status: 204 });
 };
@@ -171,10 +183,10 @@ const addTodoFromArchivedHandler = async ({
   params: TodoCreateParams;
   request: Request;
 }) => {
-  const { dateType } = params;
+  const { dateType, routeId } = params;
   const { todoId } = await request.json();
 
-  const newTodo = RECOMMEND_TODO_DATA.data.todoList.find((todo) => todo.todoId === todoId);
+  const newTodo = ARCHIVED_TODO_DATA.data.find((todo) => todo.todoId === Number(todoId));
 
   if (newTodo === undefined) {
     return new HttpResponse(
@@ -183,6 +195,16 @@ const addTodoFromArchivedHandler = async ({
         status: 404,
       },
     );
+  }
+
+  if (routeId) {
+    ROUTE_TODO_DATA.data.push({
+      ...newTodo,
+      type: dateType,
+      todoId: ROUTE_TODO_DATA.data.length + 1,
+    });
+
+    return HttpResponse.json(newTodo);
   }
 
   TODO_DATA.data.push({ ...newTodo, type: dateType, todoId: TODO_DATA.data.length + 1 });

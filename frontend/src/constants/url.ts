@@ -8,9 +8,12 @@ export const API_URL = {
   recommendAllTodo: (queryParams: string) => `${BASE_URL}/todos/recommend/all${queryParams}`,
   addTodo: (dateType: string, routeId?: number) =>
     `${BASE_URL}/todos/${dateType}/manual${routeId ? `/${routeId}` : ''}`,
-  deleteTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  editTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  addTodoFromArchived: (dateType: string) => `${BASE_URL}/todos/${dateType}/from-archived`,
+  deleteTodo: (todoId: number, routeId?: number) =>
+    `${BASE_URL}/todos/${todoId}${routeId ? `/${routeId}` : ''}`,
+  editTodo: (todoId: number, routeId?: number) =>
+    `${BASE_URL}/todos/${todoId}${routeId ? `/${routeId}` : ''}`,
+  addTodoFromArchived: (dateType: string, routeId?: number) =>
+    `${BASE_URL}/todos/${dateType}/from-archived${routeId ? `/${routeId}` : ''}`,
   routeTodo: (routeId: number) => `${BASE_URL}/routes/${routeId}/todos`,
 };
 
@@ -21,8 +24,8 @@ export const MOCK_API_URL = {
   recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
   recommendAllTodo: `${BASE_URL}/todos/recommend/all`,
   addTodo: `${BASE_URL}/todos/:dateType/manual/:routeId?`,
-  deleteTodo: `${BASE_URL}/todos/:todoId`,
-  editTodo: `${BASE_URL}/todos/:todoId`,
+  deleteTodo: `${BASE_URL}/todos/:todoId/:routeId?`,
+  editTodo: `${BASE_URL}/todos/:todoId/:routeId?`,
   addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived/:routeId?`,
   routeTodo: `${BASE_URL}/routes/:routeId/todos`,
 };

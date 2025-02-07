@@ -1,0 +1,214 @@
+{
+  "data": [
+    {
+      "type": "recommend",
+      "todoId": 13,
+      "category": "READING",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 14,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 15,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 16,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 17,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    },
+    {
+      "type": "recommend",
+      "todoId": 18,
+      "category": "READING",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 19,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 20,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 21,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 22,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    },
+    {
+      "type": "recommend",
+      "todoId": 23,
+      "category": "READING",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 24,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 25,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 26,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 27,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    },
+    {
+      "type": "recommend",
+      "todoId": 28,
+      "category": "READING",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 29,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 30,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 31,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 32,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    },
+    {
+      "type": "recommend",
+      "todoId": 33,
+      "category": "READING",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 34,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 35,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 36,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 37,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    },
+    {
+      "type": "favorite",
+      "todoId": 38,
+      "category": "HOBBY",
+      "difficulty": "EASY",
+      "title": "즐겨찾기 리스트 조회1"
+    },
+    {
+      "type": "favorite",
+      "todoId": 39,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "즐겨찾기 리스트 조회2"
+    },
+    {
+      "type": "favorite",
+      "todoId": 40,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "즐겨찾기 리스트 조회3"
+    },
+    {
+      "type": "favorite",
+      "todoId": 41,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "즐겨찾기 리스트 조회4"
+    },
+    {
+      "type": "favorite",
+      "todoId": 42,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "즐겨찾기 리스트 조회5"
+    }
+  ]
+}

@@ -83,18 +83,21 @@ export const addTodo = async ({ dateType, todo, routeId }: TodoAddParams) => {
   return result.data;
 };
 
-export const deleteTodo = async (todoId: number) => {
-  return await fetchClient.delete(API_URL.deleteTodo(todoId));
+export const deleteTodo = async (todoId: number, routeId?: number) => {
+  return await fetchClient.delete(API_URL.deleteTodo(todoId, routeId));
 };
 
-export const editTodo = async (todo: Todo) => {
-  return await fetchClient.patch(API_URL.editTodo(todo.todoId), { body: { ...todo } });
+export const editTodo = async (todo: Todo, routeId?: number) => {
+  return await fetchClient.patch(API_URL.editTodo(todo.todoId, routeId), { body: { ...todo } });
 };
 
-export const addTodoFromArchived = async (dateType: string, todoId: number) => {
-  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodoFromArchived(dateType), {
-    body: { todoId },
-  });
+export const addTodoFromArchived = async (dateType: string, todoId: number, routeId?: number) => {
+  const result = await fetchClient.post<TodoCreateResponse>(
+    API_URL.addTodoFromArchived(dateType, routeId),
+    {
+      body: { todoId },
+    },
+  );
 
   return result.data;
 };

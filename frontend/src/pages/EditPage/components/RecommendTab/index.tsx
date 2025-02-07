@@ -18,7 +18,7 @@ const RecommendTab = () => {
   const routeURL = routeId ? `/recommend/${routeId}` : '/recommend';
 
   const handleAddTodoFromRecommend = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId });
+    addTodoFromArchived({ dateType, todoId, routeId: Number(routeId) });
   };
 
   if (!recommendTodoList) return null;

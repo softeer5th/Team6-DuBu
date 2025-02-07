@@ -42,7 +42,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
     close: closeEditBottomSheet,
     content: editTodoForm,
     title: editTitle,
-  } = useEditTodoBottomSheet(tabType);
+  } = useEditTodoBottomSheet(tabType, routeId);
 
   if (!todoList) return null;
 
@@ -57,7 +57,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
             left={
               <IconButton
                 icon={<Icon icon="MinusCircle" cursor="pointer" />}
-                onClick={() => deleteTodo({ todoId: todo.todoId })}
+                onClick={() => deleteTodo({ todoId: todo.todoId, routeId })}
               />
             }
             right={

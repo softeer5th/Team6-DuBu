@@ -6,7 +6,7 @@ import TodoEditForm from '../components/TodoEditForm';
 
 import { Todo } from '@/types/todo';
 
-const useEditTodoBottomSheet = (dateType: string) => {
+const useEditTodoBottomSheet = (dateType: string, routeId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const { mutate: editTodo, isSuccess, reset } = useEditTodoMutation(dateType);
@@ -17,7 +17,7 @@ const useEditTodoBottomSheet = (dateType: string) => {
   };
 
   const handleEditTodo = (todo: Todo) => {
-    editTodo({ todo });
+    editTodo({ todo, routeId });
   };
 
   useEffect(() => {
