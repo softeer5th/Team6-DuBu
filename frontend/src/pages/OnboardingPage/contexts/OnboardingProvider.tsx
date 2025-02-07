@@ -18,12 +18,6 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     nickname: '',
   });
 
-  const [onboardingStepValidity, setOnboardingStepValidity] = useState<{ [key: number]: boolean }>({
-    1: false,
-    2: false,
-    3: false,
-  });
-
   return (
     <OnboardingContext.Provider
       value={{
@@ -31,8 +25,6 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setOnboardingStep,
         onboardingUserInfo,
         setOnboardingUserInfo,
-        onboardingStepValidity,
-        setOnboardingStepValidity,
       }}
     >
       {children}

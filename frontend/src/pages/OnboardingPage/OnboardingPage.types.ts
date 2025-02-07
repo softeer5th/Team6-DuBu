@@ -14,6 +14,4 @@ export interface OnboardingContextType {
   setOnboardingStep: React.Dispatch<React.SetStateAction<number>>;
   onboardingUserInfo: OnboardingUserInfoType;
   setOnboardingUserInfo: React.Dispatch<React.SetStateAction<OnboardingUserInfoType>>;
-  onboardingStepValidity: { [key: number]: boolean };
-  setOnboardingStepValidity: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
 }
