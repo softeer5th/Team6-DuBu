@@ -32,6 +32,7 @@ public enum ErrorCode {
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
 
     // Member
+    INVALID_MEMBER_STATUS(BAD_REQUEST, "회원의 상태가 %s인 경우 해당 API를 이용할 수 없습니다."),
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Address
@@ -56,7 +57,6 @@ public enum ErrorCode {
 
     // External API
     NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다."),
-
     ;
 
     public final HttpStatus httpStatus;
