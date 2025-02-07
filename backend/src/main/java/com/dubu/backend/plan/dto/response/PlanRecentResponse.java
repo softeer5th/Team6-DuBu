@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record PlanRecentResponse(
+        Long planId,
         Integer totalSectionTime,
         LocalDateTime createdAt,
         List<PlanRecentResponse.PlanPathResponse> paths
 ) {
     public static PlanRecentResponse of(Plan plan, List<Path> paths) {
         return new PlanRecentResponse(
+                plan.getId(),
                 plan.getTotalTime(),
                 plan.getCreatedAt(),
                 paths.stream().map(PlanPathResponse::from).toList()
