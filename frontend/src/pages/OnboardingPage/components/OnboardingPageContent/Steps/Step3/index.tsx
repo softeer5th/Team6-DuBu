@@ -6,11 +6,7 @@ import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 import { ONBOARDING_NICKNAME_MESSAGES as MESSAGES } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const Step3 = () => {
-  const {
-    onboardingUserInfo: userInfo,
-    setOnboardingUserInfo: setUserInfo,
-    setOnboardingStepValidity: setStepValidity,
-  } = useOnboarding();
+  const { onboardingUserInfo: userInfo, setOnboardingUserInfo: setUserInfo } = useOnboarding();
 
   const isNicknameValid = (nickname: string) =>
     /^[a-zA-Z0-9가-힣]+$/.test(nickname) && nickname.length <= 8;
@@ -29,6 +25,10 @@ const Step3 = () => {
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
 
+    if (nickname.length > 8) return;
+
+    setUserInfo((prev) => ({ ...prev, nickname }));
+
     if (!nickname) {
       setNicknameStatus('DEFAULT');
       setNicknameValidMsg(MESSAGES.DEFAULT);
@@ -37,10 +37,8 @@ const Step3 = () => {
 
     const isValid = isNicknameValid(nickname);
 
-    setUserInfo((prev) => ({ ...prev, nickname }));
     setNicknameStatus(isValid ? 'VALID' : 'ERROR');
     setNicknameValidMsg(isValid ? MESSAGES.VALID : MESSAGES.ERROR);
-    setStepValidity((prev) => ({ ...prev, 3: isValid }));
   };
 
   return (

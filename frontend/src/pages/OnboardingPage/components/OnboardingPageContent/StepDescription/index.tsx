@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
+import { useStepValidity } from '@/pages/OnboardingPage/hooks/useStepValidity';
 import {
   ONBOARDING_DESCRIPTIONS,
   ONBOARDING_LAST_STEP,
 } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const StepDescription = () => {
-  const { onboardingUserInfo, onboardingStep, onboardingStepValidity } = useOnboarding();
+  const { onboardingUserInfo, onboardingStep } = useOnboarding();
+  const { StepValidityMapper } = useStepValidity();
 
   const isLastStepValid =
-    onboardingStep === ONBOARDING_LAST_STEP && onboardingStepValidity[onboardingStep];
+    onboardingStep === ONBOARDING_LAST_STEP && StepValidityMapper[onboardingStep]?.();
 
   if (isLastStepValid) {
     return (

@@ -1,22 +1,15 @@
-import { useEffect } from 'react';
-
 import {
   CAGETORY_BACKGROUNDS_IMG,
   ONBOARDING_CATEGORIES as CATEGORIES,
   ONBOARDING_CATEGORY_DIVISION_NUM as DIVISION_NUM,
   ONBOARDING_CATEGORY_MAX_NUM as MAX_NUM,
-  ONBOARDING_CATEGORY_MIN_NUM as MIN_NUM,
 } from './Step1.constants';
 import * as S from './Step1.styled';
 
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
 const Step1 = () => {
-  const {
-    setOnboardingStepValidity: setStepValidity,
-    onboardingUserInfo: userInfo,
-    setOnboardingUserInfo: setUserInfo,
-  } = useOnboarding();
+  const { onboardingUserInfo: userInfo, setOnboardingUserInfo: setUserInfo } = useOnboarding();
   const { categories } = userInfo;
 
   const toggleCategory = (category: string) => {
@@ -32,13 +25,6 @@ const Step1 = () => {
       return prev;
     });
   };
-
-  useEffect(() => {
-    setStepValidity((prev) => ({
-      ...prev,
-      1: categories.length >= MIN_NUM && categories.length <= MAX_NUM,
-    }));
-  }, [categories.length, setStepValidity]);
 
   const renderCategoryItems = (startIndex: number, endIndex: number) =>
     CATEGORIES.slice(startIndex, endIndex).map((category) => (

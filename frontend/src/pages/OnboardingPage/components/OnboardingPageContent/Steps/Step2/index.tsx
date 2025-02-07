@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import SearchAddressButton from './SearchAddressButton';
 import * as S from './Step2.styled';
@@ -7,11 +7,7 @@ import SearchAddress from '@/components/SearchAddress';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
 const Step2 = () => {
-  const {
-    onboardingUserInfo: userInfo,
-    setOnboardingUserInfo: setUserInfo,
-    setOnboardingStepValidity: setStepValidity,
-  } = useOnboarding();
+  const { setOnboardingUserInfo: setUserInfo } = useOnboarding();
   const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school' | null>(null);
 
@@ -28,13 +24,6 @@ const Step2 = () => {
     setSelectedAddressType(type);
     setIsSearchAddressOpen(true);
   };
-
-  useEffect(() => {
-    setStepValidity((prev) => ({
-      ...prev,
-      2: !!(userInfo.homeAddress && userInfo.schoolAddress),
-    }));
-  }, [userInfo.homeAddress, userInfo.schoolAddress, setStepValidity]);
 
   return (
     <S.Step2Layout>
