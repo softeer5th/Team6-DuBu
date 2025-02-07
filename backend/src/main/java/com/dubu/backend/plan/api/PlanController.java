@@ -31,4 +31,13 @@ public class PlanController {
 
         return new SuccessResponse<>(response);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping
+    public void deletePlan(
+            @RequestAttribute("memberId") Long memberId,
+            @RequestParam("planId") Long planId
+    ){
+        planService.removePlan(memberId, planId);
+    }
 }
