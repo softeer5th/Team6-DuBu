@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface TodoRepository extends JpaRepository<Todo, Long>{
+public interface TodoRepository extends JpaRepository<Todo, Long>, CustomTodoRepository {
     @Query("SELECT t FROM Todo t JOIN t.category c WHERE t.id = :todoId")
     Optional<Todo> findByIdWithCategory(@Param("todoId")Long todoId);
 
@@ -26,3 +26,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long>{
     @Query("SELECT t FROM Todo t join fetch t.category WHERE t.schedule = :schedule")
     List<Todo> findTodosBySchedule(@Param("schedule")Schedule schedule);
 }
+

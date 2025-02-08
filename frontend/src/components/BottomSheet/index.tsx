@@ -8,8 +8,8 @@ import Icon from '../Icon';
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
   content: React.ReactNode;
+  onConfirm?: () => void;
   title?: string;
   cancelText?: string;
   confirmText?: string;
@@ -40,7 +40,7 @@ const BottomSheet = ({
   const handleAnimationEnd = () => {
     if (!isOpen) {
       setIsAnimating(false);
-      document.body.style.setProperty('overflow', 'visible');
+      document.body.style.setProperty('overflow', '');
     }
   };
 
@@ -50,7 +50,7 @@ const BottomSheet = ({
     <>
       {createPortal(
         <S.SheetContainer>
-          <S.Backdrop onClick={onClose} />
+          <S.Backdrop onClick={onClose} $isOpen={isOpen} />
           <S.Sheet $isOpen={isOpen} $delay={delay} onAnimationEnd={handleAnimationEnd}>
             {title && (
               <S.Header>
@@ -59,17 +59,16 @@ const BottomSheet = ({
               </S.Header>
             )}
             <S.Content>{content}</S.Content>
-            {cancelText ||
-              (confirmText && (
-                <S.Footer>
-                  {cancelText && <S.CancelButton onClick={onClose}>{cancelText}</S.CancelButton>}
-                  {confirmText && (
-                    <S.ConfirmButton onClick={onConfirm} disabled={confirmDisabled}>
-                      {confirmText}
-                    </S.ConfirmButton>
-                  )}
-                </S.Footer>
-              ))}
+            {(cancelText || confirmText) && (
+              <S.Footer>
+                {cancelText && <S.CancelButton onClick={onClose}>{cancelText}</S.CancelButton>}
+                {confirmText && (
+                  <S.ConfirmButton onClick={onConfirm} disabled={confirmDisabled}>
+                    {confirmText}
+                  </S.ConfirmButton>
+                )}
+              </S.Footer>
+            )}
           </S.Sheet>
         </S.SheetContainer>,
         document.body,

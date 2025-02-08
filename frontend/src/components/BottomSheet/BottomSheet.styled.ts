@@ -6,9 +6,9 @@ export const SheetContainer = styled.div`
   height: 100%;
 `;
 
-export const Backdrop = styled.div`
+export const Backdrop = styled.div<{ $isOpen: boolean }>`
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: ${({ $isOpen }) => ($isOpen ? 'rgba(0, 0, 0, 0.6)' : 'transparent')};
   width: 37.5rem; // 반응형 필요
   height: 100%;
 `;
@@ -23,7 +23,7 @@ export const Sheet = styled.div<{ $isOpen: boolean; $delay: number }>`
   background-color: ${({ theme }) => theme.colors.white};
 
   animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)}
-    ${({ $delay }) => `${($delay / 1000).toFixed(1)}s`} ease-out;
+    ${({ $delay }) => `${($delay / 1000).toFixed(1)}s`} ease-out forwards;
 `;
 
 export const Header = styled.div`
@@ -42,10 +42,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  padding: 2.4rem 0;
-
-  max-height: 50vh;
-  overflow-y: auto;
+  padding-top: 2.4rem;
 `;
 
 export const Footer = styled.div`

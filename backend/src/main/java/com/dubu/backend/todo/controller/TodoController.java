@@ -1,8 +1,10 @@
 package com.dubu.backend.todo.controller;
 
+import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.CreateTodoRequest;
+import com.dubu.backend.todo.dto.request.SaveTodoQueryRequest;
 import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.service.TodoManagementService;
@@ -51,5 +53,10 @@ public class TodoController {
     @GetMapping("/tomorrow")
     public SuccessResponse<List<TodoInfo>> getTomorrowTodos(@RequestAttribute Long memberId){
         return new SuccessResponse<>(todoQueryService.findTomorrowTodos(memberId));
+    }
+
+    @GetMapping("/save")
+    public PageResponse<List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @ModelAttribute SaveTodoQueryRequest request){
+        return todoQueryService.findSaveTodos(memberId, request);
     }
 }

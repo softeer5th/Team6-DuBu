@@ -1,0 +1,95 @@
+{
+  "data": [
+    {
+      "type": "today",
+      "todoId": 1,
+      "category": "NEWS",
+      "difficulty": "EASY",
+      "title": "오늘 할 일 리스트 조회1"
+    },
+    {
+      "type": "today",
+      "todoId": 2,
+      "category": "READING",
+      "difficulty": "HARD",
+      "title": "오늘 할 일 리스트 조회2"
+    },
+    {
+      "type": "today",
+      "todoId": 3,
+      "category": "ENGLISH",
+      "difficulty": "NORMAL",
+      "title": "오늘 할 일 리스트 조회3"
+    },
+    {
+      "type": "tomorrow",
+      "todoId": 4,
+      "category": "NEWS",
+      "difficulty": "EASY",
+      "title": "내일 할 일 리스트 조회1"
+    },
+    {
+      "type": "tomorrow",
+      "todoId": 5,
+      "category": "ENGLISH",
+      "difficulty": "NORMAL",
+      "title": "내일 할 일 리스트 조회3"
+    },
+    {
+      "type": "tomorrow",
+      "todoId": 6,
+      "category": "READING",
+      "difficulty": "HARD",
+      "title": "내일 할 일 리스트 조회2"
+    },
+    {
+      "type": "favorite",
+      "todoId": 11,
+      "category": "HOBBY",
+      "difficulty": "EASY",
+      "title": "즐겨찾기 리스트 조회1"
+    },
+    {
+      "type": "favorite",
+      "todoId": 12,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "즐겨찾기 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 13,
+      "category": "HOBBY",
+      "difficulty": "EASY",
+      "title": "추천 리스트 조회1"
+    },
+    {
+      "type": "recommend",
+      "todoId": 14,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회2"
+    },
+    {
+      "type": "recommend",
+      "todoId": 15,
+      "category": "LANGUAGE",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회3"
+    },
+    {
+      "type": "recommend",
+      "todoId": 16,
+      "category": "NEWS",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회4"
+    },
+    {
+      "type": "recommend",
+      "todoId": 17,
+      "category": "ENGLISH",
+      "difficulty": "HARD",
+      "title": "추천 리스트 조회5"
+    }
+  ]
+}

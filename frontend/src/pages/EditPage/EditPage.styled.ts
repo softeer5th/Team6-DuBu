@@ -2,6 +2,12 @@ import styled from 'styled-components';
 
 import { Tab } from '@/components/Tab';
 
+export const TabContent = styled(Tab.Content)`
+  background-color: ${({ theme }) => theme.colors.gray50};
+  flex: 1;
+  overflow-y: scroll;
+`;
+
 export const TabList = styled(Tab.List)`
   display: flex;
   align-items: center;

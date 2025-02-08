@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Category } from '@/types/category';
+import { CategoryType } from '@/types/filter';
 
 export const TodoEditItem = styled.li`
   display: flex;
@@ -28,9 +28,9 @@ export const TodoBadgeWrapper = styled.div`
   gap: 0.4rem;
 `;
 
-export const TodoBadge = styled.span<{ $category?: Category }>`
+export const TodoBadge = styled.span<{ $category?: CategoryType }>`
   ${({ theme }) => theme.fonts.caption12Reg};
-  color: ${({ theme, $category }) => ($category ? theme.colors[$category] : theme.colors.Others)};
+  color: ${({ theme, $category }) => ($category ? theme.colors[$category] : theme.colors.OTHERS)};
   background-color: ${({ theme, $category }) =>
     $category ? theme.colors.background[$category] : theme.colors.gray100};
 

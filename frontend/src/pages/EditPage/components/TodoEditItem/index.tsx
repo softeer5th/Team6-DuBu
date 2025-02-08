@@ -1,7 +1,7 @@
 import * as S from './TodoEditItem.styled';
 
-import { Todo } from '@/api/todo';
-import { categoryMapper } from '@/pages/EditPage/EditPage.constants';
+import { CATEGORY_MAPPER, DIFFICULTY_MAPPER } from '@/pages/EditPage/EditPage.constants';
+import { Todo } from '@/types/todo';
 
 interface TodoEditItemProps {
   todo: Todo;
@@ -11,13 +11,15 @@ interface TodoEditItemProps {
 
 const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
   return (
-    <S.TodoEditItem key={todo.todo_id}>
+    <S.TodoEditItem>
       {left}
       <S.TodoTextWrapper>
-        <S.TodoTitle>{todo.name}</S.TodoTitle>
+        <S.TodoTitle>{todo.title}</S.TodoTitle>
         <S.TodoBadgeWrapper>
-          <S.TodoBadge $category={todo.category}>{`#${categoryMapper[todo.category]}`}</S.TodoBadge>
-          <S.TodoBadge>{`#${todo.difficulty}`}</S.TodoBadge>
+          <S.TodoBadge
+            $category={todo.category}
+          >{`#${CATEGORY_MAPPER[todo.category]}`}</S.TodoBadge>
+          <S.TodoBadge>{`#${DIFFICULTY_MAPPER[todo.difficulty]}`}</S.TodoBadge>
         </S.TodoBadgeWrapper>
       </S.TodoTextWrapper>
       {right}
