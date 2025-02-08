@@ -48,7 +48,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
             if(categoryIds.isEmpty()){
                 throw new MemberCategoryNotFoundException(memberId);
             }
-            List<Todo> todos = todoRepository.findTodosByCategoryIds(categoryIds);
+            List<Todo> todos = todoRepository.findTodosWithCategoryByCategoryIdsAndType(categoryIds, TodoType.RECOMMEND);
 
             Todo recommendTodo = todoRandomSelector.selectOne(todos);
 
@@ -91,6 +91,18 @@ public class TodoQueryServiceImpl implements TodoQueryService {
             return new PageResponse<>(todoInfoSlice.hasNext(), null, content);
         }
         return new PageResponse<>(todoInfoSlice.hasNext(), content.get(content.size() - 1).todoId(), content);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TodoInfo> findRandomRecommendTodos(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+        List<Long> categoryIds = memberCategoryRepository.findByMember(member);
+        List<Todo> todos = todoRepository.findTodosWithCategoryByCategoryIdsAndType(categoryIds, TodoType.RECOMMEND);
+
+        List<Todo> randomTodos = todoRandomSelector.selectTodos(5, todos);
+
+        return TodoInfo.fromEntities(randomTodos);
     }
 }
 
