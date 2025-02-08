@@ -3,6 +3,7 @@ package com.dubu.backend.todo.controller;
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.todo.dto.enums.TodoRequestType;
+import com.dubu.backend.todo.dto.request.SaveTodoQueryRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
 import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
@@ -37,7 +38,7 @@ public class TodoController {
 
     @PostMapping("/{type}/from-archived")
     @ResponseStatus(HttpStatus.CREATED)
-    public TodoSuccessResponse<?> postTodoFromArchived(@RequestAttribute Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateFromArchivedRequest request){
+    public TodoSuccessResponse<?> postTodoFromArchived(@RequestParam Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateFromArchivedRequest request){
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
         TodoManageResult<?> result = todoManagementService.createTodoFromArchived(memberId, request);
 

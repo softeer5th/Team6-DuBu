@@ -18,6 +18,6 @@ public record TodoInfo(Long todoId, String category, String difficulty, String t
 
     public static List<TodoInfo> fromEntities(List<Todo> todos){
         return todos.stream()
-                .map(todo -> new TodoInfo(todo.getId(), todo.getCategory().getName(), todo.getDifficulty(), todo.getTitle(), todo.getMemo())).toList();
+                .map(todo -> new TodoInfo(todo.getId(), todo.getCategory(), todo.getDifficulty(), todo.getTitle(), todo.getMemo())).toList();
     }
 }
