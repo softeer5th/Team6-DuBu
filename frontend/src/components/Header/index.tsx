@@ -4,6 +4,7 @@ import Drawer from '@/components/Drawer';
 import { DrawerProvider } from '@/components/Drawer/contexts/DrawerProvider';
 import * as S from '@/components/Header/Header.styled';
 import * as Buttons from '@/components/Header/HeaderButtons';
+import { colors } from '@/styles/theme';
 
 interface HeaderProps {
   children: ReactNode;
@@ -37,7 +38,9 @@ Header.Center = ({ children }: { children: ReactNode }) => (
   <S.HeaderCenter>{children}</S.HeaderCenter>
 );
 Header.Right = ({ children }: { children: ReactNode }) => <S.HeaderRight>{children}</S.HeaderRight>;
-Header.Title = ({ children }: { children: ReactNode }) => <S.HeaderTitle>{children}</S.HeaderTitle>;
+Header.Title = ({ color, children }: { color?: keyof typeof colors; children: ReactNode }) => (
+  <S.HeaderTitle $color={color}>{children}</S.HeaderTitle>
+);
 Header.BackButton = Buttons.Back;
 Header.HomeButton = Buttons.Home;
 Header.NextButton = Buttons.Next;
