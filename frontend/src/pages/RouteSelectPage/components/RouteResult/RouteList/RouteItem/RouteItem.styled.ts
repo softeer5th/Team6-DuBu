@@ -6,7 +6,7 @@ export const RouteResultItem = styled.div<{ $isSelected: boolean }>`
   gap: 1.2rem;
   width: 100%;
   padding: 2.4rem;
-  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray100};
+  border-bottom: 0.15rem solid ${({ theme }) => theme.colors.gray100};
 
   background-color: ${({ $isSelected, theme }) =>
     $isSelected ? theme.colors.gray100 : theme.colors.white};
