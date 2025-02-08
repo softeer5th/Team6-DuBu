@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+
 import * as S from './TimeBlockContent.styled';
 import TimeBlockList from './TimeBlockList';
 import { TRAFFIC_ICON } from '../../PlanPage.constants';
@@ -14,6 +16,12 @@ interface TimeBlockProps {
 }
 
 const TimeBlockContent = ({ sectionTime, todos, trafficType }: TimeBlockProps) => {
+  const navigate = useNavigate();
+
+  const goToRouteTodoEdit = () => {
+    navigate('/routes/todo/edit');
+  };
+
   return (
     <S.TimeBlockContentSection>
       {/* 대중교통 막대바 */}
@@ -28,7 +36,14 @@ const TimeBlockContent = ({ sectionTime, todos, trafficType }: TimeBlockProps) =
             <S.SectionTime>{sectionTime}분</S.SectionTime>
             <S.EditButton
               icon={
-                <Icon icon="Edit" width={16} height={16} color={colors.gray600} cursor="pointer" />
+                <Icon
+                  icon="Edit"
+                  width={16}
+                  height={16}
+                  color={colors.gray600}
+                  cursor="pointer"
+                  onClick={goToRouteTodoEdit}
+                />
               }
               text="수정하기"
             />

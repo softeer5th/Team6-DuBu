@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/routes/:routeId/todos/edit',
+    path: '/plan/:planId/todos/edit',
     element: <FlexPageLayout />,
     children: [
       {
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/recommend/:routeId?',
+    path: '/recommend/:planId?',
     element: <FlexPageLayout />,
     children: [
       {
