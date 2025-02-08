@@ -10,6 +10,7 @@ const FlexCenter = css`
 
 export const HeaderContainer = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 export const HeaderLayout = styled.header`

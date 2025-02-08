@@ -5,4 +5,5 @@ export const QUERY_KEY = {
   recommendLimit: 'recommendLimit',
   recommendAll: 'recommendAll',
   routeTodoList: 'routeTodoList',
+  searchAddress: 'searchAddress',
 } as const;

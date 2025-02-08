@@ -31,11 +31,11 @@ const RouteTodoEditPage = () => {
           </S.SectionTimeWrapper>
         </S.InfoWrapper>
 
-        <S.DifficultyWRapper>
+        <S.DifficultyWrapper>
           <S.Badge>#쉬움</S.Badge>
           <S.Badge>#보통</S.Badge>
           <span>추천</span>
-        </S.DifficultyWRapper>
+        </S.DifficultyWrapper>
       </S.InfoSection>
 
       <Tab.Root tabList={TABS}>

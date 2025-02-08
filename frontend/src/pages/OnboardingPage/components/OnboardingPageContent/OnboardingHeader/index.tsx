@@ -1,17 +1,19 @@
 import { useNavigate } from 'react-router';
 
+import { postOnboarding } from '@/api/onboarding';
 import Header from '@/components/Header';
 import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
+import { useStepValidity } from '@/pages/OnboardingPage/hooks/useStepValidity';
 import {
   ONBOARDING_FIRST_STEP,
   ONBOARDING_LAST_STEP,
 } from '@/pages/OnboardingPage/OnboardingPage.constants';
 
 const OnboardingHeader = () => {
-  const { onboardingStep, onboardingStepValidity, setOnboardingStep } = useOnboarding();
+  const { onboardingStep, setOnboardingStep, onboardingUserInfo } = useOnboarding();
   const navigate = useNavigate();
-
-  const isButtonDisabled = !onboardingStepValidity[onboardingStep];
+  const { StepValidityMapper } = useStepValidity();
+  const isButtonDisabled = !StepValidityMapper[onboardingStep as keyof typeof StepValidityMapper];
 
   const goToStep = (newStep: number) => {
     setOnboardingStep(newStep);
@@ -27,13 +29,15 @@ const OnboardingHeader = () => {
   };
 
   const goToNext = () => {
-    if (onboardingStepValidity[onboardingStep]) {
+    if (!isButtonDisabled) {
       goToStep(onboardingStep + 1);
     }
   };
 
-  const goToMain = () => {
-    navigate('/');
+  const goToMain = async () => {
+    postOnboarding(onboardingUserInfo).then(() => {
+      navigate('/');
+    });
   };
 
   return (
