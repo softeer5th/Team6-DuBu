@@ -9,7 +9,8 @@ import com.dubu.backend.plan.domain.Plan;
 import com.dubu.backend.plan.dto.request.PlanSaveRequest;
 import com.dubu.backend.plan.dto.response.PlanRecentResponse;
 import com.dubu.backend.plan.exception.InvalidMemberStatusException;
-import com.dubu.backend.plan.exception.PlanNotFoundException;
+import com.dubu.backend.plan.exception.NotFoundPlanException;
+import com.dubu.backend.plan.exception.UnauthorizedPlanDeletionException;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import com.dubu.backend.todo.entity.Schedule;
@@ -56,7 +57,6 @@ public class PlanService {
                 .orElseThrow(() -> new ScheduleNotFoundException());
 
         List<Todo> existingTodos = schedule.getTodos();
-
         List<Todo> newTodos = new ArrayList<>();
 
         for (int i = 0; i < existingTodos.size(); i++) {
@@ -77,7 +77,7 @@ public class PlanService {
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
         Plan recentPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
-                .orElseThrow(() -> new PlanNotFoundException());
+                .orElseThrow(() -> new NotFoundPlanException());
 
         List<Path> paths = pathRepository.findByPlanWithTodosOrderByPathOrder(recentPlan);
 
@@ -89,6 +89,13 @@ public class PlanService {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
-        planRepository.deleteById(planId);
+        Plan planToDelete = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundPlanException(planId));
+
+        if (!planToDelete.getMember().getId().equals(memberId)) {
+            throw new UnauthorizedPlanDeletionException(memberId, planId);
+        }
+
+        planRepository.delete(planToDelete);
     }
 }
