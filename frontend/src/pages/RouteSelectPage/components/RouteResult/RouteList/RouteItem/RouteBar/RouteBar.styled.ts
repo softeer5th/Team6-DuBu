@@ -7,7 +7,7 @@ export const RouteBarContainer = styled.div`
   height: 0.4rem;
   background-color: ${({ theme }) => theme.colors.gray200};
   border-radius: 0.4rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const RouteItem = styled.div<{ $barWidth: number }>`
