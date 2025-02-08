@@ -10,20 +10,19 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface TodoRepository extends JpaRepository<Todo, Long>, CustomTodoRepository {
-    @Query("SELECT t FROM Todo t JOIN t.category c WHERE t.id = :todoId")
-    Optional<Todo> findByIdWithCategory(@Param("todoId")Long todoId);
+public interface TodoRepository extends JpaRepository<Todo, Long>, CustomTodoRepository{
+    @Query("SELECT t FROM Todo t JOIN FETCH t.category c WHERE t.id = :todoId")
+    Optional<Todo> findWithCategoryById(@Param("todoId") Long todoId);
 
     @Query("SELECT t FROM Todo t JOIN t.schedule s WHERE t.parentTodo = :todo AND s.date = :date")
-    Optional<Todo> findByParentTodoAndScheduleDate(@Param("todo")Todo parentTodo, @Param("date")LocalDate date);
+    Optional<Todo> findWithScheduleByParentTodoAndScheduleDate(@Param("todo") Todo parentTodo, @Param("date")LocalDate date);
 
     @Query("SELECT t FROM Todo t WHERE t.parentTodo = :parentTodo AND t.schedule = :schedule")
-    Optional<Todo> findByParentTodoAndSchedule(@Param("parentTodo")Todo parentTodo, @Param("schedule")Schedule schedule);
+    Optional<Todo> findByParentTodoAndSchedule(@Param("parentTodo") Todo parentTodo, @Param("schedule") Schedule schedule);
 
     @Query("SELECT t FROM Todo t WHERE t.category.id in :categoryIds")
-    List<Todo> findTodosByCategoryIds(@Param("categoryIds")List<Long> categoryIds);
+    List<Todo> findTodosByCategoryIds(@Param("categoryIds") List<Long> categoryIds);
 
-    @Query("SELECT t FROM Todo t join fetch t.category WHERE t.schedule = :schedule")
-    List<Todo> findTodosBySchedule(@Param("schedule")Schedule schedule);
+    @Query("SELECT t FROM Todo t JOIN FETCH t.category WHERE t.schedule = :schedule")
+    List<Todo> findTodosWithCategoryBySchedule(@Param("schedule")Schedule schedule);
 }
-
