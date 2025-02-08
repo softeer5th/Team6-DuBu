@@ -2,10 +2,9 @@ package com.dubu.backend.todo.entity;
 
 import com.dubu.backend.global.domain.BaseTimeEntity;
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.plan.domain.Path;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -40,6 +39,10 @@ public class Todo extends BaseTimeEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "path_id")
+    private Path path;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -51,11 +54,6 @@ public class Todo extends BaseTimeEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    // Route 엔티티 구현되면 포함
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "route_id")
-    // private Route route;
-
     public static Todo of(String title, TodoType type, TodoDifficulty difficulty, String memo, Member member, Category category, Todo parentTodo, Schedule schedule){
         return Todo.builder()
                 .title(title)
@@ -66,6 +64,17 @@ public class Todo extends BaseTimeEntity {
                 .category(category)
                 .parentTodo(parentTodo)
                 .schedule(schedule)
+                .build();
+    }
+
+    public static Todo copyOf(Todo originalTodo, Path assignedPath) {
+        return Todo.builder()
+                .title(originalTodo.getTitle())
+                .type(TodoType.IN_PROGRESS)
+                .difficulty(originalTodo.getDifficulty())
+                .memo(originalTodo.getMemo())
+                .path(assignedPath)
+                .category(originalTodo.getCategory())
                 .build();
     }
 

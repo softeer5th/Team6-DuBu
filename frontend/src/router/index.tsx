@@ -8,6 +8,7 @@ import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import RecommendTodoPage from '@/pages/RecommendTodoPage';
 import RouteSelectPage from '@/pages/RouteSelectPage';
+import RouteTodoEditPage from '@/pages/RouteTodoEditPage';
 
 export const router = createBrowserRouter([
   {
@@ -26,10 +27,6 @@ export const router = createBrowserRouter([
         index: true,
         element: <EditPage />,
       },
-      {
-        path: 'recommend',
-        element: <RecommendTodoPage />,
-      },
     ],
   },
   {
@@ -39,5 +36,24 @@ export const router = createBrowserRouter([
   {
     path: '/route-select',
     element: <RouteSelectPage />,
+  {
+    path: '/routes/:routeId/todos/edit',
+    element: <FlexPageLayout />,
+    children: [
+      {
+        index: true,
+        element: <RouteTodoEditPage />,
+      },
+    ],
+  },
+  {
+    path: '/recommend/:routeId?',
+    element: <FlexPageLayout />,
+    children: [
+      {
+        index: true,
+        element: <RecommendTodoPage />,
+      },
+    ],
   },
 ]);

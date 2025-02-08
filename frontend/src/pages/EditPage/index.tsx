@@ -9,7 +9,7 @@ import { Tab } from '@/components/Tab';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const EditPage = () => {
-  const { isToday } = useQueryParamsDate();
+  const { isToday, dateType } = useQueryParamsDate();
 
   return (
     <>
@@ -26,7 +26,7 @@ const EditPage = () => {
           ))}
         </S.TabList>
         <S.TabContent>
-          <TodoTab />
+          <TodoTab tabType={dateType} />
           <FavoriteTab />
           <RecommendTab />
         </S.TabContent>

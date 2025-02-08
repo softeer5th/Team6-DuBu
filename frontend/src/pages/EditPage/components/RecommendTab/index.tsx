@@ -1,3 +1,5 @@
+import { useParams } from 'react-router';
+
 import * as S from './RecommendTab.styled';
 import useAddTodoFromArchivedMutation from '../../hooks/useAddTodoFromArchivedMutation';
 import TodoEditItem from '../TodoEditItem';
@@ -8,12 +10,15 @@ import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useRecommendTodoListQuery from '@/pages/EditPage/hooks/useRecommendListQuery';
 
 const RecommendTab = () => {
+  const { routeId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { data: recommendTodoList } = useRecommendTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
 
+  const routeURL = routeId ? `/recommend/${routeId}` : '/recommend';
+
   const handleAddTodoFromRecommend = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId });
+    addTodoFromArchived({ dateType, todoId, routeId: Number(routeId) });
   };
 
   if (!recommendTodoList) return null;
@@ -35,7 +40,7 @@ const RecommendTab = () => {
         ))}
       </S.RecommendTabList>
       <S.WatchMoreLinkWrapper>
-        <S.WatchMoreLink to="recommend">더보기</S.WatchMoreLink>
+        <S.WatchMoreLink to={routeURL}>더보기</S.WatchMoreLink>
       </S.WatchMoreLinkWrapper>
     </>
   );

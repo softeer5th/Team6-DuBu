@@ -1,7 +1,7 @@
 package com.dubu.backend.plan.infra.client;
 
 
-import com.dubu.backend.plan.dto.OdsayRouteApiResponse;
+import com.dubu.backend.plan.dto.response.OdsayRouteApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;

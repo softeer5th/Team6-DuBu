@@ -7,10 +7,15 @@ const useDeleteTodoMutation = (dateType: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ todoId }: { todoId: number }) => deleteTodo(todoId),
+    mutationFn: ({ todoId, routeId }: { todoId: number; routeId?: number }) =>
+      deleteTodo(todoId, routeId),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+    onSuccess: (_, params) => {
+      if (params.routeId) {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.routeId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+      }
     },
   });
 };
