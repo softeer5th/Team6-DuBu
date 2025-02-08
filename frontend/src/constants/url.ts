@@ -17,6 +17,7 @@ export const API_URL = {
   routeTodo: (routeId: number) => `${BASE_URL}/routes/${routeId}/todos`,
   searchAddress: `${BASE_URL}/address/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  planInfo: `${BASE_URL}/plans/recent`,
 };
 
 export const MOCK_API_URL = {
@@ -32,4 +33,5 @@ export const MOCK_API_URL = {
   routeTodo: `${BASE_URL}/routes/:routeId/todos`,
   searchAddress: `${BASE_URL}/address/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  planInfo: `${BASE_URL}/plans/recent`,
 };
