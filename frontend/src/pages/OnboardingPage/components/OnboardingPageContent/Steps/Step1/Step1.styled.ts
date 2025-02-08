@@ -7,7 +7,7 @@ export const CategoryWrapper = styled.div`
   height: 23.7rem;
 `;
 
-export const IconColumn = styled.div`
+export const CategoryColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -15,13 +15,13 @@ export const IconColumn = styled.div`
   width: 50%;
 `;
 
-export const CategoryItem = styled.button<{ $bgImage: string; $isSelected: boolean }>`
+export const CategoryItem = styled.div<{ $isSelected: boolean; $bgImage: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background-image: url(${({ $bgImage }) => $bgImage});
+  background-image: url(${(props) => props.$bgImage});
   background-size: cover;
   background-position: center;
   border-radius: 1.2rem;

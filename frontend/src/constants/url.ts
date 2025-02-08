@@ -15,6 +15,8 @@ export const API_URL = {
   addTodoFromArchived: (dateType: string, routeId?: number) =>
     `${BASE_URL}/todos/${dateType}/from-archived${routeId ? `/${routeId}` : ''}`,
   routeTodo: (routeId: number) => `${BASE_URL}/routes/${routeId}/todos`,
+  searchAddress: `${BASE_URL}/address/search`,
+  onboarding: `${BASE_URL}/members/onboarding`,
 };
 
 export const MOCK_API_URL = {
@@ -28,4 +30,6 @@ export const MOCK_API_URL = {
   editTodo: `${BASE_URL}/todos/:todoId/:routeId?`,
   addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived/:routeId?`,
   routeTodo: `${BASE_URL}/routes/:routeId/todos`,
+  searchAddress: `${BASE_URL}/address/search`,
+  onboarding: `${BASE_URL}/members/onboarding`,
 };
