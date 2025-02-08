@@ -81,4 +81,9 @@ public class TodoController {
     public PageResponse<List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @ModelAttribute SaveTodoQueryRequest request){
         return todoQueryService.findSaveTodos(memberId, request);
     }
+
+    @GetMapping("/recommend/limit")
+    public SuccessResponse<List<TodoInfo>> getLimitedRecommendTodos(@RequestAttribute Long memberId){
+        return new SuccessResponse<>(todoQueryService.findRandomRecommendTodos(memberId));
+    }
 }
