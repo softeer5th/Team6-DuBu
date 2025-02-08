@@ -11,6 +11,8 @@ export const RouteResultItem = styled.div<{ $isSelected: boolean }>`
   background-color: ${({ $isSelected, theme }) =>
     $isSelected ? theme.colors.gray100 : theme.colors.white};
   transition: background-color 0.2s ease;
+
+  cursor: pointer;
 `;
 
 export const RecentlyUsedBox = styled.div`
