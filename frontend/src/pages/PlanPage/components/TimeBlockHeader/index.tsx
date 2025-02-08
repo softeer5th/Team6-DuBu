@@ -1,16 +1,7 @@
 import * as S from './TimeBlockHeader.styled';
+import { TRAFFIC_ICON, TRAFFIC_TYPE } from '../../PlanPage.constants';
 
 import Icon from '@/components/Icon';
-
-const TRAFFIC_TYPE = {
-  SUBWAY: '지하철',
-  BUS: '버스',
-};
-
-const TRAFFIC_ICON = {
-  SUBWAY: 'Subway',
-  BUS: 'Bus',
-} as const;
 
 interface TimeBlockHeaderProps {
   trafficType: 'SUBWAY' | 'BUS';

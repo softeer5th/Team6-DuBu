@@ -1,18 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-
 import PlanHeader from './components/PlanHeader';
 import PlanInfoHeader from './components/PlanInfoHeader';
 import TimeBlockContent from './components/TimeBlockContent';
 import TimeBlockHeader from './components/TimeBlockHeader';
+import usePlanInfoQuery from './hooks/usePlanInfoQuery';
 import * as S from './PlanPage.styled';
 
-import { getPlanInfo } from '@/api/plan';
-
 const PlanPage = () => {
-  const { data } = useQuery({
-    queryKey: ['planInfo'],
-    queryFn: getPlanInfo,
-  });
+  const { data } = usePlanInfoQuery();
 
   return (
     <S.PlanPageLayout>

@@ -1,21 +1,8 @@
 import * as S from './PlanInfoHeader.styled';
+import { formatStartTime } from '../../PlanPage.utils';
 
 import Icon from '@/components/Icon';
-import { getDateHeaderFormat } from '@/pages/MainPage/MainPage.utils';
 import { colors } from '@/styles/theme';
-
-const formatStartTime = (dateString: string) => {
-  const date = new Date(dateString);
-
-  const formattedDate = getDateHeaderFormat(date);
-
-  const time = date.toLocaleTimeString('ko-KR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  return { date: formattedDate, time };
-};
 
 interface PlanInfoHeaderProps {
   createdAt?: string;

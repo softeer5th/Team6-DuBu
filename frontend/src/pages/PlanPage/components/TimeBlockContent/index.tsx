@@ -1,19 +1,16 @@
 import * as S from './TimeBlockContent.styled';
 import TimeBlockList from './TimeBlockList';
+import { TRAFFIC_ICON } from '../../PlanPage.constants';
+import { TrafficType } from '../../PlanPage.types';
 
 import { pathTodo } from '@/api/plan';
 import Icon from '@/components/Icon';
 import { colors } from '@/styles/theme';
 
-const TRAFFIC_ICON = {
-  SUBWAY: 'Subway',
-  BUS: 'Bus',
-} as const;
-
 interface TimeBlockProps {
   sectionTime: number;
   todos: pathTodo[];
-  trafficType: 'SUBWAY' | 'BUS';
+  trafficType: TrafficType;
 }
 
 const TimeBlockContent = ({ sectionTime, todos, trafficType }: TimeBlockProps) => {
