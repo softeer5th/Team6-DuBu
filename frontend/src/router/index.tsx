@@ -7,6 +7,7 @@ import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import RecommendTodoPage from '@/pages/RecommendTodoPage';
+import RouteSelectPage from '@/pages/RouteSelectPage';
 
 export const router = createBrowserRouter([
   {
@@ -34,5 +35,9 @@ export const router = createBrowserRouter([
   {
     path: '/onboarding',
     element: <OnboardingPage />,
+  },
+  {
+    path: '/route-select',
+    element: <RouteSelectPage />,
   },
 ]);
