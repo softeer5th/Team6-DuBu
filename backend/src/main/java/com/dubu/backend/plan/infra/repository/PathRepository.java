@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PathRepository extends JpaRepository<Path, Long> {
+public interface PathRepository extends JpaRepository<Path, Long>, CustomPathRepository {
     List<Path> findByPlanIdOrderByPathOrderAsc(Long id);
 }

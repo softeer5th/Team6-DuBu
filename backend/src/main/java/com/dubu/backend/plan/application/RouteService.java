@@ -5,18 +5,20 @@ import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
 import com.dubu.backend.plan.domain.vo.PathIdentifier;
-import com.dubu.backend.plan.dto.OdsayRouteApiResponse;
-import com.dubu.backend.plan.dto.RouteSearchResponseDto;
+import com.dubu.backend.plan.dto.response.OdsayRouteApiResponse;
+import com.dubu.backend.plan.dto.response.RouteSearchResponse;
 import com.dubu.backend.plan.infra.client.OdsayApiClient;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RouteService {
     private final OdsayApiClient odsayApiClient;
@@ -30,7 +32,7 @@ public class RouteService {
      * Route = Path
      * Path = SubPath
      */
-    public List<RouteSearchResponseDto> getRoutesByStartAndDestination(Long memberId, Double startX, Double startY, Double endX, Double endY) {
+    public List<RouteSearchResponse> getRoutesByStartAndDestination(Long memberId, Double startX, Double startY, Double endX, Double endY) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -38,10 +40,10 @@ public class RouteService {
 
         OdsayRouteApiResponse odsayRouteApiResponse = odsayApiClient.searchPublicTransportRoute(startX, startY, endX, endY);
 
-        List<RouteSearchResponseDto> response = new ArrayList<>();
+        List<RouteSearchResponse> response = new ArrayList<>();
         for (OdsayRouteApiResponse.Path apiPath : odsayRouteApiResponse.result().path()) {
             boolean isRecentlyUsed = isSameAsRecentlyUsedRoute(apiPath, recentlyUsedRoute);
-            RouteSearchResponseDto routeDto = convertApiPathToRoute(apiPath, isRecentlyUsed);
+            RouteSearchResponse routeDto = convertApiPathToRoute(apiPath, isRecentlyUsed);
             response.add(routeDto);
         }
 
@@ -107,17 +109,17 @@ public class RouteService {
     }
 
 
-    private RouteSearchResponseDto convertApiPathToRoute(OdsayRouteApiResponse.Path apiPath, boolean isRecentlyUsed) {
+    private RouteSearchResponse convertApiPathToRoute(OdsayRouteApiResponse.Path apiPath, boolean isRecentlyUsed) {
         OdsayRouteApiResponse.Info info = apiPath.info();
 
         int totalTime = info.totalTime();
         int totalSectionTime = 0;
 
-        List<RouteSearchResponseDto.Path> pathDtoList = new ArrayList<>();
+        List<RouteSearchResponse.Path> pathDtoList = new ArrayList<>();
 
         // SubPath(=ODsay) → Path(=두리번)Dto 변환
         for (OdsayRouteApiResponse.SubPath subPath : apiPath.subPath()) {
-            RouteSearchResponseDto.Path dtoPath = convertApiSubPathToPathDto(subPath);
+            RouteSearchResponse.Path dtoPath = convertApiSubPathToPathDto(subPath);
 
             if ("BUS".equals(dtoPath.trafficType()) || "SUBWAY".equals(dtoPath.trafficType())) {
                 totalSectionTime += dtoPath.sectionTime();
@@ -125,10 +127,10 @@ public class RouteService {
             pathDtoList.add(dtoPath);
         }
 
-        return new RouteSearchResponseDto(isRecentlyUsed, totalTime, totalSectionTime, pathDtoList);
+        return new RouteSearchResponse(isRecentlyUsed, totalTime, totalSectionTime, pathDtoList);
     }
 
-    private RouteSearchResponseDto.Path convertApiSubPathToPathDto(OdsayRouteApiResponse.SubPath subPath) {
+    private RouteSearchResponse.Path convertApiSubPathToPathDto(OdsayRouteApiResponse.SubPath subPath) {
         int tType = subPath.trafficType();
         String trafficType = switch (tType) {
             case 1 -> "SUBWAY";
@@ -159,7 +161,7 @@ public class RouteService {
             }
         }
 
-        return new RouteSearchResponseDto.Path(
+        return new RouteSearchResponse.Path(
                 trafficType,
                 subPath.sectionTime(),
                 subwayName,

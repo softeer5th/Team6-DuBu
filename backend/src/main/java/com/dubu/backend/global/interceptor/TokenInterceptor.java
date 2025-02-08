@@ -25,7 +25,6 @@ public class TokenInterceptor implements HandlerInterceptor {
             Long memberId = tokenService.validateToken(token);
 
             request.setAttribute("memberId", memberId);
-
         }
         return true;
     }
