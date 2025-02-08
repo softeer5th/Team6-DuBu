@@ -23,6 +23,7 @@ const PlanPage = () => {
           <S.TimeBlockSection key={path.pathId}>
             <TimeBlockHeader trafficType={path.trafficType} subwayCode={path.subwayCode} />
             <TimeBlockContent
+              pathId={path.pathId}
               sectionTime={path.sectionTime}
               todos={path.todos}
               trafficType={path.trafficType}

@@ -10,16 +10,17 @@ import Icon from '@/components/Icon';
 import { colors } from '@/styles/theme';
 
 interface TimeBlockProps {
+  pathId: number;
   sectionTime: number;
   todos: pathTodo[];
   trafficType: TrafficType;
 }
 
-const TimeBlockContent = ({ sectionTime, todos, trafficType }: TimeBlockProps) => {
+const TimeBlockContent = ({ pathId, sectionTime, todos, trafficType }: TimeBlockProps) => {
   const navigate = useNavigate();
 
   const goToRouteTodoEdit = () => {
-    navigate('/routes/todo/edit');
+    navigate(`/plan/${pathId}/todos/edit`);
   };
 
   return (
@@ -36,16 +37,10 @@ const TimeBlockContent = ({ sectionTime, todos, trafficType }: TimeBlockProps) =
             <S.SectionTime>{sectionTime}분</S.SectionTime>
             <S.EditButton
               icon={
-                <Icon
-                  icon="Edit"
-                  width={16}
-                  height={16}
-                  color={colors.gray600}
-                  cursor="pointer"
-                  onClick={goToRouteTodoEdit}
-                />
+                <Icon icon="Edit" width={16} height={16} color={colors.gray600} cursor="pointer" />
               }
               text="수정하기"
+              onClick={goToRouteTodoEdit}
             />
           </S.TimeBlockHeader>
           <TimeBlockList todos={todos} />
