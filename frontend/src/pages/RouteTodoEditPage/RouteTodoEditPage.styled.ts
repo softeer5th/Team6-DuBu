@@ -30,7 +30,7 @@ export const SectionTimeWrapper = styled.div`
   gap: 0.2rem;
 `;
 
-export const DifficultyWRapper = styled.div`
+export const DifficultyWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 0.4rem;
