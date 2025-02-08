@@ -17,16 +17,11 @@ public class CustomScheduleRepositoryImpl implements CustomScheduleRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<Schedule> findFirstScheduleByMemberAndDateOrderByDateDesc(Member member, LocalDate date, boolean includeJoinTodo){
-        JPAQuery<Schedule> jpaQuery = jpaQueryFactory.selectFrom(schedule)
+    public Optional<Schedule> findLatestSchedule(Member member, LocalDate date){
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(schedule)
                 .where(schedule.member.eq(member), schedule.date.loe(date))
-                .orderBy(schedule.date.desc());
-
-        if(includeJoinTodo){
-            return Optional.ofNullable(applyJoinTodo(jpaQuery)
-                    .fetchFirst());
-        }
-        return Optional.ofNullable(jpaQuery.fetchFirst());
+                .orderBy(schedule.date.desc())
+                .fetchFirst());
     }
 
     private JPAQuery<Schedule> applyJoinTodo(JPAQuery<Schedule> jpaQuery){
