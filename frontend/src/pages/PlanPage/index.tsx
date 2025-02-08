@@ -137,9 +137,9 @@ const PlanPage = () => {
       </S.PlanContent>
 
       {/* 이동 완료 버튼 영역 */}
-      <div>
-        <button>이동완료!</button>
-      </div>
+      <S.FinishButtonWrapper>
+        <S.FinishButton>이동 완료</S.FinishButton>
+      </S.FinishButtonWrapper>
     </S.PlanPageLayout>
   );
 };
