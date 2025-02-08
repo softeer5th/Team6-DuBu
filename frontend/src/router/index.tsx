@@ -6,6 +6,7 @@ import EditPage from '@/pages/EditPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
+import PlanPage from '@/pages/PlanPage';
 import RecommendTodoPage from '@/pages/RecommendTodoPage';
 import RouteTodoEditPage from '@/pages/RouteTodoEditPage';
 
@@ -32,7 +33,16 @@ export const router = createBrowserRouter([
     path: '/onboarding',
     element: <OnboardingPage />,
   },
-
+  {
+    path: '/plan',
+    element: <FlexPageLayout />,
+    children: [
+      {
+        index: true,
+        element: <PlanPage />,
+      },
+    ],
+  },
   {
     path: '/routes/:routeId/todos/edit',
     element: <FlexPageLayout />,
