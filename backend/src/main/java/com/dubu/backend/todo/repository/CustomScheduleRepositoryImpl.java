@@ -30,7 +30,7 @@ public class CustomScheduleRepositoryImpl implements CustomScheduleRepository{
     }
 
     private JPAQuery<Schedule> applyJoinTodo(JPAQuery<Schedule> jpaQuery){
-        return jpaQuery.join(schedule.todos, todo)
+        return jpaQuery.leftJoin(schedule.todos, todo)
                 .fetchJoin();
     }
 }

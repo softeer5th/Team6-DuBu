@@ -26,7 +26,7 @@ const OnboardingPage = () => {
   }, []);
 
   return (
-    <>
+    <S.OnboardingPageLayout>
       <OnboardingHeader />
       <S.OnboardingMainLayout>
         <OnboardingProgress />
@@ -36,7 +36,7 @@ const OnboardingPage = () => {
         </S.TextContainer>
         <CurStepComponent />
       </S.OnboardingMainLayout>
-    </>
+    </S.OnboardingPageLayout>
   );
 };
 

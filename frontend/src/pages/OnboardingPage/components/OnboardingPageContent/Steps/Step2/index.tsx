@@ -1,27 +1,42 @@
+import { useState } from 'react';
+
+import SearchAddressButton from './SearchAddressButton';
 import * as S from './Step2.styled';
 
-import Icon from '@/components/Icon';
+import SearchAddress from '@/components/SearchAddress';
+import { useOnboarding } from '@/pages/OnboardingPage/hooks/useOnboarding';
 
 const Step2 = () => {
-  // TODO: 주소 찾기 기능 추가
+  const { setOnboardingUserInfo: setUserInfo } = useOnboarding();
+  const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
+  const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school' | null>(null);
+
+  const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
+    setUserInfo((prev) => ({
+      ...prev,
+      [`${selectedAddressType}Address`]: address,
+      [`${selectedAddressType}AddressX`]: coordinateX,
+      [`${selectedAddressType}AddressY`]: coordinateY,
+    }));
+  };
+
+  const handleAddressButtonClick = (type: 'home' | 'school') => {
+    setSelectedAddressType(type);
+    setIsSearchAddressOpen(true);
+  };
 
   return (
-    <S.AddressButtonWrapper>
-      <S.AddressButton>
-        <S.ButtonLabel>
-          <Icon icon="AddressHome" />
-          <S.LabelText>집</S.LabelText>
-        </S.ButtonLabel>
-        <span>탭하여 주소찾기</span>
-      </S.AddressButton>
-      <S.AddressButton>
-        <S.ButtonLabel>
-          <Icon icon="AddressUniv" />
-          <S.LabelText>학교</S.LabelText>
-        </S.ButtonLabel>
-        <span>탭하여 주소찾기</span>
-      </S.AddressButton>
-    </S.AddressButtonWrapper>
+    <S.Step2Layout>
+      <SearchAddressButton type="home" onClick={() => handleAddressButtonClick('home')} />
+      <SearchAddressButton type="school" onClick={() => handleAddressButtonClick('school')} />
+
+      {isSearchAddressOpen && (
+        <SearchAddress
+          onClose={() => setIsSearchAddressOpen(false)}
+          onSelectAddress={updateAddress}
+        />
+      )}
+    </S.Step2Layout>
   );
 };
 
