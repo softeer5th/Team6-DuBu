@@ -2,7 +2,7 @@ import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
 
-interface PathInfoResponse {
+interface PlanInfoResponse {
   data: {
     planId: number;
     totalSectionTime: number;
@@ -22,14 +22,14 @@ interface Path {
   todos: pathTodo[];
 }
 
-interface pathTodo {
+export interface pathTodo {
   isDone: boolean;
   title: string;
   memo: string | null;
 }
 
-export const getPathInfo = async () => {
-  const result = await fetchClient.get<PathInfoResponse>(API_URL.planInfo);
+export const getPlanInfo = async () => {
+  const result = await fetchClient.get<PlanInfoResponse>(API_URL.planInfo);
 
   return result.data;
 };
