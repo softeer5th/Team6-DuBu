@@ -22,7 +22,7 @@ export const PlanContent = styled.div`
   flex-direction: column;
   gap: 2.4rem;
   overflow-y: scroll;
-  padding-bottom: 6rem;
+  padding-bottom: 8rem;
 `;
 
 export const TimeBlockSection = styled.section`
