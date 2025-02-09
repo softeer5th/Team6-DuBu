@@ -1,11 +1,17 @@
 import styled, { keyframes } from 'styled-components';
 
-export const ToastLayout = styled.div<{ $isOpen: boolean }>`
+export const ToastContainer = styled.div`
   position: absolute;
   bottom: 1.6rem;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+`;
+
+export const ToastItem = styled.div<{ $isOpen: boolean }>`
   width: 87.2%;
   padding: 1.4rem 1.6rem;
   border-radius: 0.8rem;
@@ -26,21 +32,21 @@ export const ToastLayout = styled.div<{ $isOpen: boolean }>`
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(1rem);
+    transform:  translateY(1rem);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform:  translateY(0);
   }
 `;
 
 const fadeOut = keyframes`
   from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    transform:  translateY(0);
   }
   to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(1rem);
+    opacity: 0;
+    transform:  translateY(1rem);
   }
 `;
