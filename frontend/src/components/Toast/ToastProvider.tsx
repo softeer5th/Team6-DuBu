@@ -8,27 +8,26 @@ import Icon from '../Icon';
 import ToastContext from '@/contexts/ToastContext';
 
 const ToastProvider = ({ children }: PropsWithChildren) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [toastState, setToastState] = useState({
+    isOpen: false,
+    message: '',
+  });
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const toast = ({ message, duration = 2000 }: { message: string; duration?: number }) => {
-    setIsOpen(true);
-    setMessage(message);
+    setToastState((prev) => ({ ...prev, isOpen: true, message }));
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
 
     timerRef.current = setTimeout(() => {
-      setIsOpen(false);
-      setMessage('');
+      setToastState((prev) => ({ ...prev, isOpen: false, message: '' }));
     }, duration);
   };
 
   const close = () => {
-    setIsOpen(false);
-    setMessage('');
+    setToastState((prev) => ({ ...prev, isOpen: false, message: '' }));
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -46,10 +45,10 @@ const ToastProvider = ({ children }: PropsWithChildren) => {
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      {isOpen &&
+      {toastState.isOpen &&
         createPortal(
-          <ToastLayout $isOpen={isOpen}>
-            <span>{message}</span>
+          <ToastLayout $isOpen={toastState.isOpen}>
+            <span>{toastState.message}</span>
             <IconButton icon={<Icon icon="Close" cursor="pointer" />} onClick={close} />
           </ToastLayout>,
           document.body,
