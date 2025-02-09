@@ -10,13 +10,13 @@ import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const FavoriteTab = () => {
-  const { routeId } = useParams();
+  const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { data: favoriteTodoList } = useFavoriteTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
 
   const handleAddTodoFromFavorite = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId, routeId: Number(routeId) });
+    addTodoFromArchived({ dateType, todoId, planId: Number(planId) });
   };
 
   if (!favoriteTodoList) return null;

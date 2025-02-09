@@ -10,15 +10,15 @@ const useAddTodoFromArchivedMutation = () => {
     mutationFn: ({
       dateType,
       todoId,
-      routeId,
+      planId,
     }: {
       dateType: string;
       todoId: number;
-      routeId?: number;
-    }) => addTodoFromArchived(dateType, todoId, routeId),
+      planId?: number;
+    }) => addTodoFromArchived(dateType, todoId, planId),
     onSuccess: (_, params) => {
-      if (params.routeId) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.routeId] });
+      if (params.planId) {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.planId] });
       } else {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, params.dateType] });
       }

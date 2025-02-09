@@ -10,15 +10,15 @@ import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useRecommendTodoListQuery from '@/pages/EditPage/hooks/useRecommendListQuery';
 
 const RecommendTab = () => {
-  const { routeId } = useParams();
+  const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { data: recommendTodoList } = useRecommendTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
 
-  const routeURL = routeId ? `/recommend/${routeId}` : '/recommend';
+  const routeURL = planId ? `/recommend/${planId}` : '/recommend';
 
   const handleAddTodoFromRecommend = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId, routeId: Number(routeId) });
+    addTodoFromArchived({ dateType, todoId, planId: Number(planId) });
   };
 
   if (!recommendTodoList) return null;

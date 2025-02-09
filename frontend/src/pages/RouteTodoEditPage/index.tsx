@@ -11,7 +11,7 @@ import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
 
 const RouteTodoEditPage = () => {
-  const { routeId } = useParams();
+  const { planId } = useParams();
 
   return (
     <S.RouteTodoEditLayout>
@@ -47,7 +47,7 @@ const RouteTodoEditPage = () => {
           ))}
         </S.TabList>
         <S.TabContent>
-          <TodoTab tabType="route" routeId={Number(routeId)} />
+          <TodoTab tabType="route" planId={Number(planId)} />
           <FavoriteTab />
           <RecommendTab />
         </S.TabContent>

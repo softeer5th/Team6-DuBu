@@ -1,0 +1,133 @@
+{
+  "data": {
+    "planId": 12,
+    "totalSectionTime": 83,
+    "createdAt": "2025-01-11T07:38:34.543205",
+    "paths": [
+      {
+        "pathId": 27,
+        "trafficType": "SUBWAY",
+        "sectionTime": 20,
+        "subwayCode": 7,
+        "busNumber": null,
+        "startName": "상현역",
+        "endName": "강남역",
+        "todos": [
+          {
+            "isDone": false,
+            "title": "영단어 듣기",
+            "memo": "https://www.youtube.com/watch?v=XYYys4QTvE8"
+          },
+          {
+            "isDone": false,
+            "title": "노래 듣기",
+            "memo": "팝송 노래 가사 외우기"
+          },
+          {
+            "isDone": false,
+            "title": "오디오북 듣기",
+            "memo": null
+          }
+        ]
+      },
+      {
+        "pathId": 28,
+        "trafficType": "BUS",
+        "sectionTime": 63,
+        "subwayCode": null,
+        "busNumber": "강남",
+        "startName": "강남",
+        "endName": "논현",
+        "todos": [
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          }
+        ]
+      },
+      {
+        "pathId": 29,
+        "trafficType": "BUS",
+        "sectionTime": 32,
+        "subwayCode": null,
+        "busNumber": "강남",
+        "startName": "강남",
+        "endName": "논현",
+        "todos": [
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          }
+        ]
+      },
+      {
+        "pathId": 30,
+        "trafficType": "SUBWAY",
+        "sectionTime": 20,
+        "subwayCode": 7,
+        "busNumber": null,
+        "startName": "상현역",
+        "endName": "강남역",
+        "todos": [
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          },
+          {
+            "isDone": false,
+            "title": "영단어 말하기",
+            "memo": "hello let me introduce myself"
+          }
+        ]
+      }
+    ]
+  }
+}

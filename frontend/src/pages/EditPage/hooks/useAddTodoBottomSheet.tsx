@@ -6,12 +6,12 @@ import TodoAddForm from '../components/TodoTab/TodoAddForm';
 
 import { TodoCreateParams } from '@/api/todo';
 
-export const useAddTodoBottomSheet = (dateType: string, routeId?: number) => {
+export const useAddTodoBottomSheet = (dateType: string, planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
   const { mutate: addTodo, isSuccess, reset } = useAddTodoMutation();
 
   const handleAddTodo = (todo: TodoCreateParams) => {
-    addTodo({ dateType, todo, routeId });
+    addTodo({ dateType, todo, planId });
   };
 
   useEffect(() => {
