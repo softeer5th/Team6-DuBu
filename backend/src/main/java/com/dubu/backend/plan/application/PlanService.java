@@ -79,8 +79,12 @@ public class PlanService {
 
     @Transactional
     public void savePlanFeedback(Long memberId, Long planId, PlanFeedbackCreateRequest request) {
-        memberRepository.findById(memberId)
+        Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.FEEDBACK) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
 
         Plan currentPlan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundPlanException(planId));
@@ -91,6 +95,7 @@ public class PlanService {
 
         Feedback newFeedback = Feedback.createFeedback(currentPlan, request.mood(), request.memo());
         feedbackRepository.save(newFeedback);
+        currentMember.updateStatus(Status.STOP);
     }
 
     @Transactional(readOnly = true)
