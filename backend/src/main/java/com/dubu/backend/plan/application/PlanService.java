@@ -1,5 +1,6 @@
 package com.dubu.backend.plan.application;
 
+import com.dubu.backend.member.application.MemberService;
 import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
@@ -19,22 +20,31 @@ import com.dubu.backend.todo.exception.ScheduleNotFoundException;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
 public class PlanService {
+    private final TaskScheduler taskScheduler;
+    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
     private final PathRepository pathRepository;
     private final ScheduleRepository scheduleRepository;
     private final TodoRepository todoRepository;
+
+    private static final ConcurrentHashMap<Long, ScheduledFuture<?>> SCHEDULE_MAP = new ConcurrentHashMap<>();
 
     @Transactional
     public void savePlan(Long memberId, PlanSaveRequest planSaveRequest) {
@@ -69,6 +79,17 @@ public class PlanService {
         }
         todoRepository.saveAll(newTodos);
         currentMember.updateStatus(Status.MOVE);
+        scheduleFeedbackStatusUpdate(memberId, newPlan);
+    }
+
+    private void scheduleFeedbackStatusUpdate(Long memberId, Plan newPlan) {
+        Instant threeHoursLater = Instant.now().plus(3, ChronoUnit.HOURS);
+
+        ScheduledFuture<?> future = taskScheduler.schedule(() -> {
+            memberService.updateMemberStatus(memberId, "FEEDBACK");
+        }, threeHoursLater);
+
+        SCHEDULE_MAP.put(newPlan.getId(), future);
     }
 
     @Transactional(readOnly = true)
@@ -94,6 +115,12 @@ public class PlanService {
 
         if (!planToDelete.getMember().getId().equals(memberId)) {
             throw new UnauthorizedPlanDeletionException(memberId, planId);
+        }
+
+        ScheduledFuture<?> future = SCHEDULE_MAP.get(planId);
+        if (future != null && !future.isCancelled() && !future.isDone()) {
+            future.cancel(false);
+            SCHEDULE_MAP.remove(planId);
         }
 
         planRepository.delete(planToDelete);
