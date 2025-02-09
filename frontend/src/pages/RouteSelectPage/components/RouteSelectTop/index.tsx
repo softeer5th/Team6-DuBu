@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import RouteSelectAddress from './RouteSelectAddess';
+import RouteSelectAddress from './RouteSelectAddress';
 import RouteSelectHeader from './RouteSelectHeader';
 
 const RouteSelectTop = () => {
