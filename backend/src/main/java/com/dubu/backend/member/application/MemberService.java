@@ -23,14 +23,33 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
     private final MemberCategoryRepository memberCategoryRepository;
     private final AddressRepository addressRepository;
+
+    @Transactional(readOnly = true)
+    public MemberStatusResponse getMemberStatus(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        return new MemberStatusResponse(member.getStatus().name());
+    }
+
+    @Transactional(readOnly = true)
+    public MemberSavedAddressResponse getMemberSavedAddress(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        List<Address> addresses = addressRepository.findByMemberId(memberId);
+        if (addresses.isEmpty()) {
+            throw new MemberSavedAddressNotFoundException(memberId);
+        }
+
+        return MemberSavedAddressResponse.from(addresses);
+    }
 
     @Transactional
     public void completeOnboarding(Long memberId, MemberOnboardingRequest request) {
@@ -62,22 +81,11 @@ public class MemberService {
         addressRepository.save(address);
     }
 
-    public MemberStatusResponse getMemberStatus(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    @Transactional
+    public void updateMemberStatus(Long memberId, String status) {
+        Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
-        return new MemberStatusResponse(member.getStatus().name());
-    }
-
-    public MemberSavedAddressResponse getMemberSavedAddress(Long memberId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(memberId));
-
-        List<Address> addresses = addressRepository.findByMemberId(memberId);
-        if (addresses.isEmpty()) {
-            throw new MemberSavedAddressNotFoundException(memberId);
-        }
-
-        return MemberSavedAddressResponse.from(addresses);
+        currentMember.updateStatus(Status.fromString(status));
     }
 }
