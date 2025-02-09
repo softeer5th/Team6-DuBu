@@ -115,9 +115,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 
     @Transactional(readOnly = true)
     @Override
-    public PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(Long memberId, Cursor cursor, RecommendTodoQueryRequest request) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
-
+    public PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(Cursor cursor, RecommendTodoQueryRequest request) {
         List<Category> categories = null;
         if(request.category() != null && !request.category().isEmpty()){
             categories = categoryRepository.findCategoriesByName(request.category());
