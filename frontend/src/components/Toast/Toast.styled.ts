@@ -7,14 +7,17 @@ export const ToastLayout = styled.div<{ $isOpen: boolean }>`
   transform: translateX(-50%);
 
   width: 87.2%;
-
   padding: 1.4rem 1.6rem;
   border-radius: 0.8rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   ${({ theme }) => theme.fonts.body15Med};
   color: ${({ theme }) => theme.colors.gray950};
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  border: 0.1rem solid ${({ theme }) => theme.colors.gray300};
 
   animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.3s ease forwards;
   transition: opacity 0.3s ease-in-out;

@@ -2,6 +2,8 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ToastLayout } from './Toast.styled';
+import IconButton from '../Button/IconButton';
+import Icon from '../Icon';
 
 import ToastContext from '@/contexts/ToastContext';
 
@@ -24,6 +26,15 @@ const ToastProvider = ({ children }: PropsWithChildren) => {
     }, duration);
   };
 
+  const close = () => {
+    setIsOpen(false);
+    setMessage('');
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+  };
+
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -35,7 +46,14 @@ const ToastProvider = ({ children }: PropsWithChildren) => {
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      {isOpen && createPortal(<ToastLayout $isOpen={isOpen}>{message}</ToastLayout>, document.body)}
+      {isOpen &&
+        createPortal(
+          <ToastLayout $isOpen={isOpen}>
+            <span>{message}</span>
+            <IconButton icon={<Icon icon="Close" cursor="pointer" />} onClick={close} />
+          </ToastLayout>,
+          document.body,
+        )}
     </ToastContext.Provider>
   );
 };
