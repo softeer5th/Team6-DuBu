@@ -2,6 +2,7 @@ import { SUBWAY_LINES } from '@/constants/subwayLines';
 import { PathType } from '@/pages/RouteSelectPage/RouteSelectPage.types';
 
 export const getPathBarWidth = (path: PathType, totalTime: number) => {
+  if (path.sectionTime === 0) return 0;
   return (path.sectionTime / totalTime) * 100;
 };
 
