@@ -11,12 +11,18 @@ public record FeedbackWritePageInfoResponse(
         Integer totalTodoCount,
         List<FeedbackTodoResponse> todos
 ) {
-    public static FeedbackWritePageInfoResponse of(Plan plan, List<Todo> todos) {
+    public static FeedbackWritePageInfoResponse of(Plan plan) {
+        List<Todo> allTodos = plan.getPaths().stream()
+                .flatMap(path -> path.getTodos().stream())
+                .toList();
+
         return new FeedbackWritePageInfoResponse(
                 plan.getId(),
                 plan.getTotalTime(),
-                todos.size(),
-                todos.stream().map(FeedbackTodoResponse::of).toList()
+                allTodos.size(),
+                allTodos.stream()
+                        .map(FeedbackTodoResponse::of)
+                        .toList()
         );
     }
 
