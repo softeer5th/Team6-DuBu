@@ -8,6 +8,8 @@ import com.dubu.backend.member.dto.MemberStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
@@ -41,5 +43,12 @@ public class MemberController {
         MemberSavedAddressResponse response = memberService.getMemberSavedAddress(memberId);
 
         return new SuccessResponse<>(response);
+    }
+
+    @GetMapping("/category")
+    public SuccessResponse<List<String>> getMemberCategory(
+            @RequestAttribute("memberId") Long memberId
+    ){
+        return new SuccessResponse<>(memberService.getMemberCategory(memberId));
     }
 }

@@ -1,13 +1,13 @@
 package com.dubu.backend.todo.service;
 
-import com.dubu.backend.todo.dto.request.CreateTodoFromArchivedRequest;
-import com.dubu.backend.todo.dto.request.CreateTodoRequest;
-import com.dubu.backend.todo.dto.request.UpdateTodoRequest;
-import com.dubu.backend.todo.dto.response.TodoInfo;
+import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
+import com.dubu.backend.todo.dto.request.TodoCreateRequest;
+import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
+import com.dubu.backend.todo.dto.response.TodoManageResult;
 
 public interface TodoManagementService {
-    TodoInfo createTodo(Long memberId, String todoType, CreateTodoRequest createTodoRequest);
-    TodoInfo createTodoFromArchived(Long memberId, String todoType, CreateTodoFromArchivedRequest todoCreateRequest);
-    TodoInfo modifyTodo(Long memberId, Long todoId, UpdateTodoRequest updateTodoRequest);
-    void removeTodo(Long memberId, Long todoId);
+    TodoManageResult<?> createTodo(Long memberId, TodoCreateRequest todoCreateRequest);
+    TodoManageResult<?> createTodoFromArchived(Long memberId, TodoCreateFromArchivedRequest todoCreateRequest);
+    TodoManageResult<?> modifyTodo(Long memberId, Long todoId, TodoUpdateRequest todoUpdateRequest);
+    TodoManageResult<?> removeTodo(Long memberId, Long todoId);
 }

@@ -2,6 +2,7 @@ package com.dubu.backend.global.config;
 
 import com.dubu.backend.auth.api.OauthProviderConverter;
 import com.dubu.backend.global.interceptor.TokenInterceptor;
+import com.dubu.backend.todo.converter.StringToTodoRequestTypeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -33,6 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new OauthProviderConverter());
+        registry.addConverter(new StringToTodoRequestTypeConverter());
     }
 
     @Override
