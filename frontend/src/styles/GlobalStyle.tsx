@@ -75,6 +75,8 @@ body {
   
   -ms-overflow-style: none;
   overflow-y: hidden;
+
+  position: relative;
 }
  
 /* 기본 스크롤바 제거 */

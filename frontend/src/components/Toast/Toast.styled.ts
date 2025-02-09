@@ -1,21 +1,22 @@
 import styled, { keyframes } from 'styled-components';
 
 export const ToastLayout = styled.div<{ $isOpen: boolean }>`
-  position: fixed;
-  bottom: 4.4rem;
+  position: absolute;
+  bottom: 1.6rem;
   left: 50%;
-  padding: 1rem 2rem;
-  border-radius: 3.2rem;
+  transform: translateX(-50%);
 
+  width: 87.2%;
+
+  padding: 1.4rem 1.6rem;
+  border-radius: 0.8rem;
+
+  ${({ theme }) => theme.fonts.body15Med};
+  color: ${({ theme }) => theme.colors.gray950};
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray300};
 
-  color: black;
-  font-size: 1.2rem;
-
-  animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.5s ease forwards;
-  transform: translateX(-50%);
-  box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 20%);
+  animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.3s ease forwards;
   transition: opacity 0.3s ease-in-out;
 `;
 
