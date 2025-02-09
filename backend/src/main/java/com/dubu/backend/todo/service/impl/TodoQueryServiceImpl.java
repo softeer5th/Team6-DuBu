@@ -2,6 +2,7 @@ package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.exception.MemberCategoryNotFoundException;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
@@ -40,14 +41,14 @@ public class TodoQueryServiceImpl implements TodoQueryService {
     public List<TodoInfo> findTodayTodos(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
 
-        Schedule todaySchedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now(), false).orElseGet(() -> {
+        Schedule todaySchedule = scheduleRepository.findLatestSchedule(member, LocalDate.now()).orElseGet(() -> {
             Schedule newSchedule = Schedule.of(LocalDate.now(), member);
             List<Long> categoryIds = memberCategoryRepository.findByMember(member);
 
             if(categoryIds.isEmpty()){
-                throw new MemberNotFoundException(memberId);
+                throw new MemberCategoryNotFoundException(memberId);
             }
-            List<Todo> todos = todoRepository.findTodosByCategoryIds(categoryIds);
+            List<Todo> todos = todoRepository.findTodosWithCategoryByCategoryIdsAndType(categoryIds, TodoType.RECOMMEND);
 
             Todo recommendTodo = todoRandomSelector.selectOne(todos);
 
@@ -59,7 +60,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
             return savedSchedule;
         });
 
-        List<Todo> todos = todoRepository.findTodosBySchedule(todaySchedule);
+        List<Todo> todos = todoRepository.findTodosWithCategoryBySchedule(todaySchedule);
 
         return todos.stream().map(TodoInfo::fromEntity).toList();
     }
@@ -69,9 +70,9 @@ public class TodoQueryServiceImpl implements TodoQueryService {
     public List<TodoInfo> findTomorrowTodos(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
 
-        Schedule schedule = scheduleRepository.findFirstScheduleByMemberAndDateOrderByDateDesc(member, LocalDate.now().plusDays(1), true).orElseThrow(ScheduleNotFoundException::new);
+        Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
-        List<Todo> todos = todoRepository.findTodosBySchedule(schedule);
+        List<Todo> todos = todoRepository.findTodosWithCategoryBySchedule(schedule);
         return todos.stream().map(TodoInfo::fromEntity).toList();
     }
 
@@ -90,6 +91,18 @@ public class TodoQueryServiceImpl implements TodoQueryService {
             return new PageResponse<>(todoInfoSlice.hasNext(), null, content);
         }
         return new PageResponse<>(todoInfoSlice.hasNext(), content.get(content.size() - 1).todoId(), content);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<TodoInfo> findRandomRecommendTodos(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+        List<Long> categoryIds = memberCategoryRepository.findByMember(member);
+        List<Todo> todos = todoRepository.findTodosWithCategoryByCategoryIdsAndType(categoryIds, TodoType.RECOMMEND);
+
+        List<Todo> randomTodos = todoRandomSelector.selectTodos(5, todos);
+
+        return TodoInfo.fromEntities(randomTodos);
     }
 }
 
