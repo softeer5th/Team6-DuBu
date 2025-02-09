@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router';
 import FlexPageLayout from './layout/FlexPageLayout';
 
 import EditPage from '@/pages/EditPage';
+import FeedbackPage from '@/pages/FeedbackPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
   {
     path: '/route-select',
     element: <RouteSelectPage />,
+  },
   {
     path: '/routes/:routeId/todos/edit',
     element: <FlexPageLayout />,
@@ -55,5 +57,9 @@ export const router = createBrowserRouter([
         element: <RecommendTodoPage />,
       },
     ],
+  },
+  {
+    path: '/feedback',
+    element: <FeedbackPage />,
   },
 ]);
