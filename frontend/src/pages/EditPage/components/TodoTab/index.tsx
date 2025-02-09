@@ -47,6 +47,15 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
     title: editTitle,
   } = useEditTodoBottomSheet(tabType, planId);
 
+  const handleClickAddTodo = () => {
+    if (todoList && todoList.length >= 3) {
+      toast({ message: TODO_TOAST_MESSAGE.limit });
+      return;
+    }
+
+    openAddBottomSheet();
+  };
+
   const handleDeleteTodo = (todoId: number) => {
     deleteTodo(
       { todoId, planId },
@@ -82,7 +91,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
           icon={<Icon icon="PlusCircle" cursor="pointer" />}
           text="직접 추가하기"
           isFull={true}
-          onClick={openAddBottomSheet}
+          onClick={handleClickAddTodo}
         />
       </S.TodoEditList>
 
