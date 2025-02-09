@@ -2,9 +2,9 @@ package com.dubu.backend.plan.dto.request;
 
 import java.util.List;
 
-public record PlanSaveRequest(
+public record PlanCreateRequest(
         Integer totalSectionTime,
-        List<PlanSaveRequest.Path> paths
+        List<PlanCreateRequest.Path> paths
 ) {
     public record Path(
             String trafficType,
