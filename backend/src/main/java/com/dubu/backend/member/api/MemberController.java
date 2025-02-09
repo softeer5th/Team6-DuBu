@@ -16,15 +16,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class MemberController {
     private final MemberService memberService;
 
-    @ResponseStatus(NO_CONTENT)
-    @PatchMapping("/onboarding")
-    public void completeOnboarding(
-            @RequestAttribute("memberId") Long memberId,
-            @RequestBody MemberOnboardingRequest request) {
-
-        memberService.completeOnboarding(memberId, request);
-    }
-
     @GetMapping("/status")
     public SuccessResponse<MemberStatusResponse> getMemberStatus(
             @RequestAttribute("memberId") Long memberId
@@ -41,5 +32,23 @@ public class MemberController {
         MemberSavedAddressResponse response = memberService.getMemberSavedAddress(memberId);
 
         return new SuccessResponse<>(response);
+    }
+
+    @ResponseStatus(NO_CONTENT)
+    @PatchMapping("/onboarding")
+    public void completeOnboarding(
+            @RequestAttribute("memberId") Long memberId,
+            @RequestBody MemberOnboardingRequest request) {
+
+        memberService.completeOnboarding(memberId, request);
+    }
+
+    @ResponseStatus(NO_CONTENT)
+    @PatchMapping("/status")
+    public void updateMemberStatus(
+            @RequestAttribute("memberId") Long memberId,
+            @RequestBody String status
+    ) {
+        memberService.updateMemberStatus(memberId, status);
     }
 }
