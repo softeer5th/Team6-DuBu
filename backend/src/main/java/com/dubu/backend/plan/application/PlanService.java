@@ -9,6 +9,7 @@ import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
 import com.dubu.backend.plan.dto.request.PlanCreateRequest;
 import com.dubu.backend.plan.dto.request.PlanFeedbackCreateRequest;
+import com.dubu.backend.plan.dto.response.FeedbackWritePageInfoResponse;
 import com.dubu.backend.plan.dto.response.PlanRecentResponse;
 import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.plan.exception.NotFoundPlanException;
@@ -109,6 +110,21 @@ public class PlanService {
         List<Path> paths = pathRepository.findByPlanWithTodosOrderByPathOrder(recentPlan);
 
         return PlanRecentResponse.of(recentPlan, paths);
+    }
+
+    @Transactional(readOnly = true)
+    public FeedbackWritePageInfoResponse findFeedbackWritePageInfo(Long memberId) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.FEEDBACK) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
+
+        Plan recentPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
+                .orElseThrow(() -> new NotFoundPlanException());
+
+        return FeedbackWritePageInfoResponse.of(recentPlan);
     }
 
     @Transactional
