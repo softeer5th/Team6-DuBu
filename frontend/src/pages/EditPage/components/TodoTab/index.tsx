@@ -1,5 +1,6 @@
 import TodoEditItem from '../TodoEditItem';
 import * as S from './TodoTab.styled';
+import { TODO_TAB_TEXT } from '../../EditPage.constants';
 import { useAddTodoBottomSheet } from '../../hooks/useAddTodoBottomSheet';
 import useDeleteTodoMutation from '../../hooks/useDeleteTodoMutation';
 import useEditTodoBottomSheet from '../../hooks/useEditTodoBottomSheet';
@@ -7,16 +8,11 @@ import useEditTodoBottomSheet from '../../hooks/useEditTodoBottomSheet';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
 import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useRouteTodoQuery from '@/hooks/useRouteTodoQuery';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
-
-const TODO_TAB_MESSAGE = {
-  today: '오늘 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
-  tomorrow: '내일 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
-  route: '이 구간에서 할 일을 골라보세요',
-};
 
 interface TodoTabProps {
   tabType: 'today' | 'tomorrow' | 'route';
@@ -48,7 +44,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
   } = useEditTodoBottomSheet(tabType, planId);
 
   const handleClickAddTodo = () => {
-    if (currentTodoList && currentTodoList.length >= 3) {
+    if (currentTodoList && currentTodoList.length >= MAX_TODO_ITEM_LENGTH) {
       toast({ message: TODO_TOAST_MESSAGE.limit });
       return;
     }
@@ -67,7 +63,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
 
   return (
     <S.TodoTabLayout>
-      <S.SloganWrapper>{TODO_TAB_MESSAGE[tabType]}</S.SloganWrapper>
+      <S.SloganWrapper>{TODO_TAB_TEXT[tabType]}</S.SloganWrapper>
       <S.TodoEditList>
         {todoList.map((todo) => (
           <TodoEditItem

@@ -6,6 +6,7 @@ import TodoEditItem from '../TodoEditItem';
 
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
 import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useToast from '@/hooks/useToast';
@@ -24,7 +25,7 @@ const RecommendTab = () => {
   const routeURL = planId ? `/recommend/${planId}` : '/recommend';
 
   const handleAddTodoFromRecommend = (todoId: number) => {
-    if (todoList && todoList.length >= 3) {
+    if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
       toast({ message: TODO_TOAST_MESSAGE.limit });
       return;
     }
