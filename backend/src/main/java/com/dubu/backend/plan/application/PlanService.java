@@ -4,13 +4,16 @@ import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.domain.Feedback;
 import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
-import com.dubu.backend.plan.dto.request.PlanSaveRequest;
+import com.dubu.backend.plan.dto.request.PlanCreateRequest;
+import com.dubu.backend.plan.dto.request.PlanFeedbackCreateRequest;
 import com.dubu.backend.plan.dto.response.PlanRecentResponse;
 import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.plan.exception.NotFoundPlanException;
 import com.dubu.backend.plan.exception.UnauthorizedPlanDeletionException;
+import com.dubu.backend.plan.infra.repository.FeedbackRepository;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import com.dubu.backend.todo.entity.Schedule;
@@ -25,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
 import java.util.stream.IntStream;
 
 @Service
@@ -38,11 +39,10 @@ public class PlanService {
     private final PathRepository pathRepository;
     private final ScheduleRepository scheduleRepository;
     private final TodoRepository todoRepository;
-
-    private static final ConcurrentHashMap<Long, ScheduledFuture<?>> SCHEDULE_MAP = new ConcurrentHashMap<>();
+    private final FeedbackRepository feedbackRepository;
 
     @Transactional
-    public void savePlan(Long memberId, PlanSaveRequest planSaveRequest) {
+    public void savePlan(Long memberId, PlanCreateRequest planCreateRequest) {
         Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -50,11 +50,11 @@ public class PlanService {
             throw new InvalidMemberStatusException(currentMember.getStatus().name());
         }
 
-        Plan newPlan = Plan.createPlan(currentMember, planSaveRequest.totalSectionTime());
+        Plan newPlan = Plan.createPlan(currentMember, planCreateRequest.totalSectionTime());
         planRepository.save(newPlan);
 
-        List<Path> paths = IntStream.range(0, planSaveRequest.paths().size())
-                .mapToObj(index -> Path.createPath(newPlan, planSaveRequest.paths().get(index), index))
+        List<Path> paths = IntStream.range(0, planCreateRequest.paths().size())
+                .mapToObj(index -> Path.createPath(newPlan, planCreateRequest.paths().get(index), index))
                 .toList();
         pathRepository.saveAll(paths);
 
@@ -75,6 +75,22 @@ public class PlanService {
         todoRepository.saveAll(newTodos);
         currentMember.updateStatus(Status.MOVE);
         taskSchedulerService.scheduleFeedbackStatusUpdate(memberId, newPlan);
+    }
+
+    @Transactional
+    public void savePlanFeedback(Long memberId, Long planId, PlanFeedbackCreateRequest request) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        Plan currentPlan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundPlanException(planId));
+
+        if (!currentPlan.getMember().getId().equals(memberId)) {
+            throw new UnauthorizedPlanDeletionException(memberId, planId);
+        }
+
+        Feedback newFeedback = Feedback.createFeedback(currentPlan, request.mood(), request.memo());
+        feedbackRepository.save(newFeedback);
     }
 
     @Transactional(readOnly = true)
