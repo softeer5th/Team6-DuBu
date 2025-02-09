@@ -33,6 +33,7 @@ public enum ErrorCode {
 
     // Member
     INVALID_MEMBER_STATUS(BAD_REQUEST, "회원의 상태가 %s인 경우 해당 API를 이용할 수 없습니다."),
+    INVALID_STATUS(BAD_REQUEST, "지원하지 않는 회원의 상태입니다. status : %s"),
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Address
