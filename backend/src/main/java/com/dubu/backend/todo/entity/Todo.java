@@ -27,7 +27,7 @@ public class Todo extends BaseTimeEntity {
     @Column(nullable = false)
     private TodoType type;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "difficulty", nullable = false)
     private TodoDifficulty difficulty;
 
