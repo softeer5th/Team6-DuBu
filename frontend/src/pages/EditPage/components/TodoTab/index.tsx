@@ -48,7 +48,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
   } = useEditTodoBottomSheet(tabType, planId);
 
   const handleClickAddTodo = () => {
-    if (todoList && todoList.length >= 3) {
+    if (currentTodoList && currentTodoList.length >= 3) {
       toast({ message: TODO_TOAST_MESSAGE.limit });
       return;
     }
