@@ -1,58 +1,68 @@
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ToastLayout } from './Toast.styled';
 import IconButton from '../Button/IconButton';
 import Icon from '../Icon';
+import * as S from './Toast.styled';
 
 import ToastContext from '@/contexts/ToastContext';
 
+interface Toast {
+  id: number;
+  message: string;
+  isOpen: boolean;
+}
+
 const ToastProvider = ({ children }: PropsWithChildren) => {
-  const [toastState, setToastState] = useState({
-    isOpen: false,
-    message: '',
-  });
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const toast = ({ message, duration = 2000 }: { message: string; duration?: number }) => {
-    setToastState((prev) => ({ ...prev, isOpen: true, message }));
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, message, isOpen: true }]);
 
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-
-    timerRef.current = setTimeout(() => {
-      setToastState((prev) => ({ ...prev, isOpen: false, message: '' }));
+    setTimeout(() => {
+      removeToast(id);
     }, duration);
   };
 
-  const close = () => {
-    setToastState((prev) => ({ ...prev, isOpen: false, message: '' }));
-
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+  const removeToast = (id: number) => {
+    setToasts((prevToasts) =>
+      prevToasts.map((toast) => (toast.id === id ? { ...toast, isOpen: false } : toast)),
+    );
   };
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, []);
+  const handleAnimationEnd = (id: number, isOpen: boolean) => {
+    if (!isOpen) {
+      setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+    }
+  };
 
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      {toastState.isOpen &&
-        createPortal(
-          <ToastLayout $isOpen={toastState.isOpen}>
-            <span>{toastState.message}</span>
-            <IconButton icon={<Icon icon="Close" cursor="pointer" />} onClick={close} />
-          </ToastLayout>,
-          document.body,
-        )}
+      {createPortal(
+        <>
+          {toasts.length > 0 && (
+            <S.ToastContainer>
+              {toasts.map(({ id, message, isOpen }) => (
+                <S.ToastItem
+                  key={id}
+                  $isOpen={isOpen}
+                  onAnimationEnd={() => !isOpen && handleAnimationEnd(id, isOpen)}
+                >
+                  <span>{message}</span>
+                  <IconButton
+                    icon={<Icon icon="Close" cursor="pointer" />}
+                    onClick={() => removeToast(id)}
+                    aria-label="닫기"
+                  />
+                </S.ToastItem>
+              ))}
+            </S.ToastContainer>
+          )}
+        </>,
+        document.body,
+      )}
     </ToastContext.Provider>
   );
 };
