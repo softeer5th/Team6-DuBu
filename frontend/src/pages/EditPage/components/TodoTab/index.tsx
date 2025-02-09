@@ -7,6 +7,7 @@ import useEditTodoBottomSheet from '../../hooks/useEditTodoBottomSheet';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useRouteTodoQuery from '@/hooks/useRouteTodoQuery';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
@@ -15,12 +16,6 @@ const TODO_TAB_MESSAGE = {
   today: '오늘 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
   tomorrow: '내일 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
   route: '이 구간에서 할 일을 골라보세요',
-};
-
-const TODO_TOAST_MESSAGE = {
-  add: '오늘 할 일에 추가되었어요',
-  delete: '오늘 할 일에서 삭제되었어요',
-  limit: '오늘 할 일은 최대 3개까지 추가할 수 있어요',
 };
 
 interface TodoTabProps {
