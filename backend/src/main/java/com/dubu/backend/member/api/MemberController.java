@@ -5,6 +5,7 @@ import com.dubu.backend.member.application.MemberService;
 import com.dubu.backend.member.dto.MemberOnboardingRequest;
 import com.dubu.backend.member.dto.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.MemberStatusResponse;
+import com.dubu.backend.member.dto.request.MemberStatusUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +48,8 @@ public class MemberController {
     @PatchMapping("/status")
     public void updateMemberStatus(
             @RequestAttribute("memberId") Long memberId,
-            @RequestBody String status
+            @RequestBody MemberStatusUpdateRequest request
     ) {
-        memberService.updateMemberStatus(memberId, status);
+        memberService.updateMemberStatus(memberId, request.status());
     }
 }
