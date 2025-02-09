@@ -2,9 +2,9 @@ package com.dubu.backend.member.api;
 
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.member.application.MemberService;
-import com.dubu.backend.member.dto.MemberOnboardingRequest;
-import com.dubu.backend.member.dto.MemberSavedAddressResponse;
-import com.dubu.backend.member.dto.MemberStatusResponse;
+import com.dubu.backend.member.dto.request.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.response.MemberSavedAddressResponse;
+import com.dubu.backend.member.dto.response.MemberStatusResponse;
 import com.dubu.backend.member.dto.request.MemberStatusUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
