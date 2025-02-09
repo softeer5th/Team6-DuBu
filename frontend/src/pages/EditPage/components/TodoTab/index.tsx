@@ -8,6 +8,7 @@ import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
 import useRouteTodoQuery from '@/hooks/useRouteTodoQuery';
+import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
 
 const TODO_TAB_MESSAGE = {
@@ -16,12 +17,19 @@ const TODO_TAB_MESSAGE = {
   route: '이 구간에서 할 일을 골라보세요',
 };
 
+const TODO_TOAST_MESSAGE = {
+  add: '오늘 할 일에 추가되었어요',
+  delete: '오늘 할 일에서 삭제되었어요',
+  limit: '오늘 할 일은 최대 3개까지 추가할 수 있어요',
+};
+
 interface TodoTabProps {
   tabType: 'today' | 'tomorrow' | 'route';
   planId?: number;
 }
 
 const TodoTab = ({ tabType, planId }: TodoTabProps) => {
+  const { toast } = useToast();
   const { data: currentTodoList } = useTodoListQuery(tabType, planId);
   const { data: routeTodoList } = useRouteTodoQuery(planId);
   const { mutate: deleteTodo } = useDeleteTodoMutation(tabType);
@@ -44,6 +52,13 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
     title: editTitle,
   } = useEditTodoBottomSheet(tabType, planId);
 
+  const handleDeleteTodo = (todoId: number) => {
+    deleteTodo(
+      { todoId, planId },
+      { onSuccess: () => toast({ message: TODO_TOAST_MESSAGE.delete }) },
+    );
+  };
+
   if (!todoList) return null;
 
   return (
@@ -57,7 +72,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
             left={
               <IconButton
                 icon={<Icon icon="MinusCircle" cursor="pointer" />}
-                onClick={() => deleteTodo({ todoId: todo.todoId, planId })}
+                onClick={() => handleDeleteTodo(todo.todoId)}
               />
             }
             right={
