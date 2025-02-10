@@ -16,6 +16,7 @@ export const API_URL = {
     `${BASE_URL}/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
   routeTodo: (planId: number) => `${BASE_URL}/routes/${planId}/todos`,
   searchAddress: `${BASE_URL}/address/search`,
+  searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
   planInfo: `${BASE_URL}/plans/recent`,
 };
@@ -32,6 +33,7 @@ export const MOCK_API_URL = {
   addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived/:planId?`,
   routeTodo: `${BASE_URL}/routes/:planId/todos`,
   searchAddress: `${BASE_URL}/address/search`,
+  searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
   planInfo: `${BASE_URL}/plans/recent`,
 };

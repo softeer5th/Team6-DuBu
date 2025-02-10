@@ -1,0 +1,219 @@
+{
+  "data": [
+    {
+      "isRecentlyUsed": true,
+      "totalTime": 70,
+      "totalSectionTime": 56,
+      "paths": [
+        {
+          "trafficType": "WALK",
+          "sectionTime": 8,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 20,
+          "subwayCode": 3,
+          "busNumber": null,
+          "busId": null,
+          "startName": "학동",
+          "endName": "청구"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 4,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        },
+        {
+          "trafficType": "BUS",
+          "sectionTime": 30,
+          "subwayCode": null,
+          "busNumber": 142,
+          "busId": null,
+          "startName": "학동",
+          "endName": "청구"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 8,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        }
+      ]
+    },
+    {
+      "isRecentlyUsed": false,
+      "totalTime": 40,
+      "totalSectionTime": 35,
+      "paths": [
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 15,
+          "subwayCode": 2,
+          "busNumber": null,
+          "busId": null,
+          "startName": "신도림",
+          "endName": "서울대입구"
+        },
+        {
+          "trafficType": "BUS",
+          "sectionTime": 20,
+          "subwayCode": null,
+          "busNumber": 5511,
+          "busId": null,
+          "startName": "서울대입구",
+          "endName": "중앙대학교 후문"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 5,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        }
+      ]
+    },
+    {
+      "isRecentlyUsed": false,
+      "totalTime": 45,
+      "totalSectionTime": 40,
+      "paths": [
+        {
+          "trafficType": "WALK",
+          "sectionTime": 3,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 15,
+          "subwayCode": 1,
+          "busNumber": null,
+          "busId": null,
+          "startName": "시청",
+          "endName": "노량진"
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 25,
+          "subwayCode": 9,
+          "busNumber": null,
+          "busId": null,
+          "startName": "노량진",
+          "endName": "흑석"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 2,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        }
+      ]
+    },
+    {
+      "isRecentlyUsed": false,
+      "totalTime": 45,
+      "totalSectionTime": 40,
+      "paths": [
+        {
+          "trafficType": "WALK",
+          "sectionTime": 3,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 15,
+          "subwayCode": 1,
+          "busNumber": null,
+          "busId": null,
+          "startName": "시청",
+          "endName": "노량진"
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 25,
+          "subwayCode": 9,
+          "busNumber": null,
+          "busId": null,
+          "startName": "노량진",
+          "endName": "흑석"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 2,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        }
+      ]
+    },
+    {
+      "isRecentlyUsed": false,
+      "totalTime": 45,
+      "totalSectionTime": 40,
+      "paths": [
+        {
+          "trafficType": "WALK",
+          "sectionTime": 3,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 15,
+          "subwayCode": 1,
+          "busNumber": null,
+          "busId": null,
+          "startName": "시청",
+          "endName": "노량진"
+        },
+        {
+          "trafficType": "SUBWAY",
+          "sectionTime": 25,
+          "subwayCode": 9,
+          "busNumber": null,
+          "busId": null,
+          "startName": "노량진",
+          "endName": "흑석"
+        },
+        {
+          "trafficType": "WALK",
+          "sectionTime": 2,
+          "subwayCode": null,
+          "busNumber": null,
+          "busId": null,
+          "startName": null,
+          "endName": null
+        }
+      ]
+    }
+  ]
+}
