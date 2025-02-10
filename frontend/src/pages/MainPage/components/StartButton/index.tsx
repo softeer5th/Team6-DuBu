@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 
 import * as S from './StartButton.styled';
 import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
-import { getRouteCoordWithSwitched } from '../../MainPage.utils';
+import { getRouteInfoWithSwitched } from '../../MainPage.utils';
 
 import Icon from '@/components/Icon';
 import theme from '@/styles/theme';
@@ -25,14 +25,9 @@ const StartButton = ({ isSwitched, startAddress, endAddress }: StartButtonProps)
   const navigate = useNavigate();
   const { data: memberAddress } = useMemberAddressQuery();
 
-  const isStartAddress = startAddress.startName !== '';
-  const isEndAddress = endAddress.endName !== '';
-
   const goToRouteSelect = () => {
-    const { startX, startY, endX, endY, startName, endName } = getRouteCoordWithSwitched(
+    const { startX, startY, endX, endY, startName, endName } = getRouteInfoWithSwitched(
       isSwitched,
-      isStartAddress,
-      isEndAddress,
       startAddress,
       endAddress,
       memberAddress,

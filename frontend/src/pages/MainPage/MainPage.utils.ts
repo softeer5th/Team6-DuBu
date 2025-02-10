@@ -15,14 +15,15 @@ export const addDay = (date: Date, days: number) => {
   return clone;
 };
 
-export const getRouteCoordWithSwitched = (
+export const getRouteInfoWithSwitched = (
   isSwitched: boolean,
-  isStartAddress: boolean,
-  isEndAddress: boolean,
   startAddress: { startX: number; startY: number; startName: string },
   endAddress: { endX: number; endY: number; endName: string },
   memberAddress?: MemberAddress,
 ) => {
+  const isStartAddress = startAddress.startName !== '';
+  const isEndAddress = endAddress.endName !== '';
+
   const { startX, startY, startName } = startAddress;
   const { endX, endY, endName } = endAddress;
 
