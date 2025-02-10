@@ -1,7 +1,7 @@
 package com.dubu.backend.config;
 
-import com.dubu.backend.todo.repository.CustomTodoRepository;
-import com.dubu.backend.todo.repository.CustomTodoRepositoryImpl;
+// import com.dubu.backend.todo.repository.CustomTodoRepository;
+// import com.dubu.backend.todo.repository.CustomTodoRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
