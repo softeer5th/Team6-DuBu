@@ -7,6 +7,7 @@ export const RouteTodoEditLayout = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: scroll;
 `;
 
 export const InfoSection = styled.section`

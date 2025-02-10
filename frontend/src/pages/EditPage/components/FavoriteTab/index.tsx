@@ -7,16 +7,35 @@ import TodoEditItem from '../TodoEditItem';
 
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
+import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import useToast from '@/hooks/useToast';
+import useTodoListQuery from '@/hooks/useTodoListQuery';
 
 const FavoriteTab = () => {
   const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
+
+  const { data: todoList } = useTodoListQuery(dateType, Number(planId));
   const { data: favoriteTodoList } = useFavoriteTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
+  const { toast } = useToast();
 
   const handleAddTodoFromFavorite = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId, planId: Number(planId) });
+    if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
+      toast({ message: TODO_TOAST_MESSAGE.limit });
+      return;
+    }
+
+    addTodoFromArchived(
+      { dateType, todoId, planId: Number(planId) },
+      {
+        onSuccess: () => {
+          toast({ message: TODO_TOAST_MESSAGE.add });
+        },
+      },
+    );
   };
 
   if (!favoriteTodoList) return null;
