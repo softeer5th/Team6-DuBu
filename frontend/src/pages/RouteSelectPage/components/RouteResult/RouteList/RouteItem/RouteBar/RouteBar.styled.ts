@@ -33,6 +33,6 @@ export const IconWrapper = styled.div<{ $color: string }>`
 export const RouteProgressBar = styled.div<{ $isTraffic: boolean; $color: string }>`
   width: 100%;
   height: 100%;
-  background: ${({ $isTraffic, $color }) => ($isTraffic ? $color : 'transparent')};
+  background-color: ${({ $isTraffic, $color }) => ($isTraffic ? $color : 'transparent')};
   border-radius: 0.4rem;
 `;
