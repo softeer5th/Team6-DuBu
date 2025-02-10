@@ -7,7 +7,10 @@ import java.util.Arrays;
 
 @Getter
 public enum TodoRequestType {
-    TODAY("todayTodoManagementService"), TOMORROW("tomorrowTodoManagementService"), SAVE("saveTodoManagementService");
+    TODAY("todayTodoManagementService"),
+    TOMORROW("tomorrowTodoManagementService"),
+    SAVE("saveTodoManagementService"),
+    PATH("pathTodoManagementService");
 
     private final String managementServiceName;
 
