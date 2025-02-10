@@ -5,10 +5,11 @@ import theme from '@/styles/theme';
 
 const StartButton = () => {
   return (
-    <S.StartButtonLayout>
-      <Icon icon="Fire" width={20} height={20} color={theme.colors.white} />
-      <span>출발하기</span>
-    </S.StartButtonLayout>
+    <S.StartButtonLayout
+      icon={<Icon icon="Fire" width={20} height={20} color={theme.colors.white} />}
+      color={theme.colors.white}
+      text="출발하기"
+    />
   );
 };
 
