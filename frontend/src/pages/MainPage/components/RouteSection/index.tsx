@@ -1,19 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import { useReducer } from 'react';
 
 import RouteItem from './RouteItem';
 import * as S from './RouteSection.styled';
+import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
 
-import { getMemberAddress } from '@/api/member';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
-
-const useMemberAddressQuery = () => {
-  return useQuery({
-    queryKey: ['memberAddress'],
-    queryFn: getMemberAddress,
-  });
-};
 
 const RouteSection = () => {
   const { data: memberAddress } = useMemberAddressQuery();
