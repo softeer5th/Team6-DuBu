@@ -2,10 +2,15 @@ package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberCategoryNotFoundException;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.domain.Path;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
+import com.dubu.backend.plan.exception.PathNotFoundException;
+import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.todo.dto.common.Cursor;
 import com.dubu.backend.todo.dto.request.RecommendTodoQueryRequest;
 import com.dubu.backend.todo.dto.request.SaveTodoQueryRequest;
@@ -34,9 +39,10 @@ public class TodoQueryServiceImpl implements TodoQueryService {
     private final MemberCategoryRepository memberCategoryRepository;
     private final TodoRepository todoRepository;
     private final ScheduleRepository scheduleRepository;
-
-    private final TodoRandomSelector todoRandomSelector;
     private final CategoryRepository categoryRepository;
+    private final PathRepository pathRepository;
+    private final TodoRandomSelector todoRandomSelector;
+
 
     @Transactional
     @Override
@@ -56,7 +62,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 
             Schedule savedSchedule = scheduleRepository.save(newSchedule);
 
-            Todo newTodo = Todo.of(recommendTodo.getTitle(), TodoType.SCHEDULED, recommendTodo.getDifficulty(), null, member, recommendTodo.getCategory(), recommendTodo, newSchedule);
+            Todo newTodo = Todo.of(recommendTodo.getTitle(), TodoType.SCHEDULED, recommendTodo.getDifficulty(), null, member, recommendTodo.getCategory(), recommendTodo, newSchedule, null);
             todoRepository.save(newTodo);
 
             return savedSchedule;
@@ -143,6 +149,21 @@ public class TodoQueryServiceImpl implements TodoQueryService {
         Todo lastTodo = todos.get(todos.size() - 1);
 
         return new PageResponse<>(todoInfoSlice.hasNext(), Cursor.of(lastTodo.getCategory().getId(), lastTodo.getDifficulty(), lastTodo.getId()), todoInfos);
+    }
+
+
+    public List<TodoInfo> findTodosByPath(Long memberId, Long pathId){
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if(member.getStatus() != Status.MOVE){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
+        Path path = pathRepository.findById(pathId).orElseThrow(() -> new PathNotFoundException(pathId));
+
+        List<Todo> todos = todoRepository.findTodosWithCategoryByPath(path);
+
+        return todos.stream().map(TodoInfo::fromEntity).toList();
     }
 }
 
