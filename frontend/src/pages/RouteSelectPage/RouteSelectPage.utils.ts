@@ -24,8 +24,8 @@ export const getAddress = (
   // 학교/집
   if (isMatchedSwitchedAddress) {
     return {
-      start: { icon: 'AddressUniv', location: '학교', name: end.name },
-      end: { icon: 'AddressHome', location: '집', name: start.name },
+      start: { icon: 'AddressUniv', location: '학교', name: start.name },
+      end: { icon: 'AddressHome', location: '집', name: end.name },
     } as const;
   }
 
