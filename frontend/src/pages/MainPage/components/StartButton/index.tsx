@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router';
 
 import * as S from './StartButton.styled';
 import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
+import { getRouteCoordWithSwitched } from '../../MainPage.utils';
 
 import Icon from '@/components/Icon';
 import theme from '@/styles/theme';
@@ -20,29 +21,22 @@ interface StartButtonProps {
   };
 }
 
-//startAddress가 있고, endAddress가 있음
-// -> isSwitched에 따라 두 값을 변경
-// startAddress가 있고, endAddress가 없음.
-// -> isSwitched에 따라 startAddress와 memberAddress.school과 변경
-// startAddress가 없고, endAddress가 있음.
-// -> isSwitched에 따라 endAddress와 memberAddress.home과 변경
-// startAddress와 endAddress가 없음.
-// -> memberAddress.school과 memberAddress.home과 변경
-// TODO: startAddress, endAddress, isSwitched에 따라 시작 주소, 도착 주소 맵핑
 const StartButton = ({ isSwitched, startAddress, endAddress }: StartButtonProps) => {
   const navigate = useNavigate();
   const { data: memberAddress } = useMemberAddressQuery();
 
-  const goToRouteSelect = () => {
-    const startX = isSwitched ? memberAddress?.schoolXCoordinate : memberAddress?.homeXCoordinate;
-    const startY = isSwitched ? memberAddress?.schoolYCoordinate : memberAddress?.homeYCoordinate;
-    const endX = isSwitched ? memberAddress?.homeXCoordinate : memberAddress?.schoolXCoordinate;
-    const endY = isSwitched ? memberAddress?.homeYCoordinate : memberAddress?.schoolYCoordinate;
+  const isStartAddress = startAddress.startName !== '';
+  const isEndAddress = endAddress.endName !== '';
 
-    const startName = isSwitched
-      ? memberAddress?.schoolAddressName
-      : memberAddress?.homeAddressName;
-    const endName = isSwitched ? memberAddress?.homeAddressName : memberAddress?.schoolAddressName;
+  const goToRouteSelect = () => {
+    const { startX, startY, endX, endY, startName, endName } = getRouteCoordWithSwitched(
+      isSwitched,
+      isStartAddress,
+      isEndAddress,
+      startAddress,
+      endAddress,
+      memberAddress,
+    );
 
     navigate(
       `/route-select?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}&startName=${startName}&endName=${endName}`,

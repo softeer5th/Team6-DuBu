@@ -35,6 +35,7 @@ export const AddressValue = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  width: 20rem;
 `;
 
 export const Divider = styled.div`
