@@ -5,8 +5,11 @@ import TodoListContainer from './components/TodoListContainer';
 import * as S from './MainPage.styled';
 
 import Header from '@/components/Header';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const MainPage = () => {
+  const { isToday } = useQueryParamsDate();
+
   return (
     <S.MainPageLayout>
       <Header>
@@ -22,9 +25,11 @@ const MainPage = () => {
 
         <TodoListContainer />
 
-        <S.StartButtonWrapper>
-          <StartButton />
-        </S.StartButtonWrapper>
+        {isToday && (
+          <S.StartButtonWrapper>
+            <StartButton />
+          </S.StartButtonWrapper>
+        )}
       </S.MainContentContainer>
     </S.MainPageLayout>
   );
