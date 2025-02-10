@@ -3,6 +3,7 @@ package com.dubu.backend.todo.controller;
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.todo.dto.common.Cursor;
+import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.enums.TodoRequestType;
 import com.dubu.backend.todo.dto.request.*;
 import com.dubu.backend.todo.dto.response.TodoInfo;
@@ -28,26 +29,41 @@ public class TodoController {
 
     @PostMapping("/{type}/manual")
     @ResponseStatus(HttpStatus.CREATED)
-    public TodoSuccessResponse<?> postTodo(@RequestAttribute Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateRequest request){
+        public TodoSuccessResponse<?> postTodo(
+                @RequestAttribute Long memberId,
+                @PathVariable("type")TodoRequestType type,
+                @Nullable @RequestParam("pathId") Long pathId,
+                @RequestBody TodoCreateRequest request)
+    {
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
-        TodoManageResult<?> result = todoManagementService.createTodo(memberId, request);
+        TodoManageResult<?> result = todoManagementService.createTodo(new TodoIdentifier(memberId, null, pathId), request);
 
         return new TodoSuccessResponse<>(result.isTomorrowScheduleCreated(), result.info());
     }
 
     @PostMapping("/{type}/from-archived")
     @ResponseStatus(HttpStatus.CREATED)
-    public TodoSuccessResponse<?> postTodoFromArchived(@RequestAttribute Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateFromArchivedRequest request){
+    public TodoSuccessResponse<?> postTodoFromArchived(
+            @RequestAttribute Long memberId,
+            @PathVariable("type")TodoRequestType type,
+            @Nullable @RequestParam("pathId") Long pathId,
+            @RequestBody TodoCreateFromArchivedRequest request)
+    {
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
-        TodoManageResult<?> result = todoManagementService.createTodoFromArchived(memberId, request);
+        TodoManageResult<?> result = todoManagementService.createTodoFromArchived(new TodoIdentifier(memberId, null, pathId), request);
 
         return new TodoSuccessResponse<>(result.isTomorrowScheduleCreated(), result.info());
     }
 
     @PatchMapping("/{todoId}")
-    public ResponseEntity<?> patchTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId, @RequestParam("type")TodoRequestType type, @RequestBody TodoUpdateRequest request){
+    public ResponseEntity<?> patchTodo(
+            @RequestAttribute Long memberId,
+            @PathVariable("todoId")Long todoId,
+            @RequestParam("type") TodoRequestType type,
+            @RequestBody TodoUpdateRequest request)
+    {
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
-        TodoManageResult<?> result = todoManagementService.modifyTodo(memberId, todoId, request);
+        TodoManageResult<?> result = todoManagementService.modifyTodo(new TodoIdentifier(memberId, todoId, null), request);
 
         if(result.isTomorrowScheduleCreated())
             return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
@@ -56,9 +72,13 @@ public class TodoController {
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<?> deleteTodo(@RequestAttribute Long memberId, @PathVariable("todoId")Long todoId, @RequestParam("type")TodoRequestType type){
+    public ResponseEntity<?> deleteTodo(
+            @RequestAttribute Long memberId,
+            @PathVariable("todoId")Long todoId,
+            @RequestParam("type") TodoRequestType type)
+    {
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
-        TodoManageResult<?> result = todoManagementService.removeTodo(memberId, todoId);
+        TodoManageResult<?> result = todoManagementService.removeTodo(new TodoIdentifier(memberId, todoId, null));
 
         if(result.isTomorrowScheduleCreated())
             return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
@@ -67,27 +87,48 @@ public class TodoController {
     }
 
     @GetMapping("/today")
-    public SuccessResponse<List<TodoInfo>> getTodayTodos(@RequestAttribute Long memberId){
+    public SuccessResponse<List<TodoInfo>> getTodayTodos(
+            @RequestAttribute Long memberId)
+    {
         return new SuccessResponse<>(todoQueryService.findTodayTodos(memberId));
     }
 
     @GetMapping("/tomorrow")
-    public SuccessResponse<List<TodoInfo>> getTomorrowTodos(@RequestAttribute Long memberId){
+    public SuccessResponse<List<TodoInfo>> getTomorrowTodos(
+            @RequestAttribute Long memberId)
+    {
         return new SuccessResponse<>(todoQueryService.findTomorrowTodos(memberId));
     }
 
     @GetMapping("/save")
-    public PageResponse<Long, List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @Nullable @RequestParam("cursor") Long cursor, @ModelAttribute SaveTodoQueryRequest request){
+    public PageResponse<Long, List<TodoInfo>> getSaveTodos(
+            @RequestAttribute Long memberId,
+            @Nullable @RequestParam("cursor") Long cursor,
+            @ModelAttribute SaveTodoQueryRequest request)
+    {
         return todoQueryService.findSaveTodos(memberId, cursor, request);
     }
 
     @GetMapping("/recommend/limit")
-    public SuccessResponse<List<TodoInfo>> getLimitedRecommendTodos(@RequestAttribute Long memberId){
+    public SuccessResponse<List<TodoInfo>> getLimitedRecommendTodos(
+            @RequestAttribute Long memberId)
+    {
         return new SuccessResponse<>(todoQueryService.findRandomRecommendTodos(memberId));
     }
 
     @GetMapping("/recommend/all")
-    public PageResponse<Cursor, List<TodoInfo>> getAllRecommendTodos(@ModelAttribute Cursor cursor, @ModelAttribute RecommendTodoQueryRequest request){
+    public PageResponse<Cursor, List<TodoInfo>> getAllRecommendTodos(
+            @Nullable @ModelAttribute Cursor cursor,
+            @ModelAttribute RecommendTodoQueryRequest request)
+    {
         return todoQueryService.findAllRecommendTodos(cursor, request);
+    }
+
+    @GetMapping("/path")
+    public SuccessResponse<List<TodoInfo>> getTodosByPath(
+            @RequestAttribute("memberId") Long memberId,
+            @RequestParam("pathId") Long pathId)
+    {
+        return new SuccessResponse<>(todoQueryService.findTodosByPath(memberId, pathId));
     }
 }
