@@ -25,7 +25,7 @@ const MainPage = () => {
     endY: 0,
   });
 
-  const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
+  const [isSearchAddressOpen, toggleAddressSearch] = useReducer((prev) => !prev, false);
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school'>('home');
 
   const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
@@ -47,17 +47,12 @@ const MainPage = () => {
   };
 
   const handleClickSearchAddress = (type: 'home' | 'school') => {
-    setIsSearchAddressOpen(true);
+    toggleAddressSearch();
     setSelectedAddressType(type);
   };
 
   if (isSearchAddressOpen) {
-    return (
-      <SearchAddress
-        onClose={() => setIsSearchAddressOpen(false)}
-        onSelectAddress={updateAddress}
-      />
-    );
+    return <SearchAddress onClose={toggleAddressSearch} onSelectAddress={updateAddress} isMain />;
   }
 
   return (

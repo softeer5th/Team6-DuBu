@@ -11,7 +11,6 @@ export const SearchAddressLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
 `;
 
 export const TopContainer = styled.div`
@@ -19,7 +18,8 @@ export const TopContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 0.6rem;
+  gap: 2rem;
+  padding: 2rem 0 4rem 0;
 `;
 
 export const ShortcutButtonContainer = styled.div`

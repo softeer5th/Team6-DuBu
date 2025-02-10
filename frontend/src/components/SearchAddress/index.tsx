@@ -14,9 +14,10 @@ import { colors } from '@/styles/theme';
 interface SearchAddressProps {
   onSelectAddress: (address: string, coordinateX: number, coordinateY: number) => void;
   onClose: () => void;
+  isMain?: boolean;
 }
 
-const SearchAddress = ({ onSelectAddress, onClose }: SearchAddressProps) => {
+const SearchAddress = ({ onSelectAddress, onClose, isMain }: SearchAddressProps) => {
   const [addressInput, setAddressInput] = useState('');
   const { data: addresses = [], isLoading } = useSearchAddressQuery(addressInput);
   const { data: memberInfo } = useMemberAddressQuery();
@@ -59,38 +60,40 @@ const SearchAddress = ({ onSelectAddress, onClose }: SearchAddressProps) => {
 
   return (
     <S.SearchAddressLayout>
+      <SearchAddressHeader onClick={handleClose} />
       <S.TopContainer>
-        <SearchAddressHeader onClick={handleClose} />
         <SearchAddressSearchBar query={addressInput} handleSearch={handleSearch} />
-        <S.ShortcutButtonContainer>
-          <S.IconButtonWrapper
-            icon={
-              <Icon
-                icon="AddressHome"
-                width={20}
-                height={20}
-                color={colors.green300}
-                cursor="pointer"
-              />
-            }
-            onClick={handleSelectHome}
-            text="집"
-          />
-          <S.IconButtonWrapper
-            icon={
-              <Icon
-                icon="AddressUniv"
-                width={20}
-                height={20}
-                color={colors.green300}
-                cursor="pointer"
-              />
-            }
-            color={colors.green300}
-            onClick={handleSelectSchool}
-            text="학교"
-          />
-        </S.ShortcutButtonContainer>
+        {isMain && (
+          <S.ShortcutButtonContainer>
+            <S.IconButtonWrapper
+              icon={
+                <Icon
+                  icon="AddressHome"
+                  width={20}
+                  height={20}
+                  color={colors.green300}
+                  cursor="pointer"
+                />
+              }
+              onClick={handleSelectHome}
+              text="집"
+            />
+            <S.IconButtonWrapper
+              icon={
+                <Icon
+                  icon="AddressUniv"
+                  width={20}
+                  height={20}
+                  color={colors.green300}
+                  cursor="pointer"
+                />
+              }
+              color={colors.green300}
+              onClick={handleSelectSchool}
+              text="학교"
+            />
+          </S.ShortcutButtonContainer>
+        )}
       </S.TopContainer>
 
       {isLoading ? (
