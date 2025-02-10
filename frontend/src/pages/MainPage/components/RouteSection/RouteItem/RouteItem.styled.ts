@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export const RouteItemLayout = styled.div`
+export const RouteItemLayout = styled.div<{ $isToday: boolean }>`
   ${({ theme }) => theme.fonts.body15Med};
   color: ${({ theme }) => theme.colors.gray400};
-  background-color: ${({ theme }) => theme.colors.lightWhite70};
+  background-color: ${({ theme, $isToday }) =>
+    $isToday ? theme.colors.lightWhite70 : 'transparent'};
 
   display: flex;
   align-items: center;
@@ -22,14 +23,13 @@ export const RouteTitleWrapper = styled.div`
   min-width: 5.4rem;
 `;
 
-export const Location = styled.span`
+export const Location = styled.span<{ $isToday: boolean }>`
   ${({ theme }) => theme.fonts.body15};
-  color: ${({ theme }) => theme.colors.green700};
+  color: ${({ theme, $isToday }) => ($isToday ? theme.colors.green700 : theme.colors.gray500)};
 `;
 
 export const AddressTextWrapper = styled.div`
   width: 60%;
-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

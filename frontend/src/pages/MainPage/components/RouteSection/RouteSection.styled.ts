@@ -36,3 +36,12 @@ export const IconWrapper = styled.div`
 
   z-index: 1;
 `;
+
+export const RouteSectionDivider = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 0.15rem;
+  background-color: ${({ theme }) => theme.colors.gray200};
+`;
