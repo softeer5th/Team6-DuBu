@@ -6,6 +6,7 @@ export const QUERY_KEY = {
   recommendAll: 'recommendAll',
   routeTodoList: 'routeTodoList',
   searchAddress: 'searchAddress',
+  searchRoutes: 'searchRoutes',
   planInfo: 'planInfo',
   memberAddress: 'memberAddress',
 } as const;
