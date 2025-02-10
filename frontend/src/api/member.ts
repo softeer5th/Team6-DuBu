@@ -2,15 +2,16 @@ import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
 
+export interface MemberAddress {
+  homeAddressName: string;
+  homeXCoordinate: number;
+  homeYCoordinate: number;
+  schoolAddressName: string;
+  schoolXCoordinate: number;
+  schoolYCoordinate: number;
+}
 interface MemberAddressResponse {
-  data: {
-    homeAddressName: string;
-    homeXCoordinate: number;
-    homeYCoordinate: number;
-    schoolAddressName: string;
-    schoolXCoordinate: number;
-    schoolYCoordinate: number;
-  };
+  data: MemberAddress;
 }
 
 export const getMemberAddress = async () => {

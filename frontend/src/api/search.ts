@@ -17,6 +17,7 @@ export const getSearchAddress = async (params: { query: string }) => {
   const result = await fetchClient.get<SearchAddressResponse>(
     `${API_URL.searchAddress}?query=${params.query}`,
   );
+
   return result.data;
 };
 
