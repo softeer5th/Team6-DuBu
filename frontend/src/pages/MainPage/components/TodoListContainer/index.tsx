@@ -13,6 +13,15 @@ const TODO_CONTENT_MESSAGE = {
   empty: '오늘 할 일이 아직 없어요',
 };
 
+const ICON_MAPPER = {
+  READING: 'Reading',
+  ENGLISH: 'English',
+  LANGUAGE: 'Language',
+  NEWS: 'News',
+  HOBBY: 'Hobby',
+  OTHERS: 'Others',
+} as const;
+
 const TodoListContainer = () => {
   const navigate = useNavigate();
   const { dateType } = useQueryParamsDate();
@@ -41,7 +50,7 @@ const TodoListContainer = () => {
         {isEmptyTodo && <Icon icon="Fire" width={96} height={96} color={colors.green25} />}
         {todoList?.map((todo) => (
           <S.TodoItem key={todo.todoId}>
-            <Icon icon="Reading" />
+            <Icon icon={ICON_MAPPER[todo.category]} />
             <span>{todo.title}</span>
           </S.TodoItem>
         ))}
