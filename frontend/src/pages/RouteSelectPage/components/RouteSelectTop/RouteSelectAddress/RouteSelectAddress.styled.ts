@@ -31,6 +31,10 @@ export const AddressLabelText = styled.div`
 export const AddressValue = styled.div`
   color: ${({ theme }) => theme.colors.gray400};
   ${({ theme }) => theme.fonts.body15Med};
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const Divider = styled.div`
