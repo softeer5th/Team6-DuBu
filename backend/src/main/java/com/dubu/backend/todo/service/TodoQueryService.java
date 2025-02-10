@@ -14,4 +14,5 @@ public interface TodoQueryService {
     PageResponse<Long, List<TodoInfo>> findSaveTodos(Long memberId, Long cursor, SaveTodoQueryRequest request);
     List<TodoInfo> findRandomRecommendTodos(Long memberId);
     PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(Cursor cursor, RecommendTodoQueryRequest request);
+    List<TodoInfo> findTodosByPath(Long memberId, Long pathId);
 }
