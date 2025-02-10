@@ -50,6 +50,8 @@ public enum ErrorCode {
 
     TODO_LIMIT_EXCEEDED(BAD_REQUEST, "할 일은 최대 3개까지 추가할 수 있습니다."),
 
+    INVALID_TODO_REQUEST_TYPE(BAD_REQUEST, "잘못된 할 일 요청 유형입니다. type = %s"),
+
     // Schedule
     SCHEDULE_NOT_FOUND(NOT_FOUND, "스케줄을 찾을 수 없습니다."),
 
