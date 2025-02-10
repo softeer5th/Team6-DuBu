@@ -10,6 +10,10 @@ export const RouteItemLayout = styled.div`
   gap: 0.8rem;
   padding: 1.3rem 1.25rem;
   border-radius: 1.2rem;
+
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
 `;
 
 export const RouteTitleWrapper = styled.div`
