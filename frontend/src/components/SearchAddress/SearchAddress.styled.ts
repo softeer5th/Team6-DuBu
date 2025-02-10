@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import IconButton from '../Button/IconButton';
+
 export const SearchAddressLayout = styled.div`
   background-color: ${({ theme }) => theme.colors.green50};
   position: fixed;
@@ -18,4 +20,17 @@ export const TopContainer = styled.div`
   align-items: center;
   width: 100%;
   gap: 0.6rem;
+`;
+
+export const ShortcutButtonContainer = styled.div`
+  display: flex;
+  gap: 2.4rem;
+  align-self: flex-start;
+  padding-left: 3.6rem;
+`;
+
+export const IconButtonWrapper = styled(IconButton)`
+  display: flex;
+  gap: 0.4rem;
+  color: ${({ theme }) => theme.colors.green500};
 `;
