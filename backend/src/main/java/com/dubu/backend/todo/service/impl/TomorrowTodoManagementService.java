@@ -54,7 +54,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             tomorrowTodos = createTomorrowTodosFromTodayTodos(schedule, todos);
         }
 
-        Todo newTodo = todoCreateRequest.toEntity(member, category, schedule, TodoType.SCHEDULED);
+        Todo newTodo = todoCreateRequest.toEntity(member, category, schedule, null, TodoType.SCHEDULED);
         Todo savedTodo = todoRepository.save(newTodo);
 
         if(tomorrowTodos != null) {
@@ -87,7 +87,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
         // 해당 할 일이 이미 추가됐는지 확인
         todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
-        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
+        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule, null);
         Todo savedTodo = todoRepository.save(newTodo);
 
         if(tomorrowTodos != null){

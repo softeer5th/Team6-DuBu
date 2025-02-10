@@ -39,7 +39,7 @@ public class TodayTodoManagementService implements TodoManagementService {
             throw new TodoLimitExceededException();
         }
 
-        Todo todo = todoCreateRequest.toEntity(member, category, schedule, TodoType.SCHEDULED);
+        Todo todo = todoCreateRequest.toEntity(member, category, schedule, null, TodoType.SCHEDULED);
 
         return TodoManageResult.of(false, TodoInfo.fromEntity(todoRepository.save(todo)));
     }
@@ -57,7 +57,7 @@ public class TodayTodoManagementService implements TodoManagementService {
         // 해당 할 일이 이미 추가됐는지 확인
         todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
-        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
+        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule, null);
 
         Todo savedTodo = todoRepository.save(newTodo);
         return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));

@@ -37,7 +37,7 @@ public class SaveTodoManagementService implements TodoManagementService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
 
-        Todo todo = todoCreateRequest.toEntity(member, category, null, TodoType.SAVE);
+        Todo todo = todoCreateRequest.toEntity(member, category, null, null, TodoType.SAVE);
         Todo savedTodo = todoRepository.save(todo);
 
         return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
@@ -50,7 +50,7 @@ public class SaveTodoManagementService implements TodoManagementService {
 
         todoRepository.findByMemberAndParentTodoAndType(member, parentTodo, TodoType.SAVE).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
-        Todo todo = Todo.of(parentTodo.getTitle(), TodoType.SAVE, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, null);
+        Todo todo = Todo.of(parentTodo.getTitle(), TodoType.SAVE, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, null, null);
         Todo savedTodo = todoRepository.save(todo);
 
         return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
