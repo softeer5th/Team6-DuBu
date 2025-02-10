@@ -4,7 +4,7 @@ import { Tab } from '@/components/Tab';
 
 export const TabContent = styled(Tab.Content)`
   background-color: ${({ theme }) => theme.colors.gray50};
-  flex: 1;
+  flex-grow: 1;
   overflow-y: scroll;
 `;
 

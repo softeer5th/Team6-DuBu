@@ -7,10 +7,12 @@ const DATE_TYPE = {
   tomorrow: 'tomorrow',
 };
 
+type DateType = keyof typeof DATE_TYPE;
+
 const useQueryParamsDate = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const dateType = searchParams.get('dateType') || DATE_TYPE.today;
+  const dateType = (searchParams.get('dateType') || DATE_TYPE.today) as DateType;
 
   const isToday = dateType === DATE_TYPE.today;
   const currentDay = isToday ? getKoreanTime() : addDay(getKoreanTime(), 1);

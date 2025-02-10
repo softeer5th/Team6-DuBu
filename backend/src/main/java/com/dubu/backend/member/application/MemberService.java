@@ -80,4 +80,13 @@ public class MemberService {
 
         return MemberSavedAddressResponse.from(addresses);
     }
+
+    public List<String> getMemberCategory(Long memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        return memberCategoryRepository.findMemberCategoriesWithCategoryByMember(member)
+                .stream().map(memberCategory -> memberCategory.getCategory().getName())
+                .toList();
+    }
 }

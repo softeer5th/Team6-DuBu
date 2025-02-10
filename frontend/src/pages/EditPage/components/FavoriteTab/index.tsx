@@ -1,3 +1,5 @@
+import { useParams } from 'react-router';
+
 import * as S from './FavoriteTab.styled';
 import useAddTodoFromArchivedMutation from '../../hooks/useAddTodoFromArchivedMutation';
 import useFavoriteTodoListQuery from '../../hooks/useFavoriteListQuery';
@@ -8,12 +10,13 @@ import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const FavoriteTab = () => {
+  const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { data: favoriteTodoList } = useFavoriteTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
 
   const handleAddTodoFromFavorite = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId });
+    addTodoFromArchived({ dateType, todoId, planId: Number(planId) });
   };
 
   if (!favoriteTodoList) return null;

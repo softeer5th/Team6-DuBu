@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import * as S from './RecommendTodoContainer.styled';
 import useFilterBottomSheet from '../../hooks/useFilterBottomSheet';
@@ -14,6 +15,7 @@ import useAddTodoFromArchivedMutation from '@/pages/EditPage/hooks/useAddTodoFro
 import { CategoryType, DifficultyType } from '@/types/filter';
 
 const RecommendTodoContainer = () => {
+  const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { isOpen, open, close } = useFilterBottomSheet();
   const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
@@ -33,7 +35,7 @@ const RecommendTodoContainer = () => {
   };
 
   const handleAddTodoFromRecommendAll = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId });
+    addTodoFromArchived({ dateType, todoId, planId: Number(planId) });
   };
 
   // 초기 로딩 시에만 응답값 설정
