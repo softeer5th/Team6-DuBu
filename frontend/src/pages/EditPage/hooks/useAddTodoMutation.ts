@@ -7,13 +7,12 @@ const useAddTodoMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ dateType, todo, routeId }: TodoAddParams) =>
-      addTodo({ dateType, todo, routeId }),
+    mutationFn: ({ dateType, todo, planId }: TodoAddParams) => addTodo({ dateType, todo, planId }),
 
     onSuccess: (_, params) => {
-      if (params.routeId) {
+      if (params.planId) {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.routeTodoList, params.routeId],
+          queryKey: [QUERY_KEY.routeTodoList, params.planId],
         });
       } else {
         queryClient.invalidateQueries({

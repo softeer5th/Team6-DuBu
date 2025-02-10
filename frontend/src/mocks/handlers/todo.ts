@@ -9,17 +9,17 @@ import { MOCK_API_URL } from '@/constants/url';
 
 interface TodoCreateParams {
   dateType: string;
-  routeId?: string;
+  planId?: string;
 }
 
 interface TodoDeleteParams {
   todoId: string;
-  routeId?: string;
+  planId?: string;
 }
 
 interface TodoEditParams {
   todoId: string;
-  routeId?: string;
+  planId?: string;
 }
 
 const getTodayTodoHandler = () => {
@@ -122,7 +122,7 @@ const addTodoHandler = async ({
   const requestParams = params;
   const newTodo = await request.json();
 
-  if (requestParams.routeId) {
+  if (requestParams.planId) {
     ROUTE_TODO_DATA.data.push({
       ...newTodo,
       type: requestParams.dateType,
@@ -142,9 +142,9 @@ const addTodoHandler = async ({
 };
 
 const deleteTodoHandler = ({ params }: { params: TodoDeleteParams }) => {
-  const { todoId, routeId } = params;
+  const { todoId, planId } = params;
 
-  if (routeId) {
+  if (planId) {
     ROUTE_TODO_DATA.data = ROUTE_TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
   } else {
     TODO_DATA.data = TODO_DATA.data.filter((todo) => todo.todoId !== Number(todoId));
@@ -160,10 +160,10 @@ const editTodoHandler = async ({
   params: TodoEditParams;
   request: Request;
 }) => {
-  const { todoId, routeId } = params;
+  const { todoId, planId } = params;
   const newTodo = await request.json();
 
-  if (routeId) {
+  if (planId) {
     ROUTE_TODO_DATA.data = ROUTE_TODO_DATA.data.map((todo) =>
       todo.todoId === Number(todoId) ? { ...newTodo, type: todo.type } : todo,
     );
@@ -183,7 +183,7 @@ const addTodoFromArchivedHandler = async ({
   params: TodoCreateParams;
   request: Request;
 }) => {
-  const { dateType, routeId } = params;
+  const { dateType, planId } = params;
   const { todoId } = await request.json();
 
   const newTodo = ARCHIVED_TODO_DATA.data.find((todo) => todo.todoId === Number(todoId));
@@ -197,7 +197,7 @@ const addTodoFromArchivedHandler = async ({
     );
   }
 
-  if (routeId) {
+  if (planId) {
     ROUTE_TODO_DATA.data.push({
       ...newTodo,
       type: dateType,

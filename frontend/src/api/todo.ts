@@ -9,7 +9,7 @@ export type TodoCreateParams = Omit<Todo, 'todoId'>;
 export interface TodoAddParams {
   dateType: string;
   todo: TodoCreateParams;
-  routeId?: number;
+  planId?: number;
 }
 
 export interface TodoResponse {
@@ -75,25 +75,25 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
   return result.data;
 };
 
-export const addTodo = async ({ dateType, todo, routeId }: TodoAddParams) => {
-  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType, routeId), {
+export const addTodo = async ({ dateType, todo, planId }: TodoAddParams) => {
+  const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType, planId), {
     body: { ...todo },
   });
 
   return result.data;
 };
 
-export const deleteTodo = async (todoId: number, routeId?: number) => {
-  return await fetchClient.delete(API_URL.deleteTodo(todoId, routeId));
+export const deleteTodo = async (todoId: number, planId?: number) => {
+  return await fetchClient.delete(API_URL.deleteTodo(todoId, planId));
 };
 
-export const editTodo = async (todo: Todo, routeId?: number) => {
-  return await fetchClient.patch(API_URL.editTodo(todo.todoId, routeId), { body: { ...todo } });
+export const editTodo = async (todo: Todo, planId?: number) => {
+  return await fetchClient.patch(API_URL.editTodo(todo.todoId, planId), { body: { ...todo } });
 };
 
-export const addTodoFromArchived = async (dateType: string, todoId: number, routeId?: number) => {
+export const addTodoFromArchived = async (dateType: string, todoId: number, planId?: number) => {
   const result = await fetchClient.post<TodoCreateResponse>(
-    API_URL.addTodoFromArchived(dateType, routeId),
+    API_URL.addTodoFromArchived(dateType, planId),
     {
       body: { todoId },
     },
@@ -102,8 +102,8 @@ export const addTodoFromArchived = async (dateType: string, todoId: number, rout
   return result.data;
 };
 
-export const getRouteTodoList = async (routeId: number) => {
-  const result = await fetchClient.get<TodoResponse>(API_URL.routeTodo(routeId));
+export const getRouteTodoList = async (planId: number) => {
+  const result = await fetchClient.get<TodoResponse>(API_URL.routeTodo(planId));
 
   return result.data;
 };

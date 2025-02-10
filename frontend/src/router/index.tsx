@@ -6,6 +6,7 @@ import EditPage from '@/pages/EditPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
+import PlanPage from '@/pages/PlanPage';
 import RecommendTodoPage from '@/pages/RecommendTodoPage';
 import RouteSelectPage from '@/pages/RouteSelectPage';
 import RouteTodoEditPage from '@/pages/RouteTodoEditPage';
@@ -36,8 +37,19 @@ export const router = createBrowserRouter([
   {
     path: '/route-select',
     element: <RouteSelectPage />,
+  }
   {
-    path: '/routes/:routeId/todos/edit',
+    path: '/plan',
+    element: <FlexPageLayout />,
+    children: [
+      {
+        index: true,
+        element: <PlanPage />,
+      },
+    ],
+  },
+  {
+    path: '/plan/:planId/todos/edit',
     element: <FlexPageLayout />,
     children: [
       {
@@ -47,7 +59,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/recommend/:routeId?',
+    path: '/recommend/:planId?',
     element: <FlexPageLayout />,
     children: [
       {

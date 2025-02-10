@@ -18,12 +18,12 @@ const TODO_TAB_MESSAGE = {
 
 interface TodoTabProps {
   tabType: 'today' | 'tomorrow' | 'route';
-  routeId?: number;
+  planId?: number;
 }
 
-const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
-  const { data: currentTodoList } = useTodoListQuery(tabType, routeId);
-  const { data: routeTodoList } = useRouteTodoQuery(routeId);
+const TodoTab = ({ tabType, planId }: TodoTabProps) => {
+  const { data: currentTodoList } = useTodoListQuery(tabType, planId);
+  const { data: routeTodoList } = useRouteTodoQuery(planId);
   const { mutate: deleteTodo } = useDeleteTodoMutation(tabType);
 
   const todoList = currentTodoList || routeTodoList;
@@ -34,7 +34,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
     close: closeAddBottomSheet,
     content: addContent,
     title: addTodoForm,
-  } = useAddTodoBottomSheet(tabType, routeId);
+  } = useAddTodoBottomSheet(tabType, planId);
 
   const {
     isOpen: isEditOpen,
@@ -42,7 +42,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
     close: closeEditBottomSheet,
     content: editTodoForm,
     title: editTitle,
-  } = useEditTodoBottomSheet(tabType, routeId);
+  } = useEditTodoBottomSheet(tabType, planId);
 
   if (!todoList) return null;
 
@@ -57,7 +57,7 @@ const TodoTab = ({ tabType, routeId }: TodoTabProps) => {
             left={
               <IconButton
                 icon={<Icon icon="MinusCircle" cursor="pointer" />}
-                onClick={() => deleteTodo({ todoId: todo.todoId, routeId })}
+                onClick={() => deleteTodo({ todoId: todo.todoId, planId })}
               />
             }
             right={
