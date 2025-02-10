@@ -15,7 +15,9 @@ const RouteItem = ({ icon, location, value }: RouteItemProps) => {
         <Icon icon={icon} />
         <S.Location>{location}</S.Location>
       </S.RouteTitleWrapper>
-      <span>{value || '주소 입력'}</span>
+      <S.AddressTextWrapper>
+        <S.AddressText>{value || '주소 입력'}</S.AddressText>
+      </S.AddressTextWrapper>
     </S.RouteItemLayout>
   );
 };

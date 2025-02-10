@@ -22,3 +22,16 @@ export const Location = styled.span`
   ${({ theme }) => theme.fonts.body15};
   color: ${({ theme }) => theme.colors.green700};
 `;
+
+export const AddressTextWrapper = styled.div`
+  width: 60%;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+export const AddressText = styled.span`
+  ${({ theme }) => theme.fonts.body15};
+  color: ${({ theme }) => theme.colors.gray400};
+`;
