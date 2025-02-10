@@ -1,3 +1,5 @@
+import { useReducer, useState } from 'react';
+
 import DateHeader from './components/DateHeader';
 import RouteSection from './components/RouteSection';
 import StartButton from './components/StartButton';
@@ -5,10 +7,58 @@ import TodoListContainer from './components/TodoListContainer';
 import * as S from './MainPage.styled';
 
 import Header from '@/components/Header';
+import SearchAddress from '@/components/SearchAddress';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
 const MainPage = () => {
   const { isToday } = useQueryParamsDate();
+  const [isSwitchAddress, toggle] = useReducer((prev) => !prev, false);
+
+  const [startAddress, setStartAddress] = useState({
+    startName: '',
+    startX: 0,
+    startY: 0,
+  });
+  const [endAddress, setEndAddress] = useState({
+    endName: '',
+    endX: 0,
+    endY: 0,
+  });
+
+  const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
+  const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school'>('home');
+
+  const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
+    if (selectedAddressType === 'home') {
+      setStartAddress((prev) => ({
+        ...prev,
+        startName: address,
+        startX: coordinateX,
+        startY: coordinateY,
+      }));
+    } else {
+      setEndAddress((prev) => ({
+        ...prev,
+        endName: address,
+        endX: coordinateX,
+        endY: coordinateY,
+      }));
+    }
+  };
+
+  const handleClickSearchAddress = (type: 'home' | 'school') => {
+    setIsSearchAddressOpen(true);
+    setSelectedAddressType(type);
+  };
+
+  if (isSearchAddressOpen) {
+    return (
+      <SearchAddress
+        onClose={() => setIsSearchAddressOpen(false)}
+        onSelectAddress={updateAddress}
+      />
+    );
+  }
 
   return (
     <S.MainPageLayout>
@@ -20,14 +70,24 @@ const MainPage = () => {
       <S.MainContentContainer>
         <S.HeaderContainer>
           <DateHeader />
-          <RouteSection />
+          <RouteSection
+            isSwitchAddress={isSwitchAddress}
+            toggle={toggle}
+            handleClickSearchAddress={handleClickSearchAddress}
+            startAddress={startAddress}
+            endAddress={endAddress}
+          />
         </S.HeaderContainer>
 
         <TodoListContainer />
 
         {isToday && (
           <S.StartButtonWrapper>
-            <StartButton />
+            <StartButton
+              isSwitched={isSwitchAddress}
+              startAddress={startAddress}
+              endAddress={endAddress}
+            />
           </S.StartButtonWrapper>
         )}
       </S.MainContentContainer>

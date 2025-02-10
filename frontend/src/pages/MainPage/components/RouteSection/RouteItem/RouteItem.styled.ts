@@ -15,6 +15,8 @@ export const RouteItemLayout = styled.div<{ $isToday: boolean }>`
   transition:
     transform 0.5s ease-in-out,
     opacity 0.5s ease-in-out;
+
+  cursor: pointer;
 `;
 
 export const RouteTitleWrapper = styled.div`
