@@ -9,21 +9,21 @@ import java.util.List;
 
 public record MemberInfoResponse(
         String email,
-        String nickName,
+        String nickname,
         List<String> categories,
-        String homeAddress,
-        String schoolAddress
+        String homeTitle,
+        String schoolTitle
 ) {
     public static MemberInfoResponse of(Member member, List<Category> categories, List<Address> addresses) {
-        String homeAddress = addresses.stream()
+        String homeTitle = addresses.stream()
                 .filter(address -> address.getAddressType() == AddressType.HOME)
-                .map(Address::getRoadAddress)
+                .map(Address::getTitle)
                 .findFirst()
                 .orElse(null);
 
-        String schoolAddress = addresses.stream()
+        String schoolTitle = addresses.stream()
                 .filter(address -> address.getAddressType() == AddressType.SCHOOL)
-                .map(Address::getRoadAddress)
+                .map(Address::getTitle)
                 .findFirst()
                 .orElse(null);
 
@@ -31,8 +31,8 @@ public record MemberInfoResponse(
                 member.getEmail(),
                 member.getNickname(),
                 categories.stream().map(Category::getName).toList(),
-                homeAddress,
-                schoolAddress
+                homeTitle,
+                schoolTitle
         );
     }
 }
