@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MemberCategoryRepository extends JpaRepository<MemberCategory, Long> {
+    List<MemberCategory> findByMemberId(Long memberId);
+
     @Query("SELECT mc.category FROM MemberCategory mc WHERE mc.member.id = :memberId")
     List<Category> findCategoriesByMemberId(@Param("memberId") Long memberId);
 
