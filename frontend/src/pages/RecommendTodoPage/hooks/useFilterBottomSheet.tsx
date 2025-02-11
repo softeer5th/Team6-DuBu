@@ -1,4 +1,4 @@
-import useBaseBottomSheet from '@/pages/EditPage/hooks/useBaseBottomSheet';
+import useBaseBottomSheet from '@/hooks/useBaseBottomSheet';
 
 const useFilterBottomSheet = () => {
   const { isOpen, dispatch } = useBaseBottomSheet();
@@ -7,7 +7,6 @@ const useFilterBottomSheet = () => {
     isOpen,
     open: dispatch.open,
     close: dispatch.close,
-    title: '할 일 수정하기',
   };
 };
 
