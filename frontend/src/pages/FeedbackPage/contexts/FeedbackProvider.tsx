@@ -10,7 +10,10 @@ interface FeedbackProviderProps {
 
 export const FeedbackProvider = ({ children, initialStep = 1 }: FeedbackProviderProps) => {
   const [feedbackStep, setFeedbackStep] = useState(initialStep);
-  const [feedbackData, setFeedbackData] = useState<FeedbackData | null>(null);
+  const [feedbackData, setFeedbackData] = useState<FeedbackData>({
+    mood: 'MODERATE',
+    memo: '',
+  });
 
   return (
     <FeedbackContext.Provider
@@ -18,7 +21,7 @@ export const FeedbackProvider = ({ children, initialStep = 1 }: FeedbackProvider
         feedbackStep,
         setFeedbackStep,
         feedbackData,
-        setFeedbackData,
+        setFeedbackData: (data) => setFeedbackData(data || { mood: 'MODERATE', memo: '' }),
       }}
     >
       {children}
