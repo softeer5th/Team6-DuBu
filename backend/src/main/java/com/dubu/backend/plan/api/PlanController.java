@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/plans")
-public class PlanController {
+public class PlanController implements PlanApi {
     private final PlanService planService;
 
     @ResponseStatus(HttpStatus.CREATED)

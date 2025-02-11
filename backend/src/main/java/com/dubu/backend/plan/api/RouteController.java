@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/routes")
-public class RouteController {
+public class RouteController implements RouteApi {
     private final RouteService routeService;
 
     @GetMapping("/search")

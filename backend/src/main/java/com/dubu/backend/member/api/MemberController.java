@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
-public class MemberController {
+public class MemberController implements MemberApi {
     private final MemberService memberService;
 
     @GetMapping("/status")

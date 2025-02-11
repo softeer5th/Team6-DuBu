@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/places")
-public class PlaceController {
+public class PlaceController implements PlaceApi {
 
     private final PlaceService placeService;
 
