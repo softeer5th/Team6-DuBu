@@ -5,6 +5,7 @@ import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.domain.MemberCategory;
 import com.dubu.backend.member.domain.enums.AddressType;
 import com.dubu.backend.member.domain.enums.Status;
+import com.dubu.backend.member.dto.request.MemberInfoUpdateRequest;
 import com.dubu.backend.member.dto.request.MemberOnboardingRequest;
 import com.dubu.backend.member.dto.response.MemberInfoResponse;
 import com.dubu.backend.member.dto.response.MemberSavedAddressResponse;
@@ -22,7 +23,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -84,29 +88,111 @@ public class MemberService {
             throw new InvalidMemberStatusException(currentMember.getStatus().name());
         }
 
-        List<MemberCategory> memberCategories = request.categories().stream()
-                .map(categoryName -> {
-                    Category category = categoryRepository.findByName(categoryName)
-                            .orElseThrow(() -> new CategoryNotFoundException(categoryName));
-                    return MemberCategory.builder()
-                            .member(currentMember)
-                            .category(category)
-                            .build();
-                })
-                .toList();
+        saveMemberCategories(currentMember, request.categories());
 
-        memberCategoryRepository.saveAll(memberCategories);
-
-        saveAddress(currentMember, AddressType.HOME, request.homeAddress(), request.homeAddressX(), request.homeAddressY());
-        saveAddress(currentMember, AddressType.SCHOOL, request.schoolAddress(), request.schoolAddressX(), request.schoolAddressY());
+        saveAddress(currentMember, AddressType.HOME, request.homeAddress(),
+                request.homeTitle(), request.homeAddressX(), request.homeAddressY());
+        saveAddress(currentMember, AddressType.SCHOOL, request.schoolAddress(),
+                request.schoolTitle(), request.schoolAddressX(), request.schoolAddressY());
 
         currentMember.updateNickname(request.nickname());
         currentMember.updateStatus(Status.STOP);
     }
 
-    private void saveAddress(Member member, AddressType type, String roadAddress, Double x, Double y) {
-        Address address = Address.createAddress(member, type, roadAddress, x, y);
+    private void saveMemberCategories(Member member, List<String> categoryNames) {
+        List<MemberCategory> memberCategories = categoryNames.stream()
+                .map(catName -> {
+                    Category category = categoryRepository.findByName(catName)
+                            .orElseThrow(() -> new CategoryNotFoundException(catName));
+                    return MemberCategory.builder()
+                            .member(member)
+                            .category(category)
+                            .build();
+                })
+                .toList();
+        memberCategoryRepository.saveAll(memberCategories);
+    }
+
+    private void saveAddress(
+            Member member,
+            AddressType type,
+            String title,
+            String roadAddress,
+            Double x,
+            Double y
+    ) {
+        Address address = Address.createAddress(member, type, roadAddress, title, x, y);
         addressRepository.save(address);
+    }
+
+    @Transactional
+    public MemberInfoResponse updateMemberInfo(Long memberId, MemberInfoUpdateRequest request) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        updateMemberCategories(currentMember, request.categories());
+
+        updateAddressInfo(currentMember, AddressType.HOME, request.homeTitle(),
+                request.homeAddress(), request.homeAddressX(), request.homeAddressY());
+        updateAddressInfo(currentMember, AddressType.SCHOOL, request.schoolTitle(),
+                request.schoolAddress(), request.schoolAddressX(), request.schoolAddressY());
+
+        List<Address> updatedAddresses = addressRepository.findByMemberId(memberId);
+        List<Category> updatedCategories = memberCategoryRepository.findByMemberId(memberId)
+                .stream()
+                .map(MemberCategory::getCategory)
+                .toList();
+
+        return MemberInfoResponse.of(currentMember, updatedCategories, updatedAddresses);
+    }
+
+    private void updateMemberCategories(Member member, List<String> requestedCats) {
+        List<MemberCategory> existingMemberCategories = memberCategoryRepository.findByMemberId(member.getId());
+
+        Set<String> existingCategoryNames = existingMemberCategories.stream()
+                .map(mc -> mc.getCategory().getName())
+                .collect(Collectors.toSet());
+
+        Set<String> requestedCategoryNames = new HashSet<>(requestedCats);
+
+        existingMemberCategories.stream()
+                .filter(mc -> !requestedCategoryNames.contains(mc.getCategory().getName()))
+                .forEach(memberCategoryRepository::delete);
+
+        // 새로 요청된 카테고리(기존에 없던 것) 추가
+        requestedCategoryNames.stream()
+                .filter(catName -> !existingCategoryNames.contains(catName))
+                .forEach(catName -> {
+                    Category category = categoryRepository.findByName(catName)
+                            .orElseThrow(() -> new CategoryNotFoundException(catName));
+                    MemberCategory newMemberCategory = MemberCategory.builder()
+                            .member(member)
+                            .category(category)
+                            .build();
+                    memberCategoryRepository.save(newMemberCategory);
+                });
+    }
+
+    private void updateAddressInfo(
+            Member member,
+            AddressType type,
+            String title,
+            String roadAddress,
+            Double x,
+            Double y
+    ) {
+        List<Address> addresses = addressRepository.findByMemberId(member.getId());
+        Address target = addresses.stream()
+                .filter(addr -> addr.getAddressType() == type)
+                .findFirst()
+                .orElse(null);
+
+        if (target != null) {
+            target.updateAddress(title, roadAddress, x, y);
+        } else {
+            Address newAddress = Address.createAddress(member, type, title, roadAddress, x, y);
+            addressRepository.save(newAddress);
+        }
     }
 
     @Transactional
