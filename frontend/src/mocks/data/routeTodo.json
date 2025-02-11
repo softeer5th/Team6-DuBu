@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "type": "favorite",
+      "todoId": 14,
+      "category": "HOBBY",
+      "difficulty": "EASY",
+      "title": "경로별 할 일 1"
+    },
+    {
+      "type": "favorite",
+      "todoId": 15,
+      "category": "OTHERS",
+      "difficulty": "HARD",
+      "title": "경로별 할 일 2"
+    }
+  ]
+}

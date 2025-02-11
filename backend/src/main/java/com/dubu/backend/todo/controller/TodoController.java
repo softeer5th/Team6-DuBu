@@ -2,17 +2,16 @@ package com.dubu.backend.todo.controller;
 
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.global.domain.SuccessResponse;
+import com.dubu.backend.todo.dto.common.Cursor;
 import com.dubu.backend.todo.dto.enums.TodoRequestType;
-import com.dubu.backend.todo.dto.request.SaveTodoQueryRequest;
-import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
-import com.dubu.backend.todo.dto.request.TodoCreateRequest;
-import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
+import com.dubu.backend.todo.dto.request.*;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.dto.response.TodoManageResult;
 import com.dubu.backend.todo.dto.response.TodoSuccessResponse;
 import com.dubu.backend.todo.registry.TodoManagementServiceRegistry;
 import com.dubu.backend.todo.service.TodoManagementService;
 import com.dubu.backend.todo.service.TodoQueryService;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +37,7 @@ public class TodoController {
 
     @PostMapping("/{type}/from-archived")
     @ResponseStatus(HttpStatus.CREATED)
-    public TodoSuccessResponse<?> postTodoFromArchived(@RequestParam Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateFromArchivedRequest request){
+    public TodoSuccessResponse<?> postTodoFromArchived(@RequestAttribute Long memberId, @PathVariable("type") TodoRequestType type, @RequestBody TodoCreateFromArchivedRequest request){
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
         TodoManageResult<?> result = todoManagementService.createTodoFromArchived(memberId, request);
 
@@ -78,7 +77,17 @@ public class TodoController {
     }
 
     @GetMapping("/save")
-    public PageResponse<List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @ModelAttribute SaveTodoQueryRequest request){
-        return todoQueryService.findSaveTodos(memberId, request);
+    public PageResponse<Long, List<TodoInfo>> getSaveTodos(@RequestAttribute Long memberId, @Nullable @RequestParam("cursor") Long cursor, @ModelAttribute SaveTodoQueryRequest request){
+        return todoQueryService.findSaveTodos(memberId, cursor, request);
+    }
+
+    @GetMapping("/recommend/personalized")
+    public SuccessResponse<List<TodoInfo>> getLimitedRecommendTodos(@RequestAttribute Long memberId){
+        return new SuccessResponse<>(todoQueryService.findRandomRecommendTodos(memberId));
+    }
+
+    @GetMapping("/recommend/all")
+    public PageResponse<Cursor, List<TodoInfo>> getAllRecommendTodos(@ModelAttribute Cursor cursor, @ModelAttribute RecommendTodoQueryRequest request){
+        return todoQueryService.findAllRecommendTodos(cursor, request);
     }
 }

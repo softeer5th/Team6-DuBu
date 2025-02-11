@@ -1,29 +1,41 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const API_URL = {
-  todayTodo: `${BASE_URL}/todos/today`,
-  tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
-  recommendAllTodo: (queryParams: string) => `${BASE_URL}/todos/recommend/all${queryParams}`,
-  addTodo: (dateType: string) => `${BASE_URL}/todos/${dateType}/manual`,
-  deleteTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  editTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  addTodoFromArchived: (dateType: string) => `${BASE_URL}/todos/${dateType}/from-archived`,
-  searchAddress: `${BASE_URL}/address/search`,
-  onboarding: `${BASE_URL}/members/onboarding`,
+  todayTodo: `${BASE_URL}/api/v1/todos/today`,
+  tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
+  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
+  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/limit`,
+  recommendAllTodo: (queryParams: string) => `${BASE_URL}/api/v1/todos/recommend/all${queryParams}`,
+  addTodo: (dateType: string, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${dateType}/manual${planId ? `/${planId}` : ''}`,
+  deleteTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  editTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  addTodoFromArchived: (dateType: string, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
+  routeTodo: (planId: number) => `${BASE_URL}/api/v1/routes/${planId}/todos`,
+  searchAddress: `${BASE_URL}/api/v1/address/search`,
+  searchRoutes: `${BASE_URL}/api/v1/routes/search`,
+  onboarding: `${BASE_URL}/api/v1/members/onboarding`,
+  planInfo: `${BASE_URL}/api/v1/plans/recent`,
+  memberAddress: `${BASE_URL}/api/v1/members/address`,
 };
 
 export const MOCK_API_URL = {
-  todayTodo: `${BASE_URL}/todos/today`,
-  tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
-  recommendAllTodo: `${BASE_URL}/todos/recommend/all`,
-  addTodo: `${BASE_URL}/todos/:dateType/manual`,
-  deleteTodo: `${BASE_URL}/todos/:todoId`,
-  editTodo: `${BASE_URL}/todos/:todoId`,
-  addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived`,
-  searchAddress: `${BASE_URL}/address/search`,
-  onboarding: `${BASE_URL}/members/onboarding`,
+  todayTodo: `${BASE_URL}/api/v1/todos/today`,
+  tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
+  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
+  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/limit`,
+  recommendAllTodo: `${BASE_URL}/api/v1/todos/recommend/all`,
+  addTodo: `${BASE_URL}/api/v1/todos/:dateType/manual/:planId?`,
+  deleteTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
+  editTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
+  addTodoFromArchived: `${BASE_URL}/api/v1/todos/:dateType/from-archived/:planId?`,
+  routeTodo: `${BASE_URL}/api/v1/routes/:planId/todos`,
+  searchAddress: `${BASE_URL}/api/v1/address/search`,
+  searchRoutes: `${BASE_URL}/api/v1/routes/search`,
+  onboarding: `${BASE_URL}/api/v1/members/onboarding`,
+  planInfo: `${BASE_URL}/api/v1/plans/recent`,
+  memberAddress: `${BASE_URL}/api/v1/members/address`,
 };

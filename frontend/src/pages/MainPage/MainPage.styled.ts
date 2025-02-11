@@ -5,18 +5,21 @@ import backgroundMain from '/src/assets/images/backgroundMain.png';
 export const MainPageLayout = styled.main`
   position: relative;
   background-color: ${({ theme }) => theme.colors.green50};
-  height: inherit;
+  height: 100vh;
 
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
-
-  padding-top: 2rem;
 
   background-image: url(${backgroundMain});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+`;
+
+export const MainContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
 `;
 
 export const HeaderContainer = styled.div`

@@ -36,7 +36,7 @@ public class AuthService {
     public TokenResponse issueTokenAfterKakaoLogin(String code) {
         String tokenFromKakao = kakaoTokenPort.getAccessTokenByCode(code);
         Member kakaoUser = kakaoUserPort.findUserFromKakao(tokenFromKakao);
-        Member loginMember = memberRepository.findByProviderId(kakaoUser.getProviderId())
+        Member loginMember = memberRepository.findByOauthProviderId(kakaoUser.getOauthProviderId())
                         .orElseGet(() -> memberRepository.save(kakaoUser));
         String newAccessToken = tokenService.issue(loginMember.getId());
 

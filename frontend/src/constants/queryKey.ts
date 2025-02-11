@@ -4,5 +4,9 @@ export const QUERY_KEY = {
   recommend: 'recommend',
   recommendLimit: 'recommendLimit',
   recommendAll: 'recommendAll',
+  routeTodoList: 'routeTodoList',
   searchAddress: 'searchAddress',
+  searchRoutes: 'searchRoutes',
+  planInfo: 'planInfo',
+  memberAddress: 'memberAddress',
 } as const;

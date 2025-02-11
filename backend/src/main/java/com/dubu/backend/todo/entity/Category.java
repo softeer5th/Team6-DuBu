@@ -21,6 +21,7 @@ public class Category extends BaseTimeEntity {
     @Column(length = 20, nullable = false)
     private String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos = new ArrayList<>();
 }

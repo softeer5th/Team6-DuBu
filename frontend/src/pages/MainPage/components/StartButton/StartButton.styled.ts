@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const StartButtonLayout = styled.button`
+import IconButton from '@/components/Button/IconButton';
+
+export const StartButtonLayout = styled(IconButton)`
   ${({ theme }) => theme.fonts.body16};
   background-color: ${({ theme }) => theme.colors.green600};
   color: ${({ theme }) => theme.colors.white};

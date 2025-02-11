@@ -5,6 +5,9 @@ import com.dubu.backend.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -20,6 +23,17 @@ public class Plan extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Path> paths = new ArrayList<>();
+
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer totalTime;
+
+    public static Plan createPlan(Member member, Integer totalTime) {
+        return Plan.builder()
+                .member(member)
+                .totalTime(totalTime)
+                .build();
+    }
 }

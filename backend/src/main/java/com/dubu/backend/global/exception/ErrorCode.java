@@ -32,6 +32,8 @@ public enum ErrorCode {
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
 
     // Member
+    INVALID_MEMBER_STATUS(BAD_REQUEST, "회원의 상태가 %s인 경우 해당 API를 이용할 수 없습니다."),
+    INVALID_STATUS(BAD_REQUEST, "지원하지 않는 회원의 상태입니다. status : %s"),
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Address
@@ -40,14 +42,22 @@ public enum ErrorCode {
     // Category
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리를 찾을 수 없습니다. categoryName : %s"),
 
+    // Plan
+    NOT_FOUND_PLAN(NOT_FOUND, "계획을 찾을 수 없습니다. planId : %d"),
+    UNAUTHORIZED_PLAN_DELETION(UNAUTHORIZED, "회원이 해당 계획에 접근 권한이 없어 삭제할 수 없습니다. memberId : %d, planId : %d"),
+
+    // Feedback
+    INVALID_MOOD(BAD_REQUEST, "유효하지 않은 기분 형식입니다. mood : %s"),
+
+    // Path
+    INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
+
     // Member_Category
     MEMBER_CATEGORY_NOT_FOUND(NOT_FOUND, "회원의 카테고리 정보를 찾을 수 없습니다. memberId : %d"),
 
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
-
     ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
-
     TODO_LIMIT_EXCEEDED(BAD_REQUEST, "할 일은 최대 3개까지 추가할 수 있습니다."),
 
     INVALID_TODO_REQUEST_TYPE(BAD_REQUEST, "잘못된 할 일 요청 유형입니다. type = %s"),
@@ -57,7 +67,6 @@ public enum ErrorCode {
 
     // External API
     NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다."),
-
     ;
 
     public final HttpStatus httpStatus;

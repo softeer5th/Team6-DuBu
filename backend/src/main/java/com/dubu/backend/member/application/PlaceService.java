@@ -1,7 +1,7 @@
 package com.dubu.backend.member.application;
 
-import com.dubu.backend.member.dto.NaverPlaceApiResponse;
-import com.dubu.backend.member.dto.PlaceSearchResponse;
+import com.dubu.backend.member.dto.response.NaverPlaceApiResponse;
+import com.dubu.backend.member.dto.response.PlaceSearchResponse;
 import com.dubu.backend.member.exception.NaverApiServerException;
 import com.dubu.backend.member.infra.client.NaverPlaceApiClient;
 import lombok.RequiredArgsConstructor;
