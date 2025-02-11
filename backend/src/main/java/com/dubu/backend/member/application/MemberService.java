@@ -51,6 +51,16 @@ public class MemberService {
         return MemberSavedAddressResponse.from(addresses);
     }
 
+    @Transactional(readOnly = true)
+    public List<String> getMemberCategory(Long memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        return memberCategoryRepository.findMemberCategoriesWithCategoryByMember(member)
+                .stream().map(memberCategory -> memberCategory.getCategory().getName())
+                .toList();
+    }
+
     @Transactional
     public void completeOnboarding(Long memberId, MemberOnboardingRequest request) {
         Member member = memberRepository.findById(memberId)
@@ -87,14 +97,5 @@ public class MemberService {
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
         currentMember.updateStatus(Status.fromString(status));
-    }
-
-    public List<String> getMemberCategory(Long memberId){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(memberId));
-
-        return memberCategoryRepository.findMemberCategoriesWithCategoryByMember(member)
-                .stream().map(memberCategory -> memberCategory.getCategory().getName())
-                .toList();
     }
 }
