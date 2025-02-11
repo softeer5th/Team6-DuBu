@@ -29,6 +29,7 @@ public class Address extends BaseTimeEntity {
     @ColumnDefault("'OTHER'")
     private AddressType addressType;
 
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
