@@ -47,7 +47,7 @@ const TimeBlockItem = ({ todo }: TimeBlockItemProps) => {
           <Icon icon={ICON_MAPPER[todo.category]} cursor={isDone ? 'not-allowed' : 'pointer'} />
         </S.CheckIconWrapper>
         <S.TimeBlockContent onClick={open}>
-          <S.TodoTitle>{todo.title}</S.TodoTitle>
+          <S.TodoTitle $isDone={isDone}>{todo.title}</S.TodoTitle>
           <S.TodoMemo>{todo.memo}</S.TodoMemo>
         </S.TimeBlockContent>
       </S.TimeBlockItem>

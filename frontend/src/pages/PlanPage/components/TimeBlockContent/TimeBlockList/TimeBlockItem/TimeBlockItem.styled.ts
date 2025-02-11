@@ -63,9 +63,10 @@ export const TimeBlockContent = styled.div`
   cursor: pointer;
 `;
 
-export const TodoTitle = styled.span`
+export const TodoTitle = styled.span<{ $isDone: boolean }>`
   ${({ theme }) => theme.fonts.body15};
-  color: ${({ theme }) => theme.colors.gray950};
+  color: ${({ theme, $isDone }) => ($isDone ? theme.colors.gray400 : theme.colors.gray950)};
+  text-decoration: ${({ $isDone }) => ($isDone ? 'line-through' : 'none')};
 `;
 
 export const TodoMemo = styled.span`
