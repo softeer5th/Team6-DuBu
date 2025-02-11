@@ -121,6 +121,12 @@ public class TomorrowTodoManagementService implements TodoManagementService {
         }
 
         Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> tomorrowTodos = null;
@@ -178,6 +184,12 @@ public class TomorrowTodoManagementService implements TodoManagementService {
         }
 
         Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         // 내일 스케줄이 없는 경우

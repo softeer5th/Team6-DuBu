@@ -89,6 +89,11 @@ public class TodayTodoManagementService implements TodoManagementService {
 
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.SCHEDULED);
+        }
+
         // 제목, 카테고리, 난이도 수정 시 부모 할 일 관계 끊기
         if(todoUpdateRequest.title() != null || todoUpdateRequest.category() != null || todoUpdateRequest.difficulty() != null){
             todo.clearParentTodo();
@@ -119,6 +124,11 @@ public class TodayTodoManagementService implements TodoManagementService {
         }
 
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.SCHEDULED);
+        }
 
         todoRepository.delete(todo);
 

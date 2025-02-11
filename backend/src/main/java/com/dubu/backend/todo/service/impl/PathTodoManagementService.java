@@ -18,10 +18,7 @@ import com.dubu.backend.todo.entity.Category;
 import com.dubu.backend.todo.entity.Todo;
 import com.dubu.backend.todo.entity.TodoDifficulty;
 import com.dubu.backend.todo.entity.TodoType;
-import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
-import com.dubu.backend.todo.exception.CategoryNotFoundException;
-import com.dubu.backend.todo.exception.TodoLimitExceededException;
-import com.dubu.backend.todo.exception.TodoNotFoundException;
+import com.dubu.backend.todo.exception.*;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import com.dubu.backend.todo.service.TodoManagementService;
@@ -67,6 +64,12 @@ public class PathTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodoFromArchived(TodoIdentifier identifier, TodoCreateFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
@@ -93,6 +96,12 @@ public class PathTodoManagementService implements TodoManagementService {
         }
 
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.IN_PROGRESS)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.IN_PROGRESS);
+        }
+
 
         // 제목, 카테고리, 난이도 수정 시 부모 할 일 관계 끊기
         if(todoUpdateRequest.title() != null || todoUpdateRequest.category() != null || todoUpdateRequest.difficulty() != null){
@@ -124,6 +133,11 @@ public class PathTodoManagementService implements TodoManagementService {
         }
 
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.IN_PROGRESS)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.IN_PROGRESS);
+        }
 
         todoRepository.delete(todo);
 

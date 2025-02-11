@@ -12,10 +12,7 @@ import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.dto.response.TodoManageResult;
 import com.dubu.backend.todo.entity.*;
-import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
-import com.dubu.backend.todo.exception.CategoryNotFoundException;
-import com.dubu.backend.todo.exception.ScheduleNotFoundException;
-import com.dubu.backend.todo.exception.TodoNotFoundException;
+import com.dubu.backend.todo.exception.*;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
@@ -81,6 +78,11 @@ public class SaveTodoManagementService implements TodoManagementService {
 
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.SAVE)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.SAVE);
+        }
+
         // 제목, 카테고리, 난이도를 수정하는 경우 관련된 부모 할 일 삭제
         if(todoUpdateRequest.title() != null || todoUpdateRequest.category() != null || todoUpdateRequest.difficulty() != null){
             // 내일 할 일 관련
@@ -120,6 +122,11 @@ public class SaveTodoManagementService implements TodoManagementService {
         }
 
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!todo.getType().equals(TodoType.SAVE)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.SAVE);
+        }
 
         // 즐겨찾기 할 일로 부터 생성된 오늘 할 일, 내일 할 일의 부모 id 제거
         todoRepository.findWithScheduleByParentTodoAndScheduleDate(todo, LocalDate.now().plusDays(1)).ifPresent(Todo::clearParentTodo);
