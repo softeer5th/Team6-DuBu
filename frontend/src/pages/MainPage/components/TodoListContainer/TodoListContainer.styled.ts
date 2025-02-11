@@ -19,6 +19,7 @@ export const TodoListContainerLayout = styled.div`
 
 export const TodoList = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 0.8rem;
 `;
@@ -28,6 +29,7 @@ export const TodoItem = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.gray950};
 
+  width: 100%;
   display: flex;
   gap: 1.2rem;
   border-radius: 1.2rem;

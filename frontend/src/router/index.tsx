@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
   {
     path: '/route-select',
     element: <RouteSelectPage />,
-  }
+  },
   {
     path: '/plan',
     element: <FlexPageLayout />,

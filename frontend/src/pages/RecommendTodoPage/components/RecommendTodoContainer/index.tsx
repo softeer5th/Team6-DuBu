@@ -43,6 +43,7 @@ const RecommendTodoContainer = () => {
   const handleAddTodoFromRecommendAll = (todoId: number) => {
     if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
       toast({ message: TODO_TOAST_MESSAGE.limit });
+
       return;
     }
 
