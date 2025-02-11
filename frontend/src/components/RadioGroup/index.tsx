@@ -6,16 +6,25 @@ interface RadioGroupProps {
   name: string;
   filters: Filter[] | readonly Filter[];
   selectedValue: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
-const RadioGroup = ({ name, filters, selectedValue, handleChange }: RadioGroupProps) => {
+const RadioGroup = ({ name, filters, selectedValue, handleChange, disabled }: RadioGroupProps) => {
   return (
     <S.RadioGroupWrapper>
       {filters.map((filter) => (
         <label key={filter.value}>
-          <S.HiddenInput type="radio" name={name} value={filter.value} onChange={handleChange} />
-          <S.RadioBadge $isSelected={selectedValue === filter.value}>{filter.label}</S.RadioBadge>
+          <S.HiddenInput
+            type="radio"
+            name={name}
+            value={filter.value}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+          <S.RadioBadge $isSelected={selectedValue === filter.value} $disabled={disabled}>
+            {filter.label}
+          </S.RadioBadge>
         </label>
       ))}
     </S.RadioGroupWrapper>
