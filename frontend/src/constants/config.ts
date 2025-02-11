@@ -8,3 +8,9 @@ export const ICON_MAPPER = {
   HOBBY: 'Hobby',
   OTHERS: 'Others',
 } as const;
+
+export const USER_STATUS = {
+  stop: 'STOP',
+  move: 'MOVE',
+  feedback: 'FEEDBACK',
+} as const;
