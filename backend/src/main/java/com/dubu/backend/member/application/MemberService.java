@@ -6,6 +6,7 @@ import com.dubu.backend.member.domain.MemberCategory;
 import com.dubu.backend.member.domain.enums.AddressType;
 import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.dto.request.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.response.MemberInfoResponse;
 import com.dubu.backend.member.dto.response.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.response.MemberStatusResponse;
 import com.dubu.backend.member.exception.MemberNotFoundException;
@@ -13,6 +14,7 @@ import com.dubu.backend.member.exception.MemberSavedAddressNotFoundException;
 import com.dubu.backend.member.infra.repository.AddressRepository;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.todo.entity.Category;
 import com.dubu.backend.todo.exception.CategoryNotFoundException;
 import com.dubu.backend.todo.repository.CategoryRepository;
@@ -31,7 +33,19 @@ public class MemberService {
     private final AddressRepository addressRepository;
 
     @Transactional(readOnly = true)
-    public MemberStatusResponse getMemberStatus(Long memberId) {
+    public MemberInfoResponse findMemberInfo(Long memberId) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        List<Category> categories = memberCategoryRepository.findCategoriesByMemberId(memberId);
+
+        List<Address> addresses = addressRepository.findByMemberId(memberId);
+
+        return MemberInfoResponse.of(currentMember, categories, addresses);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberStatusResponse findMemberStatus(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -39,7 +53,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberSavedAddressResponse getMemberSavedAddress(Long memberId) {
+    public MemberSavedAddressResponse findMemberSavedAddress(Long memberId) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -52,7 +66,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> getMemberCategory(Long memberId){
+    public List<String> findMemberCategory(Long memberId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
