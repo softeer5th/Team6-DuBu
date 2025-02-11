@@ -57,7 +57,7 @@ public class Todo extends BaseTimeEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    public static Todo of(String title, TodoType type, TodoDifficulty difficulty, String memo, Member member, Category category, Todo parentTodo, Schedule schedule){
+    public static Todo of(String title, TodoType type, TodoDifficulty difficulty, String memo, Member member, Category category, Todo parentTodo, Schedule schedule, Path path){
         return Todo.builder()
                 .title(title)
                 .type(type)
@@ -67,6 +67,7 @@ public class Todo extends BaseTimeEntity {
                 .category(category)
                 .parentTodo(parentTodo)
                 .schedule(schedule)
+                .path(path)
                 .build();
     }
 

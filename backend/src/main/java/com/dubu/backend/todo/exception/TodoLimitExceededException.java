@@ -5,8 +5,8 @@ import com.dubu.backend.global.exception.BadRequestException;
 import static com.dubu.backend.global.exception.ErrorCode.*;
 
 public class TodoLimitExceededException extends BadRequestException {
-    public TodoLimitExceededException() {
-        super(TODO_LIMIT_EXCEEDED.getMessage());
+    public TodoLimitExceededException(String type, int num) {
+        super(TODO_LIMIT_EXCEEDED.getMessage().formatted(type, num));
     }
 
     @Override
