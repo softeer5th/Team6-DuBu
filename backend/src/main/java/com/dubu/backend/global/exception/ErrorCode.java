@@ -47,6 +47,7 @@ public enum ErrorCode {
 
     // Path
     PATH_NOT_FOUND(NOT_FOUND, "경로를 찾을 수 없습니다. pathId : %d"),
+    PATH_ID_NOT_PROVIDED(BAD_REQUEST, "경로 아이디가 누락되었습니다."),
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
 
     // Member_Category
