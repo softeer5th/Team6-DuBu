@@ -18,9 +18,8 @@ import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.dto.search.TodoSearchCond;
 import com.dubu.backend.todo.entity.*;
 import com.dubu.backend.todo.repository.CategoryRepository;
-import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
-import com.dubu.backend.todo.service.TodoQueryService;
+import com.dubu.backend.todo.service.TargetTodoQueryService;
 import com.dubu.backend.todo.support.TodoRandomSelector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,12 +33,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PathTodoQueryService implements TodoQueryService {
+public class PathTodoQueryService implements TargetTodoQueryService {
     private final MemberRepository memberRepository;
     private final MemberCategoryRepository memberCategoryRepository;
     private final CategoryRepository categoryRepository;
     private final TodoRepository todoRepository;
-    private final ScheduleRepository scheduleRepository;
     private final PathRepository pathRepository;
 
     private final TodoRandomSelector todoRandomSelector;

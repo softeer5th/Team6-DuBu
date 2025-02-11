@@ -16,7 +16,7 @@ import com.dubu.backend.todo.exception.ScheduleNotFoundException;
 import com.dubu.backend.todo.repository.CategoryRepository;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
-import com.dubu.backend.todo.service.TodoQueryService;
+import com.dubu.backend.todo.service.TargetTodoQueryService;
 import com.dubu.backend.todo.support.TodoRandomSelector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TomorrowTodoQueryService implements TodoQueryService {
+public class TomorrowTodoQueryService implements TargetTodoQueryService {
     private final MemberRepository memberRepository;
     private final MemberCategoryRepository memberCategoryRepository;
     private final CategoryRepository categoryRepository;

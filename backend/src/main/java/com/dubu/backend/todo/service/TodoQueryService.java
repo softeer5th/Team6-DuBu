@@ -10,7 +10,6 @@ import com.dubu.backend.todo.dto.response.TodoInfo;
 import java.util.List;
 
 public interface TodoQueryService {
-    List<TodoInfo> findTargetTodos(TodoIdentifier identifier);
     PageResponse<Long, List<TodoInfo>> findSaveTodos(TodoIdentifier identifier, Long cursor, SaveTodoQueryRequest request);
     List<TodoInfo> findPersonalizedRecommendTodos(TodoIdentifier identifier);
     PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(TodoIdentifier identifier, Cursor cursor, RecommendTodoQueryRequest request);
