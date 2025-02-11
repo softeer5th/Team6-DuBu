@@ -21,14 +21,14 @@ export const getRouteInfoWithSwitched = (
   endAddress: { endX: number; endY: number; endName: string },
   memberAddress?: MemberAddress,
 ) => {
-  const isStartAddress = startAddress.startName !== '';
-  const isEndAddress = endAddress.endName !== '';
+  const isStartAddressUpdated = startAddress.startName !== '';
+  const isEndAddressUpdated = endAddress.endName !== '';
 
   const { startX, startY, startName } = startAddress;
   const { endX, endY, endName } = endAddress;
 
   const routeMapping = {
-    both: () => ({
+    bothUpdated: () => ({
       startX: isSwitched ? endX : startX,
       startY: isSwitched ? endY : startY,
       endX: isSwitched ? startX : endX,
@@ -36,7 +36,7 @@ export const getRouteInfoWithSwitched = (
       startName: isSwitched ? endName : startName,
       endName: isSwitched ? startName : endName,
     }),
-    startOnly: () => ({
+    startOnlyUpdated: () => ({
       startX: isSwitched ? memberAddress?.schoolXCoordinate : startX,
       startY: isSwitched ? memberAddress?.schoolYCoordinate : startY,
       endX: isSwitched ? startX : memberAddress?.schoolXCoordinate,
@@ -44,7 +44,7 @@ export const getRouteInfoWithSwitched = (
       startName: isSwitched ? memberAddress?.schoolAddressName : startName,
       endName: isSwitched ? startName : memberAddress?.schoolAddressName,
     }),
-    endOnly: () => ({
+    endOnlyUpdated: () => ({
       startX: isSwitched ? endX : memberAddress?.homeXCoordinate,
       startY: isSwitched ? endY : memberAddress?.homeYCoordinate,
       endX: isSwitched ? memberAddress?.homeXCoordinate : endX,
@@ -52,7 +52,7 @@ export const getRouteInfoWithSwitched = (
       startName: isSwitched ? endName : memberAddress?.homeAddressName,
       endName: isSwitched ? memberAddress?.homeAddressName : endName,
     }),
-    none: () => ({
+    noneUpdated: () => ({
       startX: isSwitched ? memberAddress?.schoolXCoordinate : memberAddress?.homeXCoordinate,
       startY: isSwitched ? memberAddress?.schoolYCoordinate : memberAddress?.homeYCoordinate,
       endX: isSwitched ? memberAddress?.homeXCoordinate : memberAddress?.schoolXCoordinate,
@@ -62,13 +62,13 @@ export const getRouteInfoWithSwitched = (
     }),
   };
 
-  if (isStartAddress && isEndAddress) {
-    return routeMapping.both();
-  } else if (isStartAddress) {
-    return routeMapping.startOnly();
-  } else if (isEndAddress) {
-    return routeMapping.endOnly();
-  } else {
-    return routeMapping.none();
+  if (isStartAddressUpdated && isEndAddressUpdated) {
+    return routeMapping.bothUpdated();
+  } else if (isStartAddressUpdated) {
+    return routeMapping.startOnlyUpdated();
+  } else if (isEndAddressUpdated) {
+    return routeMapping.endOnlyUpdated();
   }
+
+  return routeMapping.noneUpdated();
 };
