@@ -1,4 +1,4 @@
-package com.dubu.backend.member.dto;
+package com.dubu.backend.member.dto.response;
 
 import com.dubu.backend.member.domain.Address;
 import com.dubu.backend.member.domain.enums.AddressType;

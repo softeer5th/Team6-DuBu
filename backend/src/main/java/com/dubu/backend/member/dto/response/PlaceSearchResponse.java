@@ -1,4 +1,4 @@
-package com.dubu.backend.member.dto;
+package com.dubu.backend.member.dto.response;
 
 public record PlaceSearchResponse(
         String title,

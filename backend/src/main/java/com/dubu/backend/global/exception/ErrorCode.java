@@ -33,6 +33,7 @@ public enum ErrorCode {
 
     // Member
     INVALID_MEMBER_STATUS(BAD_REQUEST, "회원의 상태가 %s인 경우 해당 API를 이용할 수 없습니다."),
+    INVALID_STATUS(BAD_REQUEST, "지원하지 않는 회원의 상태입니다. status : %s"),
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Address
@@ -44,6 +45,9 @@ public enum ErrorCode {
     // Plan
     NOT_FOUND_PLAN(NOT_FOUND, "계획을 찾을 수 없습니다. planId : %d"),
     UNAUTHORIZED_PLAN_DELETION(UNAUTHORIZED, "회원이 해당 계획에 접근 권한이 없어 삭제할 수 없습니다. memberId : %d, planId : %d"),
+
+    // Feedback
+    INVALID_MOOD(BAD_REQUEST, "유효하지 않은 기분 형식입니다. mood : %s"),
 
     // Path
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),

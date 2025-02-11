@@ -2,7 +2,9 @@ package com.dubu.backend.plan.api;
 
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.plan.application.PlanService;
-import com.dubu.backend.plan.dto.request.PlanSaveRequest;
+import com.dubu.backend.plan.dto.request.PlanCreateRequest;
+import com.dubu.backend.plan.dto.request.PlanFeedbackCreateRequest;
+import com.dubu.backend.plan.dto.response.FeedbackWritePageInfoResponse;
 import com.dubu.backend.plan.dto.response.PlanRecentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,21 @@ public class PlanController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void savePlan(
+    public void createPlan(
             @RequestAttribute("memberId") Long memberId,
-            @RequestBody PlanSaveRequest planSaveRequest
+            @RequestBody PlanCreateRequest planCreateRequest
     ) {
-        planService.savePlan(memberId, planSaveRequest);
+        planService.savePlan(memberId, planCreateRequest);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{planId}/feedbacks")
+    public void createPlanFeedback(
+            @RequestAttribute("memberId") Long memberId,
+            @PathVariable Long planId,
+            @RequestBody PlanFeedbackCreateRequest planFeedbackCreateRequest
+    ) {
+        planService.savePlanFeedback(memberId, planId, planFeedbackCreateRequest);
     }
 
     @GetMapping("/recent")
@@ -28,6 +40,15 @@ public class PlanController {
             @RequestAttribute("memberId") Long memberId
     ) {
         PlanRecentResponse response = planService.findRecentPlan(memberId);
+
+        return new SuccessResponse<>(response);
+    }
+
+    @GetMapping("/feedbacks")
+    public SuccessResponse<FeedbackWritePageInfoResponse> getFeedbackWritePageInfo(
+            @RequestAttribute("memberId") Long memberId
+    ) {
+        FeedbackWritePageInfoResponse response = planService.findFeedbackWritePageInfo(memberId);
 
         return new SuccessResponse<>(response);
     }
