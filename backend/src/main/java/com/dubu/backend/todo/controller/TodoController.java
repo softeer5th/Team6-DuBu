@@ -23,13 +23,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
-public class TodoController {
+public class TodoController implements TodoApi{
     private final TodoQueryService todoQueryService;
     private final TodoManagementServiceRegistry todoManagementServiceRegistry;
 
     @PostMapping("/{type}/manual")
     @ResponseStatus(HttpStatus.CREATED)
-        public TodoSuccessResponse<?> postTodo(
+    public TodoSuccessResponse<?> postTodo(
                 @RequestAttribute Long memberId,
                 @PathVariable("type")TodoRequestType type,
                 @Nullable @RequestParam("pathId") Long pathId,
