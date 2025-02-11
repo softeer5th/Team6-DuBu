@@ -1,23 +1,17 @@
+import TimeBlockItem from './TimeBlockItem';
 import * as S from './TimeBlockList.styled';
 
-import { pathTodo } from '@/api/plan';
-import Icon from '@/components/Icon';
+import { PathTodo } from '@/api/plan';
 
 interface TimeBlockListProps {
-  todos: pathTodo[];
+  todos: PathTodo[];
 }
 
 const TimeBlockList = ({ todos }: TimeBlockListProps) => {
   return (
     <S.TimeBlockList>
       {todos.map((todo, idx) => (
-        <S.TimeBlockItem key={idx}>
-          <Icon icon="EmptyCheck" cursor="pointer" />
-          <S.TimeBlockContent>
-            <S.TodoTitle>{todo.title}</S.TodoTitle>
-            <S.TodoMemo>{todo.memo}</S.TodoMemo>
-          </S.TimeBlockContent>
-        </S.TimeBlockItem>
+        <TimeBlockItem key={idx} todo={todo} />
       ))}
     </S.TimeBlockList>
   );
