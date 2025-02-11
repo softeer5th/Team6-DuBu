@@ -8,4 +8,11 @@ const getPlanInfoHandler = () => {
   return HttpResponse.json(PLAN_DATA);
 };
 
-export const handlers = [http.get(MOCK_API_URL.planInfo, getPlanInfoHandler)];
+const cancelPlanHandler = () => {
+  return new HttpResponse(null, { status: 204 });
+};
+
+export const handlers = [
+  http.get(MOCK_API_URL.planInfo, getPlanInfoHandler),
+  http.delete(MOCK_API_URL.plan, cancelPlanHandler),
+];

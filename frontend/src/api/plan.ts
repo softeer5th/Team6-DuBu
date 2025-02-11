@@ -32,3 +32,7 @@ export const getPlanInfo = async () => {
 
   return result.data;
 };
+
+export const cancelPlan = async (planId: number) => {
+  return await fetchClient.delete(API_URL.plan(planId));
+};
