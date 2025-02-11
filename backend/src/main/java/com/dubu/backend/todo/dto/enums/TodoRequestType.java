@@ -1,5 +1,6 @@
 package com.dubu.backend.todo.dto.enums;
 
+import com.dubu.backend.todo.exception.InvalidTodoRequestTypeException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
 
@@ -19,6 +20,6 @@ public enum TodoRequestType {
         return Arrays.stream(values())
                 .filter(type -> type.name().toLowerCase().equals(value))
                 .findFirst()
-                .orElseThrow(() -> new ConstraintViolationException("Invalid TodoRequestType value: " + value, null));
+                .orElseThrow(() -> new InvalidTodoRequestTypeException(value));
     }
 }

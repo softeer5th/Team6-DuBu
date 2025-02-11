@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Optional;
 
+
 public interface ScheduleRepository extends JpaRepository<Schedule, Long>, CustomScheduleRepository {
     @Query("SELECT s FROM Schedule s WHERE s.member = :member AND s.date = :date")
     Optional<Schedule> findScheduleByMemberAndDate(@Param("member") Member member, @Param("date") LocalDate date);
-
 }
