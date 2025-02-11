@@ -3,8 +3,12 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "develop" ]
+    paths:
+      - backend/**
   pull_request:
     branches: [ "develop" ]
+    paths:
+      - backend/**
 
 permissions:
   contents: write  # Docker 이미지 푸시 및 배포 시 사용
