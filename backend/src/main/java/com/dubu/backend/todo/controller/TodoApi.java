@@ -83,18 +83,28 @@ public interface TodoApi {
                                                     """
                                     )
                             }
-                            )),
+                    )),
             @ApiResponse(
                     responseCode = "400",
                     description = """
                         다음 경우에 발생할 수 있습니다:
-                        1. 할 일 개수를 초과한 경우 (TODO_LIMIT_EXCEEDED)
-                        2. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                        2. 할 일 개수를 초과한 경우 (TODO_LIMIT_EXCEEDED)
+                        3. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        4. type 이 path 일 때 pathId 가 주어지지 않은 경우 (PATH_ID_NOT_PROVIDED)
                     """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                            }
+                                            """
+                                    ),
                                     @ExampleObject(name = "할 일 개수 초과 예시",
                                             value = """
                                             {
@@ -111,6 +121,15 @@ public interface TodoApi {
                                             }
                                             """
                                     ),
+                                    @ExampleObject(name = "주어지지 않은 pathId 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "PATH_ID_NOT_PROVIDED",
+                                                "message": "경로 아이디가 누락되었습니다."
+                                            }
+                                            """
+                                    )
+
                             }
                     )
             ),
@@ -158,7 +177,7 @@ public interface TodoApi {
                                     )
                             }
                     )
-                ),
+            ),
     })
     TodoSuccessResponse<?> postTodo(
             @Parameter(description = "회원 ID", required = true) @RequestAttribute Long memberId,
@@ -229,14 +248,24 @@ public interface TodoApi {
                     responseCode = "400",
                     description = """
                         다음 경우에 발생할 수 있습니다:
-                        1. 할 일 개수를 초과한 경우 (TODO_LIMIT_EXCEEDED)
-                        2. 이미 추가한 한 할 일의 경우 (ALREADY_ADDED_TODO)
-                        3. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                        2. 할 일 개수를 초과한 경우 (TODO_LIMIT_EXCEEDED)
+                        3. 이미 추가한 한 할 일의 경우 (ALREADY_ADDED_TODO)
+                        4. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        5. type 이 path 일 때 pathId 가 주어지지 않은 경우 (PATH_ID_NOT_PROVIDED)
                     """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                            }
+                                            """
+                                    ),
                                     @ExampleObject(name = "할 일 개수 초과 예시",
                                             value = """
                                             {
@@ -261,6 +290,14 @@ public interface TodoApi {
                                             }
                                             """
                                     ),
+                                    @ExampleObject(name = "주어지지 않은 pathId 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "PATH_ID_NOT_PROVIDED",
+                                                "message": "경로 아이디가 누락되었습니다."
+                                            }
+                                            """
+                                    )
                             }
                     )
             ),
@@ -319,17 +356,17 @@ public interface TodoApi {
     @Operation(summary = "할 일 수정", description = "할 일을 수정한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                description = "할 일 수정 성공 - 스케줄과 할 일 데이터 생성되지 않은 경우",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(
-                            implementation = TodoSuccessResponse.class,
-                            description = "할 일 성공 응답"
-                    ),
-                    examples = {
-                        @ExampleObject(
-                                name = "[오늘, 즐겨찾기, 경로별] 할 일 수정 성공",
-                                value = """
+                    description = "할 일 수정 성공 - 스케줄과 할 일 데이터 생성되지 않은 경우",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(
+                                    implementation = TodoSuccessResponse.class,
+                                    description = "할 일 성공 응답"
+                            ),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "[오늘, 즐겨찾기, 경로별] 할 일 수정 성공",
+                                            value = """
                                 {
                                     "data": {
                                         "todoId": 84,
@@ -340,10 +377,10 @@ public interface TodoApi {
                                     }
                                 }
                                 """
-                        ),
-                        @ExampleObject(
-                                name = "내일 할 일 수정 성공 - 내일 스케줄 생성되지 않은 경우",
-                                value = """
+                                    ),
+                                    @ExampleObject(
+                                            name = "내일 할 일 수정 성공 - 내일 스케줄 생성되지 않은 경우",
+                                            value = """
                                 {
                                     "isTomorrowScheduleCreated": false,
                                     "data": {
@@ -355,22 +392,22 @@ public interface TodoApi {
                                     }
                                 }
                                 """
-                        )
-                    }
-                )
+                                    )
+                            }
+                    )
             ),
             @ApiResponse(responseCode = "201",
-                description = "할 일 수정 성공 - 스케줄과 할 일 데이터 생성된 경우",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(
-                            implementation = TodoSuccessResponse.class,
-                            description = "할 일 성공 응답"
-                    ),
-                    examples = {
-                        @ExampleObject(
-                            name = "내일 할 일 수정 성공 - 내일 스케줄 생성된 경우",
-                            value = """
+                    description = "할 일 수정 성공 - 스케줄과 할 일 데이터 생성된 경우",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(
+                                    implementation = TodoSuccessResponse.class,
+                                    description = "할 일 성공 응답"
+                            ),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "내일 할 일 수정 성공 - 내일 스케줄 생성된 경우",
+                                            value = """
                                 {
                                     "isTomorrowScheduleCreated": true,
                                     "data": [
@@ -384,75 +421,93 @@ public interface TodoApi {
                                     ]
                                 }
                                 """
-                        )
-                    }
-                )),
+                                    )
+                            }
+                    )),
             @ApiResponse(
-                responseCode = "400",
-                description = """
+                    responseCode = "400",
+                    description = """
                     다음 경우에 발생할 수 있습니다:
-                    1. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                    1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                    2. 할 일 타입과 요청 타입이 일치하지 않은 경우 (TODO_TYPE_MISMATCH)
+                    3. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
                 """,
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ErrorResponseExample.class),
-                    examples = {
-                        @ExampleObject(name = "잘못된 타입(type) 예시",
-                            value = """
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                        {
+                                            "errorCode": "INVALID_MEMBER_STATUS",
+                                            "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                        }
+                                        """
+                                    ),
+                                    @ExampleObject(name = "일치하지 않은 할 일 타입과 요청 타입 예시",
+                                            value = """
+                                    {
+                                        "errorCode": "TODO_TYPE_MISMATCH",
+                                        "message": "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = SCHEDULED, 요청 타입 = IN_PROGRESS"
+                                    }
+                                    """
+                                    ),
+                                    @ExampleObject(name = "잘못된 타입(type) 예시",
+                                            value = """
                             {
                                 "errorCode": "METHOD_ARGUMENT_TYPE_MISMATCH",
                                 "message": "입력한 값의 타입이 잘못되었습니다."
                             }
                             """
-                        ),
-                    }
-                )
+                                    ),
+                            }
+                    )
             ),
             @ApiResponse(responseCode = "404",
-                description = """
+                    description = """
                     다음 경우에 발생할 수 있습니다:
                     1. 회원을 찾을 수 없는 경우 (MEMBER_NOT_FOUND)
                     2. 할 일을 찾을 수 없는 경우 (TODO_NOT_FOUND)
                     3. 일정(Schedule)을 찾을 수 없는 경우 (SCHEDULE_NOT_FOUND)
                     4. 카테고리를 찾을 수 없는 경우 (CATEGORY_NOT_FOUND)
                 """,
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ErrorResponseExample.class),
-                    examples = {
-                        @ExampleObject(name = "회원 미존재 예시",
-                                value = """
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "회원 미존재 예시",
+                                            value = """
                                 {
                                   "errorCode": "MEMBER_NOT_FOUND",
                                   "message": "회원을 찾을 수 없습니다. memberId : 9999"
                                 }
                                 """),
-                        @ExampleObject(name = "할 일 미존재 예시",
-                                value = """
+                                    @ExampleObject(name = "할 일 미존재 예시",
+                                            value = """
                                         {
                                           "errorCode": "TODO_NOT_FOUND",
                                           "message": "해당 할 일이 존재하지 않습니다. todoId : 9999"
                                         }
                                         """
-                        ),
-                        @ExampleObject(name = "일정 미존재 예시",
-                                value = """
+                                    ),
+                                    @ExampleObject(name = "일정 미존재 예시",
+                                            value = """
                               {
                                   "errorCode": "SCHEDULE_NOT_FOUND",
                                   "message": "일정을 찾을 수 없습니다."
                               }
                               """
-                        ),
-                        @ExampleObject(name = "카테고리 미존재 예시",
-                                value = """
+                                    ),
+                                    @ExampleObject(name = "카테고리 미존재 예시",
+                                            value = """
                                 {
                                   "errorCode": "CATEGORY_NOT_FOUND",
                                   "message": "카테고리를 찾을 수 없습니다. categoryName : 'READING'"
                                 }
                         """),
 
-                    }
-                )
+                            }
+                    )
             ),
 
     })
@@ -521,38 +576,56 @@ public interface TodoApi {
                             }
                     )),
             @ApiResponse(responseCode = "204",
-                description = "[오늘, 즐겨찾기, 경로별] 할 일 삭제 성공",
-                content = @Content(
-                        mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(
-                                implementation = TodoSuccessResponse.class,
-                                description = "할 일 성공 응답"
-                        ),
-                        examples = {
-                                @ExampleObject(
-                                        name = "[오늘, 즐겨찾기, 경로별] 할 일 삭제 성공",
-                                        value = "NO CONTENT"
-                                )
-                        }
-                )
+                    description = "[오늘, 즐겨찾기, 경로별] 할 일 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(
+                                    implementation = TodoSuccessResponse.class,
+                                    description = "할 일 성공 응답"
+                            ),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "[오늘, 즐겨찾기, 경로별] 할 일 삭제 성공",
+                                            value = "NO CONTENT"
+                                    )
+                            }
+                    )
             ),
             @ApiResponse(
                     responseCode = "400",
                     description = """
                     다음 경우에 발생할 수 있습니다:
-                    1. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                    1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                    2. 할 일 타입과 요청 타입이 일치하지 않은 경우 (TODO_TYPE_MISMATCH)
+                    3. type 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
                 """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                            }
+                                            """
+                                    ),
+                                    @ExampleObject(name = "일치하지 않은 할 일 타입과 요청 타입 예시",
+                                            value = """
+                                    {
+                                        "errorCode": "TODO_TYPE_MISMATCH",
+                                        "message": "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = SCHEDULED, 요청 타입 = IN_PROGRESS"
+                                    }
+                                    """
+                                    ),
                                     @ExampleObject(name = "잘못된 타입(type) 예시",
                                             value = """
-                            {
-                                "errorCode": "METHOD_ARGUMENT_TYPE_MISMATCH",
-                                "message": "입력한 값의 타입이 잘못되었습니다."
-                            }
-                            """
+                                            {
+                                                "errorCode": "METHOD_ARGUMENT_TYPE_MISMATCH",
+                                                "message": "입력한 값의 타입이 잘못되었습니다."
+                                            }
+                                            """
                                     ),
                             }
                     )
@@ -632,6 +705,25 @@ public interface TodoApi {
                             }
                     )
             ),
+            @ApiResponse(responseCode = "400",
+                    description = """
+                            1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                            """,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                            }
+                                            """
+                                    ),
+                            }
+                    )
+            ),
             @ApiResponse(responseCode = "404",
                     description = """
                     다음 경우에 발생할 수 있습니다:
@@ -695,6 +787,25 @@ public interface TodoApi {
                                             }
                                             """
                                     )
+                            }
+                    )
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = """
+                            1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                            """,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                            }
+                                            """
+                                    ),
                             }
                     )
             ),
@@ -771,11 +882,11 @@ public interface TodoApi {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
-                                    @ExampleObject(name = "회원의 상태가 해당 API를 호출할 수 없는 경우 예시",
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
                                             value = """
                                             {
-                                              "errorCode": "INVALID_MEMBER_STATUS",
-                                              "message": "회원의 상태가 STOP 인 경우 해당 API를 이용할 수 없습니다."
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
                                             }
                                             """
                                     ),
@@ -815,7 +926,7 @@ public interface TodoApi {
     })
     SuccessResponse<List<TodoInfo>> getTodosByPath(
             @Parameter(description = "회원 ID", required = true) @RequestAttribute("memberId") Long memberId,
-            @Parameter(description = "경로 ID", required = true) @RequestParam("pathId") Long pathId);
+            @Parameter(description = "경로 ID - type = path 인 경우만 사용", required = true) @RequestParam("pathId") Long pathId);
 
 
 
@@ -889,16 +1000,17 @@ public interface TodoApi {
                         다음 경우에 발생할 수 있습니다.
                         1. 회원의 상태가 해당 API를 호출할 없는 경우 (INVALID_MEMBER_STATUS)
                         2. modifyType 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        3. type 이 path 일 때 pathId 가 주어지지 않은 경우 (PATH_ID_NOT_PROVIDED)
                     """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
-                                    @ExampleObject(name = "회원의 상태가 해당 API를 호출할 수 없는 경우 예시",
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
                                             value = """
                                             {
-                                              "errorCode": "INVALID_MEMBER_STATUS",
-                                              "message": "회원의 상태가 STOP 인 경우 해당 API를 이용할 수 없습니다."
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
                                             }
                                             """
                                     ),
@@ -910,6 +1022,14 @@ public interface TodoApi {
                                             }
                                             """
                                     ),
+                                    @ExampleObject(name = "주어지지 않은 pathId 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "PATH_ID_NOT_PROVIDED",
+                                                "message": "경로 아이디가 누락되었습니다."
+                                            }
+                                            """
+                                    )
                             }
                     )
 
@@ -955,7 +1075,7 @@ public interface TodoApi {
     })
     PageResponse<Long, List<TodoInfo>> getSaveTodos(
             @Parameter(description = "회원 ID", required = true) @RequestAttribute Long memberId,
-            @Parameter(description = "경로 ID") @Nullable @RequestParam("pathId") Long pathId,
+            @Parameter(description = "경로 ID - type = path 인 경우만 사용") @Nullable @RequestParam("pathId") Long pathId,
             @Parameter(description = "수정 할 일 타입 - xx 수정 페이지(오늘 할 일, 내일 할 일, 경로별 할 일, 마이 페이지)", required = true) @RequestParam(value = "modifyType", required = true) TodoRequestType modifyType,
             @Parameter(description = "커서 - 할 일 ID") @Nullable @RequestParam("cursor") Long cursor,
             @ModelAttribute SaveTodoQueryRequest request);
@@ -1029,16 +1149,17 @@ public interface TodoApi {
                         다음 경우에 발생할 수 있습니다.
                         1. 회원의 상태가 해당 API를 호출할 없는 경우 (INVALID_MEMBER_STATUS)
                         2. modifyType 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        3. type 이 path 일 때 pathId 가 주어지지 않은 경우 (PATH_ID_NOT_PROVIDED)
                     """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
-                                    @ExampleObject(name = "회원의 상태가 해당 API를 호출할 수 없는 경우 예시",
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
                                             value = """
                                             {
-                                              "errorCode": "INVALID_MEMBER_STATUS",
-                                              "message": "회원의 상태가 STOP 인 경우 해당 API를 이용할 수 없습니다."
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
                                             }
                                             """
                                     ),
@@ -1050,6 +1171,14 @@ public interface TodoApi {
                                             }
                                             """
                                     ),
+                                    @ExampleObject(name = "주어지지 않은 pathId 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "PATH_ID_NOT_PROVIDED",
+                                                "message": "경로 아이디가 누락되었습니다."
+                                            }
+                                            """
+                                    )
                             }
                     )
 
@@ -1095,7 +1224,7 @@ public interface TodoApi {
     })
     SuccessResponse<List<TodoInfo>> getPersonalizedRecommendTodos(
             @Parameter(description = "회원 ID", required = true) @RequestAttribute Long memberId,
-            @Parameter(description = "경로 ID") @Nullable @RequestParam("pathId") Long pathId,
+            @Parameter(description = "경로 ID - type = path 인 경우만 사용") @Nullable @RequestParam("pathId") Long pathId,
             @Parameter(description = "수정 할 일 타입 - xx 수정 페이지(오늘 할 일, 내일 할 일, 경로별 할 일, 마이 페이지)", required = true) @RequestParam(value = "modifyType", required = true) TodoRequestType modifyType
     );
 
@@ -1173,16 +1302,17 @@ public interface TodoApi {
                         다음 경우에 발생할 수 있습니다.
                         1. 회원의 상태가 해당 API를 호출할 없는 경우 (INVALID_MEMBER_STATUS)
                         2. modifyType 에 잘못된 값을 넣은 경우 (METHOD_ARGUMENT_TYPE_MISMATCH)
+                        3. type 이 path 일 때 pathId 가 주어지지 않은 경우 (PATH_ID_NOT_PROVIDED)
                     """,
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             examples = {
-                                    @ExampleObject(name = "회원의 상태가 해당 API를 호출할 수 없는 경우 예시",
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
                                             value = """
                                             {
-                                              "errorCode": "INVALID_MEMBER_STATUS",
-                                              "message": "회원의 상태가 STOP 인 경우 해당 API를 이용할 수 없습니다."
+                                                "errorCode": "INVALID_MEMBER_STATUS",
+                                                "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
                                             }
                                             """
                                     ),
@@ -1194,6 +1324,14 @@ public interface TodoApi {
                                             }
                                             """
                                     ),
+                                    @ExampleObject(name = "주어지지 않은 pathId 예시",
+                                            value = """
+                                            {
+                                                "errorCode": "PATH_ID_NOT_PROVIDED",
+                                                "message": "경로 아이디가 누락되었습니다."
+                                            }
+                                            """
+                                    )
                             }
                     )
 
@@ -1239,7 +1377,7 @@ public interface TodoApi {
     })
     PageResponse<Cursor, List<TodoInfo>> getAllRecommendTodos(
             @Parameter(description = "회원 ID", required = true) @RequestAttribute Long memberId,
-            @Parameter(description = "경로 ID") @Nullable @RequestParam("pathId") Long pathId,
+            @Parameter(description = "경로 ID - type = path 인 경우만 사용") @Nullable @RequestParam("pathId") Long pathId,
             @Parameter(description = "수정 할 일 타입 - xx 수정 페이지(오늘 할 일, 내일 할 일, 경로별 할 일, 마이 페이지)", required = true) @RequestParam(value = "modifyType", required = true) TodoRequestType modifyType,
             @Nullable @ModelAttribute Cursor cursor,
             @ModelAttribute RecommendTodoQueryRequest request);
