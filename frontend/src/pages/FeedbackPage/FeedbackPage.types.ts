@@ -7,7 +7,7 @@ export interface FeedbackData {
 
 export interface FeedbackContextType {
   feedbackStep: number;
-  setFeedbackStep: (step: number) => void;
-  feedbackData: FeedbackData | null;
-  setFeedbackData: (data: FeedbackData | null) => void;
+  setFeedbackStep: React.Dispatch<React.SetStateAction<number>>;
+  feedbackData: FeedbackData;
+  setFeedbackData: React.Dispatch<React.SetStateAction<FeedbackData>>;
 }
