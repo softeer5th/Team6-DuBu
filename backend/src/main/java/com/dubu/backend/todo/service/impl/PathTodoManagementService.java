@@ -3,42 +3,54 @@ package com.dubu.backend.todo.service.impl;
 import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.domain.Path;
+import com.dubu.backend.plan.exception.PathNotFoundException;
+import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
 import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
 import com.dubu.backend.todo.dto.response.TodoInfo;
 import com.dubu.backend.todo.dto.response.TodoManageResult;
-import com.dubu.backend.todo.entity.*;
+import com.dubu.backend.todo.entity.Category;
+import com.dubu.backend.todo.entity.Todo;
+import com.dubu.backend.todo.entity.TodoDifficulty;
+import com.dubu.backend.todo.entity.TodoType;
 import com.dubu.backend.todo.exception.AlreadyAddedTodoFromArchivedException;
 import com.dubu.backend.todo.exception.CategoryNotFoundException;
-import com.dubu.backend.todo.exception.ScheduleNotFoundException;
+import com.dubu.backend.todo.exception.TodoLimitExceededException;
 import com.dubu.backend.todo.exception.TodoNotFoundException;
 import com.dubu.backend.todo.repository.CategoryRepository;
-import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
 import com.dubu.backend.todo.service.TodoManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class SaveTodoManagementService implements TodoManagementService {
+public class PathTodoManagementService implements TodoManagementService {
     private final MemberRepository memberRepository;
-    private final CategoryRepository categoryRepository;
     private final TodoRepository todoRepository;
-    private final ScheduleRepository scheduleRepository;
+    private final CategoryRepository categoryRepository;
+    private final PathRepository pathRepository;
 
     @Override
     public TodoManageResult<?> createTodo(TodoIdentifier identifier, TodoCreateRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+        Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
 
-        Todo todo = todoCreateRequest.toEntity(member, category, null, null, TodoType.SAVE);
+        List<Todo> todosByPath = todoRepository.findTodosByPath(path);
+
+        if(todosByPath.size() == 10){
+            throw new TodoLimitExceededException("경로별", 10);
+        }
+
+        Todo todo = todoCreateRequest.toEntity(member, category, null, path, TodoType.IN_PROGRESS);
         Todo savedTodo = todoRepository.save(todo);
 
         return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
@@ -48,10 +60,16 @@ public class SaveTodoManagementService implements TodoManagementService {
     public TodoManageResult<?> createTodoFromArchived(TodoIdentifier identifier, TodoCreateFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
         Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
+        Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
-        todoRepository.findByMemberAndParentTodoAndType(member, parentTodo, TodoType.SAVE).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
+        List<Todo> todosByPath = todoRepository.findTodosByPath(path);
 
-        Todo todo = Todo.of(parentTodo.getTitle(), TodoType.SAVE, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, null, null);
+        if(todosByPath.size() == 10){
+            throw new TodoLimitExceededException("경로별", 10);
+        }
+
+        todoRepository.findByParentTodoAndPath(parentTodo, path).ifPresent(todo ->{throw new AlreadyAddedTodoFromArchivedException();});
+        Todo todo = Todo.of(parentTodo.getTitle(), TodoType.IN_PROGRESS, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, null, path);
         Todo savedTodo = todoRepository.save(todo);
 
         return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
@@ -62,19 +80,10 @@ public class SaveTodoManagementService implements TodoManagementService {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
-        // 제목, 카테고리, 난이도를 수정하는 경우 관련된 부모 할 일 삭제
+        // 제목, 카테고리, 난이도 수정 시 부모 할 일 관계 끊기
         if(todoUpdateRequest.title() != null || todoUpdateRequest.category() != null || todoUpdateRequest.difficulty() != null){
-            // 내일 할 일 관련
-            todoRepository.findWithScheduleByParentTodoAndScheduleDate(todo, LocalDate.now().plusDays(1)).ifPresent(Todo::clearParentTodo);
-
-            // 오늘 할 일 관련
-            Schedule todaySchedule = scheduleRepository.findLatestSchedule(member, LocalDate.now()).orElseThrow(ScheduleNotFoundException::new);
-            todoRepository.findByParentTodoAndSchedule(todo, todaySchedule).ifPresent(Todo::clearParentTodo);
-
-            // 해당 할 일 관련
             todo.clearParentTodo();
         }
-
         // 수정
         Category category = null;
         if(todoUpdateRequest.category() != null){
@@ -95,12 +104,6 @@ public class SaveTodoManagementService implements TodoManagementService {
     public TodoManageResult<?> removeTodo(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
-
-        // 즐겨찾기 할 일로 부터 생성된 오늘 할 일, 내일 할 일의 부모 id 제거
-        todoRepository.findWithScheduleByParentTodoAndScheduleDate(todo, LocalDate.now().plusDays(1)).ifPresent(Todo::clearParentTodo);
-
-        Schedule todaySchedule = scheduleRepository.findLatestSchedule(member, LocalDate.now()).orElseThrow(ScheduleNotFoundException::new);
-        todoRepository.findByParentTodoAndSchedule(todo, todaySchedule).ifPresent(Todo::clearParentTodo);
 
         todoRepository.delete(todo);
 

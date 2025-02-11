@@ -33,7 +33,6 @@ public enum ErrorCode {
 
     // Member
     INVALID_MEMBER_STATUS(BAD_REQUEST, "회원의 상태가 %s인 경우 해당 API를 이용할 수 없습니다."),
-    INVALID_STATUS(BAD_REQUEST, "지원하지 않는 회원의 상태입니다. status : %s"),
     MEMBER_NOT_FOUND(NOT_FOUND, "회원을 찾을 수 없습니다. memberId : %d"),
 
     // Address
@@ -50,6 +49,8 @@ public enum ErrorCode {
     INVALID_MOOD(BAD_REQUEST, "유효하지 않은 기분 형식입니다. mood : %s"),
 
     // Path
+    PATH_NOT_FOUND(NOT_FOUND, "경로를 찾을 수 없습니다. pathId : %d"),
+    PATH_ID_NOT_PROVIDED(BAD_REQUEST, "경로 아이디가 누락되었습니다."),
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
 
     // Member_Category
@@ -58,7 +59,7 @@ public enum ErrorCode {
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
     ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
-    TODO_LIMIT_EXCEEDED(BAD_REQUEST, "할 일은 최대 3개까지 추가할 수 있습니다."),
+    TODO_LIMIT_EXCEEDED(BAD_REQUEST, "%s 할 일은 최대 %d 개까지 추가할 수 있습니다."),
 
     INVALID_TODO_REQUEST_TYPE(BAD_REQUEST, "잘못된 할 일 요청 유형입니다. type = %s"),
 

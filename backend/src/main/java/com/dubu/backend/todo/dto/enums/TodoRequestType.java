@@ -8,12 +8,17 @@ import java.util.Arrays;
 
 @Getter
 public enum TodoRequestType {
-    TODAY("todayTodoManagementService"), TOMORROW("tomorrowTodoManagementService"), SAVE("saveTodoManagementService");
+    TODAY("todayTodoManagementService", "todayTodoQueryService"),
+    TOMORROW("tomorrowTodoManagementService", "tomorrowTodoQueryService"),
+    SAVE("saveTodoManagementService", "saveTodoQueryService"),
+    PATH("pathTodoManagementService", "pathTodoQueryService");
 
     private final String managementServiceName;
+    private final String queryServiceName;
 
-    TodoRequestType(String managementServiceName){
+    TodoRequestType(String managementServiceName, String queryServiceName){
         this.managementServiceName = managementServiceName;
+        this.queryServiceName = queryServiceName;
     }
 
     public static TodoRequestType fromString(String value){
