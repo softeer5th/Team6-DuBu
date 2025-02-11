@@ -45,8 +45,12 @@ public enum ErrorCode {
     NOT_FOUND_PLAN(NOT_FOUND, "계획을 찾을 수 없습니다. planId : %d"),
     UNAUTHORIZED_PLAN_DELETION(UNAUTHORIZED, "회원이 해당 계획에 접근 권한이 없어 삭제할 수 없습니다. memberId : %d, planId : %d"),
 
+    // Feedback
+    INVALID_MOOD(BAD_REQUEST, "유효하지 않은 기분 형식입니다. mood : %s"),
+
     // Path
     PATH_NOT_FOUND(NOT_FOUND, "경로를 찾을 수 없습니다. pathId : %d"),
+    PATH_ID_NOT_PROVIDED(BAD_REQUEST, "경로 아이디가 누락되었습니다."),
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
 
     // Member_Category

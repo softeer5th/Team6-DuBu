@@ -1,4 +1,4 @@
-package com.dubu.backend.member.dto;
+package com.dubu.backend.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

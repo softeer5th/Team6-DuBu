@@ -46,6 +46,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
   const handleClickAddTodo = () => {
     if (currentTodoList && currentTodoList.length >= MAX_TODO_ITEM_LENGTH) {
       toast({ message: TODO_TOAST_MESSAGE.limit });
+
       return;
     }
 

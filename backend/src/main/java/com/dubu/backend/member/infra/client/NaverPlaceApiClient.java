@@ -1,6 +1,6 @@
 package com.dubu.backend.member.infra.client;
 
-import com.dubu.backend.member.dto.NaverPlaceApiResponse;
+import com.dubu.backend.member.dto.response.NaverPlaceApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;

@@ -17,5 +17,6 @@ export const postOnboarding = async (userInfo: OnboardingUserInfo) => {
   const result = await fetchClient.post<{ message: string }>(API_URL.onboarding, {
     body: userInfo,
   });
+
   return result;
 };

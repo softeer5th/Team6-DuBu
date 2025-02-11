@@ -1,14 +1,50 @@
+import { useNavigate } from 'react-router';
+
 import * as S from './StartButton.styled';
+import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
+import { getRouteInfoWithSwitched } from '../../MainPage.utils';
 
 import Icon from '@/components/Icon';
 import theme from '@/styles/theme';
 
-const StartButton = () => {
+interface StartButtonProps {
+  isSwitched: boolean;
+  startAddress: {
+    startName: string;
+    startX: number;
+    startY: number;
+  };
+  endAddress: {
+    endName: string;
+    endX: number;
+    endY: number;
+  };
+}
+
+const StartButton = ({ isSwitched, startAddress, endAddress }: StartButtonProps) => {
+  const navigate = useNavigate();
+  const { data: memberAddress } = useMemberAddressQuery();
+
+  const goToRouteSelect = () => {
+    const { startX, startY, endX, endY, startName, endName } = getRouteInfoWithSwitched(
+      isSwitched,
+      startAddress,
+      endAddress,
+      memberAddress,
+    );
+
+    navigate(
+      `/route-select?startX=${startX}&startY=${startY}&endX=${endX}&endY=${endY}&startName=${startName}&endName=${endName}`,
+    );
+  };
+
   return (
-    <S.StartButtonLayout>
-      <Icon icon="Fire" width={20} height={20} color={theme.colors.white} />
-      <span>출발하기</span>
-    </S.StartButtonLayout>
+    <S.StartButtonLayout
+      icon={<Icon icon="Fire" width={20} height={20} color={theme.colors.white} />}
+      color={theme.colors.white}
+      text="출발하기"
+      onClick={goToRouteSelect}
+    />
   );
 };
 

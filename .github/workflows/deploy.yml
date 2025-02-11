@@ -3,8 +3,12 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "develop" ]
+    paths:
+      - backend/**
   pull_request:
     branches: [ "develop" ]
+    paths:
+      - backend/**
 
 permissions:
   contents: write  # Docker 이미지 푸시 및 배포 시 사용
@@ -70,6 +74,7 @@ jobs:
               -e JWT_ACCESS_TOKEN_TIME=${{ secrets.JWT_ACCESS_TOKEN_TIME }} \
               -e JWT_REFRESH_TOKEN_TIME=${{ secrets.JWT_REFRESH_TOKEN_TIME }} \
               -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+              -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
               -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
               -e NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }} \
               -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
