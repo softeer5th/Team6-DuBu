@@ -16,17 +16,23 @@
           {
             "isDone": false,
             "title": "영단어 듣기",
-            "memo": "https://www.youtube.com/watch?v=XYYys4QTvE8"
+            "memo": "https://www.youtube.com/watch?v=XYYys4QTvE8",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "노래 듣기",
-            "memo": "팝송 노래 가사 외우기"
+            "memo": "팝송 노래 가사 외우기",
+            "category": "ENGLISH",
+            "difficulty": "NORMAL"
           },
           {
             "isDone": false,
             "title": "오디오북 듣기",
-            "memo": null
+            "memo": null,
+            "category": "LANGUAGE",
+            "difficulty": "HARD"
           }
         ]
       },
@@ -42,7 +48,9 @@
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           }
         ]
       },
@@ -58,12 +66,16 @@
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           }
         ]
       },
@@ -79,52 +91,72 @@
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           },
           {
             "isDone": false,
             "title": "영단어 말하기",
-            "memo": "hello let me introduce myself"
+            "memo": "hello let me introduce myself",
+            "category": "ENGLISH",
+            "difficulty": "EASY"
           }
         ]
       }

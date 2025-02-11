@@ -5,14 +5,14 @@ import TimeBlockList from './TimeBlockList';
 import { TRAFFIC_ICON } from '../../PlanPage.constants';
 import { TrafficType } from '../../PlanPage.types';
 
-import { pathTodo } from '@/api/plan';
+import { PathTodo } from '@/api/plan';
 import Icon from '@/components/Icon';
 import { colors } from '@/styles/theme';
 
 interface TimeBlockProps {
   pathId: number;
   sectionTime: number;
-  todos: pathTodo[];
+  todos: PathTodo[];
   trafficType: TrafficType;
 }
 
