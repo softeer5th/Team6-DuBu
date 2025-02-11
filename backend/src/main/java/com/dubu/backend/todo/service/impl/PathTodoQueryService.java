@@ -46,9 +46,11 @@ public class PathTodoQueryService implements TargetTodoQueryService {
     public List<TodoInfo> findTargetTodos(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
 
-        if(member.getStatus() != Status.MOVE){
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
+
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
         List<Todo> todos = todoRepository.findTodosWithCategoryByPath(path);
@@ -59,6 +61,12 @@ public class PathTodoQueryService implements TargetTodoQueryService {
     @Override
     public PageResponse<Long, List<TodoInfo>> findSaveTodos(TodoIdentifier identifier, Long cursor, SaveTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
         Slice<Todo> todoSlice = todoRepository.findTodosUsingSingleCursor(cursor,
@@ -91,6 +99,12 @@ public class PathTodoQueryService implements TargetTodoQueryService {
     @Override
     public List<TodoInfo> findPersonalizedRecommendTodos(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
         // 회원의 카테고리 정보에 해당하는 추천 할 일을 가져온다.
@@ -115,6 +129,12 @@ public class PathTodoQueryService implements TargetTodoQueryService {
     @Override
     public PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(TodoIdentifier identifier, Cursor cursor, RecommendTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
         List<Category> categories = null;

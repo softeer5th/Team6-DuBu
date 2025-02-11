@@ -1,9 +1,11 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
 import com.dubu.backend.plan.domain.Path;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.plan.exception.PathNotFoundException;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
@@ -41,6 +43,12 @@ public class PathTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodo(TodoIdentifier identifier, TodoCreateRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
 
@@ -78,6 +86,12 @@ public class PathTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> modifyTodo(TodoIdentifier identifier, TodoUpdateRequest todoUpdateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
         // 제목, 카테고리, 난이도 수정 시 부모 할 일 관계 끊기
@@ -103,6 +117,12 @@ public class PathTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> removeTodo(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태가 이동 중 이어야 한다.
+        if(!member.getStatus().equals(Status.MOVE)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
         todoRepository.delete(todo);

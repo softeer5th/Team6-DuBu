@@ -1,8 +1,10 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
@@ -33,6 +35,12 @@ public class TodayTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodo(TodoIdentifier identifier, TodoCreateRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now()).orElseThrow(ScheduleNotFoundException::new);
 
@@ -48,6 +56,12 @@ public class TodayTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodoFromArchived(TodoIdentifier identifier, TodoCreateFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now()).orElseThrow(ScheduleNotFoundException::new);
 
         if(schedule.getTodos().size() == 3){
@@ -67,6 +81,12 @@ public class TodayTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> modifyTodo(TodoIdentifier identifier, TodoUpdateRequest todoUpdateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
         // 제목, 카테고리, 난이도 수정 시 부모 할 일 관계 끊기
@@ -92,6 +112,12 @@ public class TodayTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> removeTodo(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
 
         todoRepository.delete(todo);

@@ -2,9 +2,11 @@ package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.todo.dto.common.Cursor;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.RecommendTodoQueryRequest;
@@ -40,6 +42,10 @@ public class SaveTodoQueryService implements TodoQueryService {
     public PageResponse<Long, List<TodoInfo>> findSaveTodos(TodoIdentifier identifier, Long cursor, SaveTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
 
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
         Slice<Todo> todoSlice = todoRepository.findTodosUsingSingleCursor(cursor,
                 TodoSearchCond.builder()
                         .member(member)
@@ -61,6 +67,10 @@ public class SaveTodoQueryService implements TodoQueryService {
     public List<TodoInfo> findPersonalizedRecommendTodos(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
 
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
         // 회원의 카테고리 정보에 해당하는 추천 할 일을 가져온다.
         List<Long> categoryIds = memberCategoryRepository.findCategoryIdsByMember(member);
         List<Todo> recommendTodos = todoRepository.findTodosWithCategoryByCategoryIdsAndType(categoryIds, TodoType.RECOMMEND);
@@ -83,6 +93,11 @@ public class SaveTodoQueryService implements TodoQueryService {
     @Override
     public PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(TodoIdentifier identifier, Cursor cursor, RecommendTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
 
         List<Category> categories = null;
         if(request.category() != null && !request.category().isEmpty()){
