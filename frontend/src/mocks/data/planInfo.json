@@ -44,15 +44,7 @@
         "busNumber": "강남",
         "startName": "강남",
         "endName": "논현",
-        "todos": [
-          {
-            "isDone": false,
-            "title": "영단어 말하기",
-            "memo": "hello let me introduce myself",
-            "category": "ENGLISH",
-            "difficulty": "EASY"
-          }
-        ]
+        "todos": []
       },
       {
         "pathId": 29,
