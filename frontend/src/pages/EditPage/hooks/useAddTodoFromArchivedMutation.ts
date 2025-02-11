@@ -7,10 +7,21 @@ const useAddTodoFromArchivedMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ dateType, todoId }: { dateType: string; todoId: number }) =>
-      addTodoFromArchived(dateType, todoId),
+    mutationFn: ({
+      dateType,
+      todoId,
+      planId,
+    }: {
+      dateType: string;
+      todoId: number;
+      planId?: number;
+    }) => addTodoFromArchived(dateType, todoId, planId),
     onSuccess: (_, params) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, params.dateType] });
+      if (params.planId) {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.planId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, params.dateType] });
+      }
     },
   });
 };

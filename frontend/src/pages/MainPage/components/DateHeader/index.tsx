@@ -2,12 +2,12 @@ import * as S from './DateHeader.styled';
 
 import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
-import { getDateHeaderFormat } from '@/pages/MainPage/MainPage.utils';
+import { formatDateHeader } from '@/utils/time';
 
 const DateHeader = () => {
   const { currentDay, isToday, handlePrevDate, handleNextDate } = useQueryParamsDate();
 
-  const koreanTime = getDateHeaderFormat(currentDay);
+  const koreanTime = formatDateHeader(currentDay);
 
   return (
     <S.DateHeaderLayout>

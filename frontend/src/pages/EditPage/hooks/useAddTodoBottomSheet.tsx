@@ -1,25 +1,27 @@
-import { useEffect } from 'react';
-
 import useAddTodoMutation from './useAddTodoMutation';
 import useBaseBottomSheet from './useBaseBottomSheet';
 import TodoAddForm from '../components/TodoTab/TodoAddForm';
 
-import { TodoAddParams } from '@/api/todo';
+import { TodoCreateParams } from '@/api/todo';
+import { TODO_TOAST_MESSAGE } from '@/constants/message';
+import useToast from '@/hooks/useToast';
 
-export const useAddTodoBottomSheet = (dateType: string) => {
+export const useAddTodoBottomSheet = (dateType: string, planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
-  const { mutate: addTodo, isSuccess, reset } = useAddTodoMutation();
+  const { mutate: addTodo } = useAddTodoMutation();
+  const { toast } = useToast();
 
-  const handleAddTodo = (todo: TodoAddParams) => {
-    addTodo({ dateType, todo });
+  const handleAddTodo = (todo: TodoCreateParams) => {
+    addTodo(
+      { dateType, todo, planId },
+      {
+        onSuccess: () => {
+          toast({ message: TODO_TOAST_MESSAGE.add });
+          dispatch.close();
+        },
+      },
+    );
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch.close();
-      reset();
-    }
-  }, [isSuccess, dispatch, reset]);
 
   return {
     isOpen,

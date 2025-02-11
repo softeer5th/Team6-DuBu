@@ -6,12 +6,19 @@ export const API_URL = {
   favoriteTodo: `${BASE_URL}/todos/favorites`,
   recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
   recommendAllTodo: (queryParams: string) => `${BASE_URL}/todos/recommend/all${queryParams}`,
-  addTodo: (dateType: string) => `${BASE_URL}/todos/${dateType}/manual`,
-  deleteTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  editTodo: (todoId: number) => `${BASE_URL}/todos/${todoId}`,
-  addTodoFromArchived: (dateType: string) => `${BASE_URL}/todos/${dateType}/from-archived`,
+  addTodo: (dateType: string, planId?: number) =>
+    `${BASE_URL}/todos/${dateType}/manual${planId ? `/${planId}` : ''}`,
+  deleteTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  editTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  addTodoFromArchived: (dateType: string, planId?: number) =>
+    `${BASE_URL}/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
+  routeTodo: (planId: number) => `${BASE_URL}/routes/${planId}/todos`,
   searchAddress: `${BASE_URL}/address/search`,
+  searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  planInfo: `${BASE_URL}/plans/recent`,
 };
 
 export const MOCK_API_URL = {
@@ -20,10 +27,13 @@ export const MOCK_API_URL = {
   favoriteTodo: `${BASE_URL}/todos/favorites`,
   recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
   recommendAllTodo: `${BASE_URL}/todos/recommend/all`,
-  addTodo: `${BASE_URL}/todos/:dateType/manual`,
-  deleteTodo: `${BASE_URL}/todos/:todoId`,
-  editTodo: `${BASE_URL}/todos/:todoId`,
-  addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived`,
+  addTodo: `${BASE_URL}/todos/:dateType/manual/:planId?`,
+  deleteTodo: `${BASE_URL}/todos/:todoId/:planId?`,
+  editTodo: `${BASE_URL}/todos/:todoId/:planId?`,
+  addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived/:planId?`,
+  routeTodo: `${BASE_URL}/routes/:planId/todos`,
   searchAddress: `${BASE_URL}/address/search`,
+  searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  planInfo: `${BASE_URL}/plans/recent`,
 };

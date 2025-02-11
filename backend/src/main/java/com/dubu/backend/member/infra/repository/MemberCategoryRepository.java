@@ -10,5 +10,8 @@ import java.util.List;
 
 public interface MemberCategoryRepository extends JpaRepository<MemberCategory, Long> {
     @Query("SELECT mc.category.id FROM MemberCategory mc WHERE mc.member = :member")
-    List<Long> findByMember(@Param("member") Member member);
+    List<Long> findCategoryIdsByMember(@Param("member") Member member);
+
+    @Query("SELECT mc FROM MemberCategory mc JOIN FETCH mc.category WHERE mc.member = :member")
+    List<MemberCategory> findMemberCategoriesWithCategoryByMember(Member member);
 }

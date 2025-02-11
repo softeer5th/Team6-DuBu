@@ -8,10 +8,14 @@ const useEditTodoMutation = (dateType: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ todo }: { todo: Todo }) => editTodo(todo),
+    mutationFn: ({ todo, planId }: { todo: Todo; planId?: number }) => editTodo(todo, planId),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+    onSuccess: (_, params) => {
+      if (params.planId) {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.planId] });
+      } else {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+      }
     },
   });
 };
