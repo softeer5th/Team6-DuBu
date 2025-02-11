@@ -90,10 +90,10 @@ public class MemberService {
 
         saveMemberCategories(currentMember, request.categories());
 
-        saveAddress(currentMember, AddressType.HOME, request.homeAddress(),
-                request.homeTitle(), request.homeAddressX(), request.homeAddressY());
-        saveAddress(currentMember, AddressType.SCHOOL, request.schoolAddress(),
-                request.schoolTitle(), request.schoolAddressX(), request.schoolAddressY());
+        saveAddress(currentMember, AddressType.HOME, request.homeTitle(),
+                request.homeAddress(), request.homeAddressX(), request.homeAddressY());
+        saveAddress(currentMember, AddressType.SCHOOL, request.schoolTitle(),
+                request.schoolAddress(), request.schoolAddressX(), request.schoolAddressY());
 
         currentMember.updateNickname(request.nickname());
         currentMember.updateStatus(Status.STOP);
@@ -121,7 +121,7 @@ public class MemberService {
             Double x,
             Double y
     ) {
-        Address address = Address.createAddress(member, type, roadAddress, title, x, y);
+        Address address = Address.createAddress(member, type, title, roadAddress, x, y);
         addressRepository.save(address);
     }
 
