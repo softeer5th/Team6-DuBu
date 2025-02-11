@@ -6,10 +6,10 @@ import com.dubu.backend.member.domain.enums.AddressType;
 import java.util.List;
 
 public record MemberSavedAddressResponse(
-    String homeAddressName,
+    String homeTitle,
     Double homeXCoordinate,
     Double homeYCoordinate,
-    String schoolAddressName,
+    String schoolTitle,
     Double schoolXCoordinate,
     Double schoolYCoordinate
 ) {
@@ -25,10 +25,10 @@ public record MemberSavedAddressResponse(
                 .orElse(null);
 
         return new MemberSavedAddressResponse(
-                homeAddress != null ? homeAddress.getRoadAddress() : null,
+                homeAddress != null ? homeAddress.getTitle() : null,
                 homeAddress != null ? homeAddress.getXCoordinate() : null,
                 homeAddress != null ? homeAddress.getYCoordinate() : null,
-                schoolAddress != null ? schoolAddress.getRoadAddress() : null,
+                schoolAddress != null ? schoolAddress.getTitle() : null,
                 schoolAddress != null ? schoolAddress.getXCoordinate() : null,
                 schoolAddress != null ? schoolAddress.getYCoordinate() : null
         );
