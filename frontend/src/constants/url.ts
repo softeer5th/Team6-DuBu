@@ -15,11 +15,13 @@ export const API_URL = {
   addTodoFromArchived: (dateType: string, planId?: number) =>
     `${BASE_URL}/api/v1/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
   routeTodo: (planId: number) => `${BASE_URL}/api/v1/routes/${planId}/todos`,
-  searchAddress: `${BASE_URL}/api/v1/address/search`,
+  searchAddress: `${BASE_URL}/api/v1/places/search`,
   searchRoutes: `${BASE_URL}/api/v1/routes/search`,
   onboarding: `${BASE_URL}/api/v1/members/onboarding`,
   planInfo: `${BASE_URL}/api/v1/plans/recent`,
   memberAddress: `${BASE_URL}/api/v1/members/address`,
+  loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
+  loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
 };
 
 export const MOCK_API_URL = {
@@ -33,9 +35,11 @@ export const MOCK_API_URL = {
   editTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
   addTodoFromArchived: `${BASE_URL}/api/v1/todos/:dateType/from-archived/:planId?`,
   routeTodo: `${BASE_URL}/api/v1/routes/:planId/todos`,
-  searchAddress: `${BASE_URL}/api/v1/address/search`,
+  searchAddress: `${BASE_URL}/api/v1/places/search`,
   searchRoutes: `${BASE_URL}/api/v1/routes/search`,
   onboarding: `${BASE_URL}/api/v1/members/onboarding`,
   planInfo: `${BASE_URL}/api/v1/plans/recent`,
   memberAddress: `${BASE_URL}/api/v1/members/address`,
+  loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
+  loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
 };
