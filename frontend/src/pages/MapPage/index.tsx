@@ -1,12 +1,10 @@
-import { useState } from 'react';
-
 import { CATEGORY_OPTIONS } from '../EditPage/EditPage.constants';
+import useCategoryFilters from './hooks/useCategoryFilters';
 import useInitMap from './hooks/useInitMap';
 import useMarker from './hooks/useMarker';
 import * as S from './MapPage.styled';
 
 import Header from '@/components/Header';
-import { CategoryType } from '@/types/filter';
 
 const MAP_ID = 'map';
 
@@ -32,21 +30,7 @@ const MARKERS = [
 const MapPage = () => {
   const { mapRef } = useInitMap();
   const { putMarkerList } = useMarker();
-  const [categoryFilters, setCategoryFilters] = useState({
-    READING: false,
-    ENGLISH: false,
-    LANGUAGE: false,
-    NEWS: false,
-    HOBBY: false,
-    OTHERS: false,
-  });
-
-  const handleCheckFilter = (category: CategoryType) => {
-    setCategoryFilters((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }));
-  };
+  const { categoryFilters, handleCheckFilters } = useCategoryFilters();
 
   putMarkerList(mapRef.current, MARKERS);
 
@@ -67,7 +51,7 @@ const MapPage = () => {
               key={filter.value}
               value={filter.value}
               $isSelected={categoryFilters[filter.value]}
-              onClick={() => handleCheckFilter(filter.value)}
+              onClick={() => handleCheckFilters(filter.value)}
               category={filter.value}
             >
               {filter.label}
