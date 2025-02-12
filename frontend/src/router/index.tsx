@@ -5,6 +5,7 @@ import FlexPageLayout from './layout/FlexPageLayout';
 import EditPage from '@/pages/EditPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
+import MapPage from '@/pages/MapPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import PlanPage from '@/pages/PlanPage';
 import RecommendTodoPage from '@/pages/RecommendTodoPage';
@@ -67,5 +68,10 @@ export const router = createBrowserRouter([
         element: <RecommendTodoPage />,
       },
     ],
+  },
+
+  {
+    path: '/map',
+    element: <MapPage />,
   },
 ]);
