@@ -70,10 +70,12 @@ public class TodoController implements TodoApi{
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
         TodoManageResult<?> result = todoManagementService.modifyTodo(new TodoIdentifier(memberId, todoId, null), request);
 
-        if(result.isTomorrowScheduleCreated())
-            return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
+        Boolean isTomorrowScheduleCreated = result.isTomorrowScheduleCreated();
 
-        return ResponseEntity.status(HttpStatus.OK).body(new TodoSuccessResponse<>(false, result.info()));
+        if(isTomorrowScheduleCreated == null || !isTomorrowScheduleCreated)
+            return ResponseEntity.status(HttpStatus.OK).body(new TodoSuccessResponse<>(isTomorrowScheduleCreated, result.info()));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
     }
 
     @DeleteMapping("/{todoId}")
@@ -85,7 +87,13 @@ public class TodoController implements TodoApi{
         TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(type.getManagementServiceName());
         TodoManageResult<?> result = todoManagementService.removeTodo(new TodoIdentifier(memberId, todoId, null));
 
-        if(result.isTomorrowScheduleCreated())
+        Boolean isTomorrowScheduleCreated = result.isTomorrowScheduleCreated();
+
+        if(isTomorrowScheduleCreated == null){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        if(isTomorrowScheduleCreated)
             return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
 
         return ResponseEntity.status(HttpStatus.OK).body(new TodoSuccessResponse<>(false, result.info()));

@@ -45,7 +45,7 @@ public class SaveTodoManagementService implements TodoManagementService {
         Todo todo = todoCreateRequest.toEntity(member, category, null, null, TodoType.SAVE);
         Todo savedTodo = todoRepository.save(todo);
 
-        return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(savedTodo));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SaveTodoManagementService implements TodoManagementService {
         Todo todo = Todo.of(parentTodo.getTitle(), TodoType.SAVE, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, null, null);
         Todo savedTodo = todoRepository.save(todo);
 
-        return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(savedTodo));
     }
 
     @Override
@@ -109,7 +109,7 @@ public class SaveTodoManagementService implements TodoManagementService {
 
         todo.updateTodo(todoUpdateRequest.title(), category, difficulty, todoUpdateRequest.memo());
 
-        return TodoManageResult.of(false, TodoInfo.fromEntity(todo));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(todo));
     }
 
     @Override
@@ -136,6 +136,6 @@ public class SaveTodoManagementService implements TodoManagementService {
 
         todoRepository.delete(todo);
 
-        return TodoManageResult.of(false, null);
+        return TodoManageResult.of(null, null);
     }
 }

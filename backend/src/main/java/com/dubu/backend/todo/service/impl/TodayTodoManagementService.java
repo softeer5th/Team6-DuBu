@@ -50,7 +50,7 @@ public class TodayTodoManagementService implements TodoManagementService {
 
         Todo todo = todoCreateRequest.toEntity(member, category, schedule, null, TodoType.SCHEDULED);
 
-        return TodoManageResult.of(false, TodoInfo.fromEntity(todoRepository.save(todo)));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(todoRepository.save(todo)));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TodayTodoManagementService implements TodoManagementService {
         Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule, null);
 
         Todo savedTodo = todoRepository.save(newTodo);
-        return TodoManageResult.of(false, TodoInfo.fromEntity(savedTodo));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(savedTodo));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class TodayTodoManagementService implements TodoManagementService {
 
         todo.updateTodo(todoUpdateRequest.title(), category, difficulty, todoUpdateRequest.memo());
 
-        return TodoManageResult.of(false, TodoInfo.fromEntity(todo));
+        return TodoManageResult.of(null, TodoInfo.fromEntity(todo));
     }
 
     @Override
@@ -132,6 +132,6 @@ public class TodayTodoManagementService implements TodoManagementService {
 
         todoRepository.delete(todo);
 
-        return TodoManageResult.of(false, null);
+        return TodoManageResult.of(null, null);
     }
 }
