@@ -1,8 +1,10 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
@@ -37,6 +39,12 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodo(TodoIdentifier identifier, TodoCreateRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
@@ -67,6 +75,12 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> createTodoFromArchived(TodoIdentifier identifier, TodoCreateFromArchivedRequest todoCreateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> todos = todoRepository.findTodosWithCategoryBySchedule(schedule);
@@ -100,7 +114,19 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> modifyTodo(TodoIdentifier identifier, TodoUpdateRequest todoUpdateRequest) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> tomorrowTodos = null;
@@ -151,7 +177,19 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     @Override
     public TodoManageResult<?> removeTodo(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         // 내일 스케줄이 없는 경우

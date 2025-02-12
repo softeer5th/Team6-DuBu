@@ -2,9 +2,11 @@ package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.global.domain.PageResponse;
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberCategoryRepository;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.todo.dto.common.Cursor;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.RecommendTodoQueryRequest;
@@ -43,6 +45,12 @@ public class TomorrowTodoQueryService implements TargetTodoQueryService {
     @Override
     public List<TodoInfo> findTargetTodos(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> todos = todoRepository.findTodosWithCategoryBySchedule(schedule);
@@ -52,6 +60,12 @@ public class TomorrowTodoQueryService implements TargetTodoQueryService {
     @Override
     public PageResponse<Long, List<TodoInfo>> findSaveTodos(TodoIdentifier identifier, Long cursor, SaveTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         Slice<Todo> todoSlice = todoRepository.findTodosUsingSingleCursor(cursor,
@@ -84,6 +98,12 @@ public class TomorrowTodoQueryService implements TargetTodoQueryService {
     @Override
     public List<TodoInfo> findPersonalizedRecommendTodos(TodoIdentifier identifier) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         // 회원의 카테고리 정보에 해당하는 추천 할 일을 가져온다.
@@ -108,6 +128,12 @@ public class TomorrowTodoQueryService implements TargetTodoQueryService {
     @Override
     public PageResponse<Cursor, List<TodoInfo>> findAllRecommendTodos(TodoIdentifier identifier, Cursor cursor, RecommendTodoQueryRequest request) {
         Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Category> categories = null;
