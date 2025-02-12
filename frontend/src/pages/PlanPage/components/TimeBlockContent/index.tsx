@@ -5,19 +5,21 @@ import TimeBlockList from './TimeBlockList';
 import { TRAFFIC_ICON } from '../../PlanPage.constants';
 import { TrafficType } from '../../PlanPage.types';
 
-import { pathTodo } from '@/api/plan';
+import { PathTodo } from '@/api/plan';
 import Icon from '@/components/Icon';
 import { colors } from '@/styles/theme';
 
 interface TimeBlockProps {
   pathId: number;
   sectionTime: number;
-  todos: pathTodo[];
+  todos: PathTodo[];
   trafficType: TrafficType;
 }
 
 const TimeBlockContent = ({ pathId, sectionTime, todos, trafficType }: TimeBlockProps) => {
   const navigate = useNavigate();
+
+  const isEmptyTodo = todos.length === 0;
 
   const goToRouteTodoEdit = () => {
     navigate(`/plan/${pathId}/todos/edit`);
@@ -37,9 +39,15 @@ const TimeBlockContent = ({ pathId, sectionTime, todos, trafficType }: TimeBlock
             <S.SectionTime>{sectionTime}분</S.SectionTime>
             <S.EditButton
               icon={
-                <Icon icon="Edit" width={16} height={16} color={colors.gray600} cursor="pointer" />
+                <Icon
+                  icon={isEmptyTodo ? 'Plus' : 'Edit'}
+                  width={16}
+                  height={16}
+                  color={colors.gray600}
+                  cursor="pointer"
+                />
               }
-              text="수정하기"
+              text={isEmptyTodo ? '추가하기' : '수정하기'}
               onClick={goToRouteTodoEdit}
             />
           </S.TimeBlockHeader>

@@ -1,6 +1,7 @@
 import fetchClient from './fetchClient';
 
 import { API_URL } from '@/constants/url';
+import { Todo } from '@/types/todo';
 
 interface PlanInfoResponse {
   data: {
@@ -19,17 +20,19 @@ interface Path {
   busNumber: string | null;
   startName: string;
   endName: string;
-  todos: pathTodo[];
+  todos: PathTodo[];
 }
 
-export interface pathTodo {
+export interface PathTodo extends Todo {
   isDone: boolean;
-  title: string;
-  memo: string | null;
 }
 
 export const getPlanInfo = async () => {
   const result = await fetchClient.get<PlanInfoResponse>(API_URL.planInfo);
 
   return result.data;
+};
+
+export const cancelPlan = async (planId: number) => {
+  return await fetchClient.delete(API_URL.plan(planId));
 };

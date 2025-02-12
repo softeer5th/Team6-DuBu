@@ -20,6 +20,8 @@ export const API_URL = {
   onboarding: `${BASE_URL}/api/v1/members/onboarding`,
   planInfo: `${BASE_URL}/api/v1/plans/recent`,
   memberAddress: `${BASE_URL}/api/v1/members/address`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId} `,
 };
 
 export const MOCK_API_URL = {
@@ -38,4 +40,6 @@ export const MOCK_API_URL = {
   onboarding: `${BASE_URL}/api/v1/members/onboarding`,
   planInfo: `${BASE_URL}/api/v1/plans/recent`,
   memberAddress: `${BASE_URL}/api/v1/members/address`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: `${BASE_URL}/api/v1/plans/:planId`,
 };
