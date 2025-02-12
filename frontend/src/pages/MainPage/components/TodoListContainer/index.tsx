@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import * as S from './TodoListContainer.styled';
 
 import Icon from '@/components/Icon';
+import { ICON_MAPPER } from '@/constants/config';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
 import { colors } from '@/styles/theme';
@@ -12,15 +13,6 @@ const TODO_CONTENT_MESSAGE = {
   tomorrow: '할 일을 미리 선택해보세요',
   empty: '오늘 할 일이 아직 없어요',
 };
-
-const ICON_MAPPER = {
-  READING: 'Reading',
-  ENGLISH: 'English',
-  LANGUAGE: 'Language',
-  NEWS: 'News',
-  HOBBY: 'Hobby',
-  OTHERS: 'Others',
-} as const;
 
 const TodoListContainer = () => {
   const navigate = useNavigate();

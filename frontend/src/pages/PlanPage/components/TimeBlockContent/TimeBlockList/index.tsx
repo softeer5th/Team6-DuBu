@@ -1,23 +1,28 @@
+import TimeBlockItem from './TimeBlockItem';
 import * as S from './TimeBlockList.styled';
 
-import { pathTodo } from '@/api/plan';
+import { PathTodo } from '@/api/plan';
 import Icon from '@/components/Icon';
+import { colors } from '@/styles/theme';
 
 interface TimeBlockListProps {
-  todos: pathTodo[];
+  todos: PathTodo[];
 }
 
 const TimeBlockList = ({ todos }: TimeBlockListProps) => {
+  if (todos.length === 0) {
+    return (
+      <S.EmptyTimeBlock>
+        <Icon icon="Fire" width={96} height={96} color={colors.green100} />
+        <S.EmptyTimeBlockText>나의 시간, 값진 목표로 채워봐요!</S.EmptyTimeBlockText>
+      </S.EmptyTimeBlock>
+    );
+  }
+
   return (
     <S.TimeBlockList>
       {todos.map((todo, idx) => (
-        <S.TimeBlockItem key={idx}>
-          <Icon icon="EmptyCheck" cursor="pointer" />
-          <S.TimeBlockContent>
-            <S.TodoTitle>{todo.title}</S.TodoTitle>
-            <S.TodoMemo>{todo.memo}</S.TodoMemo>
-          </S.TimeBlockContent>
-        </S.TimeBlockItem>
+        <TimeBlockItem key={idx} todo={todo} />
       ))}
     </S.TimeBlockList>
   );

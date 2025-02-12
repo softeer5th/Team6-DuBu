@@ -1,12 +1,27 @@
+import { useNavigate } from 'react-router';
+
 import PlanHeader from './components/PlanHeader';
 import PlanInfoHeader from './components/PlanInfoHeader';
 import TimeBlockContent from './components/TimeBlockContent';
 import TimeBlockHeader from './components/TimeBlockHeader';
 import usePlanInfoQuery from './hooks/usePlanInfoQuery';
+import useUpdateMemberStatusMutation from './hooks/useUpdateMemberStatusMutation';
 import * as S from './PlanPage.styled';
+
+import { USER_STATUS } from '@/constants/config';
 
 const PlanPage = () => {
   const { data } = usePlanInfoQuery();
+  const { mutate: updateMemberStatus } = useUpdateMemberStatusMutation();
+  const navigate = useNavigate();
+
+  const handleClickFinish = () => {
+    updateMemberStatus(USER_STATUS.feedback, {
+      onSuccess: () => {
+        navigate('/feedback');
+      },
+    });
+  };
 
   return (
     <S.PlanPageLayout>
@@ -34,7 +49,7 @@ const PlanPage = () => {
 
       {/* 이동 완료 버튼 영역 */}
       <S.FinishButtonWrapper>
-        <S.FinishButton>이동 완료</S.FinishButton>
+        <S.FinishButton onClick={handleClickFinish}>이동 완료</S.FinishButton>
       </S.FinishButtonWrapper>
     </S.PlanPageLayout>
   );
