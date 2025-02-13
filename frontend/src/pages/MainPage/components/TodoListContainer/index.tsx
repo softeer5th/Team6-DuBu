@@ -3,25 +3,20 @@ import { useNavigate } from 'react-router';
 import * as S from './TodoListContainer.styled';
 
 import Icon from '@/components/Icon';
+import { ICON_MAPPER } from '@/constants/config';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
+import { colors } from '@/styles/theme';
 
-// [최초 진입한 사용자의 경우]
-// TODO: 최초 진입 여부 -> 유저 API 호출
-// TODO: 오늘 할 일을 추천해드려요 텍스트
-
-// [할 일이 1개 이상 있는 경우]
-// TODO: 수정하기 버튼 텍스트
-// TODO: 오늘 할 일을 보여드려요 텍스트
-
-// [할 일이 없을 경우]
-// TODO: 오늘 할 일이 아직 없어요
-// TODO: plus 아이콘 + 추가하기 버튼 텍스트
-// TODO: fire 아이콘
+const TODO_CONTENT_MESSAGE = {
+  today: '오늘 할 일을 보여드려요',
+  tomorrow: '할 일을 미리 선택해보세요',
+  empty: '오늘 할 일이 아직 없어요',
+};
 
 const TodoListContainer = () => {
   const navigate = useNavigate();
-  const { isToday, dateType } = useQueryParamsDate();
+  const { dateType } = useQueryParamsDate();
   const { data: todoList } = useTodoListQuery(dateType);
 
   const handleClickEdit = () => {
@@ -29,22 +24,25 @@ const TodoListContainer = () => {
     navigate(url);
   };
 
+  const isEmptyTodo = todoList && todoList?.length === 0;
+
   return (
     <S.TodoListContainerLayout>
       <S.ContentHeader>
         <S.ContentTitle>
-          {isToday ? '오늘 할 일을 보여드려요' : '할 일을 미리 선택해보세요'}
+          {isEmptyTodo ? TODO_CONTENT_MESSAGE.empty : TODO_CONTENT_MESSAGE[dateType]}
         </S.ContentTitle>
         <S.EditButton onClick={handleClickEdit}>
-          <Icon icon="Edit" width={16} height={16} />
-          <S.EditLabel>수정하기</S.EditLabel>
+          <Icon icon={isEmptyTodo ? 'Plus' : 'Edit'} width={16} height={16} />
+          <S.EditLabel>{isEmptyTodo ? '추가하기' : '수정하기'}</S.EditLabel>
         </S.EditButton>
       </S.ContentHeader>
 
       <S.TodoList>
+        {isEmptyTodo && <Icon icon="Fire" width={96} height={96} color={colors.green25} />}
         {todoList?.map((todo) => (
           <S.TodoItem key={todo.todoId}>
-            <Icon icon="Reading" />
+            <Icon icon={ICON_MAPPER[todo.category]} />
             <span>{todo.title}</span>
           </S.TodoItem>
         ))}

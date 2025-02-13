@@ -6,19 +6,35 @@ import TodoEditItem from '../TodoEditItem';
 
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
+import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
+import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import useToast from '@/hooks/useToast';
+import useTodoListQuery from '@/hooks/useTodoListQuery';
 import useRecommendTodoListQuery from '@/pages/EditPage/hooks/useRecommendListQuery';
 
 const RecommendTab = () => {
-  const { routeId } = useParams();
+  const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
+
+  const { data: todoList } = useTodoListQuery(dateType, Number(planId));
   const { data: recommendTodoList } = useRecommendTodoListQuery();
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
+  const { toast } = useToast();
 
-  const routeURL = routeId ? `/recommend/${routeId}` : '/recommend';
+  const routeURL = planId ? `/recommend/${planId}` : '/recommend';
 
   const handleAddTodoFromRecommend = (todoId: number) => {
-    addTodoFromArchived({ dateType, todoId, routeId: Number(routeId) });
+    if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
+      toast({ message: TODO_TOAST_MESSAGE.limit });
+
+      return;
+    }
+
+    addTodoFromArchived(
+      { dateType, todoId, planId: Number(planId) },
+      { onSuccess: () => toast({ message: TODO_TOAST_MESSAGE.add }) },
+    );
   };
 
   if (!recommendTodoList) return null;

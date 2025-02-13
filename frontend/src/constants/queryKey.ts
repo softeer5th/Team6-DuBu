@@ -8,4 +8,6 @@ export const QUERY_KEY = {
   searchAddress: 'searchAddress',
   searchRoutes: 'searchRoutes',
   todayAchievement: 'todayAchievement',
+  planInfo: 'planInfo',
+  memberAddress: 'memberAddress',
 } as const;

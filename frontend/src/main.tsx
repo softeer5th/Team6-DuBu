@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { ThemeProvider } from 'styled-components';
 
+import ToastProvider from './components/Toast/ToastProvider';
 import { router } from './router';
 import GlobalStyle from './styles/GlobalStyle.js';
 import theme from './styles/theme';
@@ -25,7 +26,9 @@ enableMocking().then(() => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
     </QueryClientProvider>,

@@ -1,0 +1,85 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "develop" ]
+    paths:
+      - backend/**
+  pull_request:
+    branches: [ "develop" ]
+    paths:
+      - backend/**
+
+permissions:
+  contents: write  # Docker 이미지 푸시 및 배포 시 사용
+
+jobs:
+  CI-CD:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test -DPROD_SERVER_URL=${{ secrets.PROD_SERVER_URL }} -Pspring.profiles.active=prod
+
+      - name: Docker build & push to prod
+        if: contains(github.ref, 'develop')
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+
+      - name: Deploy to prod
+        uses: appleboy/ssh-action@v0.1.5  # 최신 릴리스 버전을 명시하는 것
+        id: deploy-prod
+        if: contains(github.ref, 'develop')
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker stop ${{ secrets.DOCKER_REPOSITORY }} || true
+            sudo docker rm ${{ secrets.DOCKER_REPOSITORY }} || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+            sudo docker run -d -p 8080:8080 \
+              --network ${{ secrets.DOCKER_NERWORK }} \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_NAME=${{ secrets.DB_NAME }} \
+              -e DB_PORT=${{ secrets.DB_PORT }} \
+              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
+              -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e JWT_ACCESS_TOKEN_TIME=${{ secrets.JWT_ACCESS_TOKEN_TIME }} \
+              -e JWT_REFRESH_TOKEN_TIME=${{ secrets.JWT_REFRESH_TOKEN_TIME }} \
+              -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
+              -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
+              -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
+              -e NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }} \
+              -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
+              -e ODSAY_CLIENT_API_KEY=${{ secrets.ODSAY_CLIENT_API_KEY }} \
+              -e PROD_SERVER_URL=${{ secrets.PROD_SERVER_URL }} \
+              --name ${{ secrets.DOCKER_REPOSITORY }} \
+              ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+            sudo docker image prune -f

@@ -37,6 +37,10 @@ export default tseslint.config(
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: ['if', 'for', 'while'] },
+        { blankLine: 'always', prev: '*', next: 'function' },
+        { blankLine: 'always', prev: 'function', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'always', prev: 'return', next: '*' },
       ],
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [

@@ -1,39 +1,51 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const API_URL = {
-  todayTodo: `${BASE_URL}/todos/today`,
-  tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
-  recommendAllTodo: (queryParams: string) => `${BASE_URL}/todos/recommend/all${queryParams}`,
-  addTodo: (dateType: string, routeId?: number) =>
-    `${BASE_URL}/todos/${dateType}/manual${routeId ? `/${routeId}` : ''}`,
-  deleteTodo: (todoId: number, routeId?: number) =>
-    `${BASE_URL}/todos/${todoId}${routeId ? `/${routeId}` : ''}`,
-  editTodo: (todoId: number, routeId?: number) =>
-    `${BASE_URL}/todos/${todoId}${routeId ? `/${routeId}` : ''}`,
-  addTodoFromArchived: (dateType: string, routeId?: number) =>
-    `${BASE_URL}/todos/${dateType}/from-archived${routeId ? `/${routeId}` : ''}`,
-  routeTodo: (routeId: number) => `${BASE_URL}/routes/${routeId}/todos`,
-  searchAddress: `${BASE_URL}/address/search`,
-  searchRoutes: `${BASE_URL}/routes/search`,
-  onboarding: `${BASE_URL}/members/onboarding`,
+  todayTodo: `${BASE_URL}/api/v1/todos/today`,
+  tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
+  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
+  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/limit`,
+  recommendAllTodo: (queryParams: string) => `${BASE_URL}/api/v1/todos/recommend/all${queryParams}`,
+  addTodo: (dateType: string, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${dateType}/manual${planId ? `/${planId}` : ''}`,
+  deleteTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  editTodo: (todoId: number, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
+  addTodoFromArchived: (dateType: string, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
+  routeTodo: (planId: number) => `${BASE_URL}/api/v1/routes/${planId}/todos`,
+  searchAddress: `${BASE_URL}/api/v1/places/search`,
+  searchRoutes: `${BASE_URL}/api/v1/routes/search`,
+  onboarding: `${BASE_URL}/api/v1/members/onboarding`,
+  planInfo: `${BASE_URL}/api/v1/plans/recent`,
+  memberAddress: `${BASE_URL}/api/v1/members/address`,
+  loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
+  loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId} `,
   todayAchievement: `${BASE_URL}/plans/feedback`,
 };
 
 export const MOCK_API_URL = {
-  todayTodo: `${BASE_URL}/todos/today`,
-  tomorrowTodo: `${BASE_URL}/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/todos/favorites`,
-  recommendLimitTodo: `${BASE_URL}/todos/recommend/limit`,
-  recommendAllTodo: `${BASE_URL}/todos/recommend/all`,
-  addTodo: `${BASE_URL}/todos/:dateType/manual/:routeId?`,
-  deleteTodo: `${BASE_URL}/todos/:todoId/:routeId?`,
-  editTodo: `${BASE_URL}/todos/:todoId/:routeId?`,
-  addTodoFromArchived: `${BASE_URL}/todos/:dateType/from-archived/:routeId?`,
-  routeTodo: `${BASE_URL}/routes/:routeId/todos`,
-  searchAddress: `${BASE_URL}/address/search`,
-  searchRoutes: `${BASE_URL}/routes/search`,
-  onboarding: `${BASE_URL}/members/onboarding`,
+  todayTodo: `${BASE_URL}/api/v1/todos/today`,
+  tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
+  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
+  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/limit`,
+  recommendAllTodo: `${BASE_URL}/api/v1/todos/recommend/all`,
+  addTodo: `${BASE_URL}/api/v1/todos/:dateType/manual/:planId?`,
+  deleteTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
+  editTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
+  addTodoFromArchived: `${BASE_URL}/api/v1/todos/:dateType/from-archived/:planId?`,
+  routeTodo: `${BASE_URL}/api/v1/routes/:planId/todos`,
+  searchAddress: `${BASE_URL}/api/v1/places/search`,
+  searchRoutes: `${BASE_URL}/api/v1/routes/search`,
+  onboarding: `${BASE_URL}/api/v1/members/onboarding`,
+  planInfo: `${BASE_URL}/api/v1/plans/recent`,
+  memberAddress: `${BASE_URL}/api/v1/members/address`,
+  loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
+  loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: `${BASE_URL}/api/v1/plans/:planId`,
   todayAchievement: `${BASE_URL}/plans/feedback`,
 };

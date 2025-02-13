@@ -11,10 +11,12 @@ const useSearchRoutesQuery = (
   endX: string,
   endY: string,
 ): UseQueryResult<RouteType[], Error> => {
+  const isCoordinateValid = !!startX && !!startY && !!endX && !!endY;
+
   return useQuery({
     queryKey: [QUERY_KEY.searchRoutes, startX, startY, endX, endY],
     queryFn: () => getRoutes({ startX, startY, endX, endY }),
-    enabled: !!startX && !!startY && !!endX && !!endY,
+    enabled: isCoordinateValid,
   });
 };
 

@@ -45,7 +45,12 @@ public enum ErrorCode {
     NOT_FOUND_PLAN(NOT_FOUND, "계획을 찾을 수 없습니다. planId : %d"),
     UNAUTHORIZED_PLAN_DELETION(UNAUTHORIZED, "회원이 해당 계획에 접근 권한이 없어 삭제할 수 없습니다. memberId : %d, planId : %d"),
 
+    // Feedback
+    INVALID_MOOD(BAD_REQUEST, "유효하지 않은 기분 형식입니다. mood : %s"),
+
     // Path
+    PATH_NOT_FOUND(NOT_FOUND, "경로를 찾을 수 없습니다. pathId : %d"),
+    PATH_ID_NOT_PROVIDED(BAD_REQUEST, "경로 아이디가 누락되었습니다."),
     INVALID_TRAFFIC_TYPE(BAD_REQUEST, "지원하지 않는 대중교통 형식입니다. trafficType : %s"),
 
     // Member_Category
@@ -54,7 +59,10 @@ public enum ErrorCode {
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
     ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
-    TODO_LIMIT_EXCEEDED(BAD_REQUEST, "할 일은 최대 3개까지 추가할 수 있습니다."),
+    TODO_LIMIT_EXCEEDED(BAD_REQUEST, "%s 할 일은 최대 %d 개까지 추가할 수 있습니다."),
+    TODO_TYPE_MISMATCH(BAD_REQUEST, "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = %s, 요청 타입 = %s"),
+
+    INVALID_TODO_REQUEST_TYPE(BAD_REQUEST, "잘못된 할 일 요청 유형입니다. type = %s"),
 
     // Schedule
     SCHEDULE_NOT_FOUND(NOT_FOUND, "스케줄을 찾을 수 없습니다."),

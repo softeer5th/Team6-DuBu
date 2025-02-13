@@ -23,8 +23,9 @@ public class Schedule extends BaseTimeEntity {
     @Column(name = "date", columnDefinition = "DATE", nullable = false)
     private LocalDate date;
 
+    @Builder.Default
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Todo> todos = new ArrayList<>();
+    private List<Todo> todos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)

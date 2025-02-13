@@ -2,7 +2,7 @@ package com.dubu.backend.plan.domain;
 
 import com.dubu.backend.global.domain.BaseTimeEntity;
 import com.dubu.backend.plan.domain.enums.TrafficType;
-import com.dubu.backend.plan.dto.request.PlanSaveRequest;
+import com.dubu.backend.plan.dto.request.PlanCreateRequest;
 import com.dubu.backend.todo.entity.Todo;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +28,7 @@ public class Path extends BaseTimeEntity {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
+    @Builder.Default
     @OneToMany(mappedBy = "path", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Todo> todos = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class Path extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer pathOrder;
 
-    public static Path createPath(Plan plan, PlanSaveRequest.Path pathRequest, int pathOrder) {
+    public static Path createPath(Plan plan, PlanCreateRequest.Path pathRequest, int pathOrder) {
         return Path.builder()
                 .plan(plan)
                 .trafficType(TrafficType.from(pathRequest.trafficType()))

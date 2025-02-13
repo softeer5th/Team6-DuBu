@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import useBaseBottomSheet from './useBaseBottomSheet';
 import useEditTodoMutation from './useEditTodoMutation';
 import TodoEditForm from '../components/TodoEditForm';
 
+import useBaseBottomSheet from '@/hooks/useBaseBottomSheet';
 import { Todo } from '@/types/todo';
 
-const useEditTodoBottomSheet = (dateType: string, routeId?: number) => {
+const useEditTodoBottomSheet = (dateType: string, planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const { mutate: editTodo, isSuccess, reset } = useEditTodoMutation(dateType);
+  const { mutate: editTodo } = useEditTodoMutation(dateType);
 
   const handleOpen = (todo: Todo) => {
     setSelectedTodo(todo);
@@ -17,15 +17,15 @@ const useEditTodoBottomSheet = (dateType: string, routeId?: number) => {
   };
 
   const handleEditTodo = (todo: Todo) => {
-    editTodo({ todo, routeId });
+    editTodo(
+      { todo, planId },
+      {
+        onSuccess: () => {
+          dispatch.close();
+        },
+      },
+    );
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch.close();
-      reset();
-    }
-  }, [isSuccess, dispatch, reset]);
 
   return {
     isOpen,

@@ -3,21 +3,21 @@ import * as S from './RouteTimeInfo.styled';
 import Icon from '@/components/Icon';
 import theme from '@/styles/theme';
 
+const formatTime = (time: number) => {
+  if (time < 60) {
+    return `${time}분`;
+  }
+  const hour = Math.floor(time / 60);
+  const minute = time % 60;
+  return `${hour}시간 ${minute > 0 ? `${minute}분` : ''}`;
+};
+
 interface RouteTimeInfoProps {
   totalTime: number;
   totalSectionTime: number;
 }
 
 const RouteTimeInfo = ({ totalTime, totalSectionTime }: RouteTimeInfoProps) => {
-  const formatTime = (time: number) => {
-    if (time < 60) {
-      return `${time}분`;
-    }
-    const hour = Math.floor(time / 60);
-    const minute = time % 60;
-    return `${hour}시간 ${minute > 0 ? `${minute}분` : ''}`;
-  };
-
   return (
     <S.TimeContainer>
       <S.TotalTime>{formatTime(totalTime)}</S.TotalTime>

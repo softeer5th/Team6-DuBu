@@ -3,18 +3,18 @@ import { useQuery } from '@tanstack/react-query';
 import { getRouteTodoList } from '@/api/todo';
 import { QUERY_KEY } from '@/constants/queryKey';
 
-const useRouteTodoQuery = (routeId?: number) => {
+const useRouteTodoQuery = (planId?: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.routeTodoList, routeId],
+    queryKey: [QUERY_KEY.routeTodoList, planId],
     queryFn: () => {
-      if (typeof routeId === 'undefined') {
-        throw new Error('routeId가 존재하지 않습니다.');
+      if (typeof planId === 'undefined') {
+        throw new Error('planId가 존재하지 않습니다.');
       }
 
-      return getRouteTodoList(routeId);
+      return getRouteTodoList(planId);
     },
     staleTime: Infinity,
-    enabled: !!routeId,
+    enabled: !!planId,
   });
 };
 

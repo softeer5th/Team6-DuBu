@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+
+import * as S from './StartTime.styled';
 
 const StartTime = () => {
   const [currentTime] = useState(() => {
@@ -9,14 +10,7 @@ const StartTime = () => {
     });
   });
 
-  return <StartTimeBox>오늘 {currentTime} 출발</StartTimeBox>;
+  return <S.StartTimeBox>오늘 {currentTime} 출발</S.StartTimeBox>;
 };
-
-const StartTimeBox = styled.div`
-  ${({ theme }) => theme.fonts.label14Med};
-  color: ${({ theme }) => theme.colors.gray500};
-  padding: 1.2rem 2.4rem;
-  border-bottom: 0.4rem solid ${({ theme }) => theme.colors.gray50};
-`;
 
 export default StartTime;

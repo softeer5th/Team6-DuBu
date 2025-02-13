@@ -31,7 +31,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OauthProvider oauthProvider;
 
-    private String providerId;
+    @Column(nullable = false)
+    private String oauthProviderId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

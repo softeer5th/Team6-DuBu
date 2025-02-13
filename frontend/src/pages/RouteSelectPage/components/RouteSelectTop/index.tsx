@@ -1,23 +1,14 @@
-import styled from 'styled-components';
-
 import RouteSelectAddress from './RouteSelectAddress';
 import RouteSelectHeader from './RouteSelectHeader';
+import * as S from './RouteSelectTop.styled';
 
 const RouteSelectTop = () => {
   return (
-    <RouteSelectTopLayout>
+    <S.RouteSelectTopLayout>
       <RouteSelectHeader />
       <RouteSelectAddress />
-    </RouteSelectTopLayout>
+    </S.RouteSelectTopLayout>
   );
 };
-
-const RouteSelectTopLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  width: 100%;
-`;
 
 export default RouteSelectTop;

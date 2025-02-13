@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-
 import RouteItem from './RouteItem';
+import * as S from './RouteList.styled';
 
 import { RouteType } from '@/pages/RouteSelectPage/RouteSelectPage.types';
 
@@ -12,7 +11,7 @@ interface RouteListProps {
 
 const RouteList = ({ routes, selectedRoute, handleRouteSelect }: RouteListProps) => {
   return (
-    <RouteResultLayout>
+    <S.RouteListLayout>
       {routes.map((route, index) => (
         <RouteItem
           key={index}
@@ -21,14 +20,8 @@ const RouteList = ({ routes, selectedRoute, handleRouteSelect }: RouteListProps)
           onClick={() => handleRouteSelect(route)}
         />
       ))}
-    </RouteResultLayout>
+    </S.RouteListLayout>
   );
 };
-
-const RouteResultLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-`;
 
 export default RouteList;

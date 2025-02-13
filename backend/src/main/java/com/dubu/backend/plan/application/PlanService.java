@@ -4,13 +4,17 @@ import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.domain.Feedback;
 import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
-import com.dubu.backend.plan.dto.request.PlanSaveRequest;
+import com.dubu.backend.plan.dto.request.PlanCreateRequest;
+import com.dubu.backend.plan.dto.request.PlanFeedbackCreateRequest;
+import com.dubu.backend.plan.dto.response.FeedbackWritePageInfoResponse;
 import com.dubu.backend.plan.dto.response.PlanRecentResponse;
 import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.plan.exception.NotFoundPlanException;
 import com.dubu.backend.plan.exception.UnauthorizedPlanDeletionException;
+import com.dubu.backend.plan.infra.repository.FeedbackRepository;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import com.dubu.backend.todo.entity.Schedule;
@@ -30,14 +34,16 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class PlanService {
+    private final TaskSchedulerService taskSchedulerService;
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
     private final PathRepository pathRepository;
     private final ScheduleRepository scheduleRepository;
     private final TodoRepository todoRepository;
+    private final FeedbackRepository feedbackRepository;
 
     @Transactional
-    public void savePlan(Long memberId, PlanSaveRequest planSaveRequest) {
+    public void savePlan(Long memberId, PlanCreateRequest planCreateRequest) {
         Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -45,11 +51,11 @@ public class PlanService {
             throw new InvalidMemberStatusException(currentMember.getStatus().name());
         }
 
-        Plan newPlan = Plan.createPlan(currentMember, planSaveRequest.totalSectionTime());
+        Plan newPlan = Plan.createPlan(currentMember, planCreateRequest.totalSectionTime());
         planRepository.save(newPlan);
 
-        List<Path> paths = IntStream.range(0, planSaveRequest.paths().size())
-                .mapToObj(index -> Path.createPath(newPlan, planSaveRequest.paths().get(index), index))
+        List<Path> paths = IntStream.range(0, planCreateRequest.paths().size())
+                .mapToObj(index -> Path.createPath(newPlan, planCreateRequest.paths().get(index), index))
                 .toList();
         pathRepository.saveAll(paths);
 
@@ -69,6 +75,28 @@ public class PlanService {
         }
         todoRepository.saveAll(newTodos);
         currentMember.updateStatus(Status.MOVE);
+        taskSchedulerService.scheduleFeedbackStatusUpdate(memberId, newPlan);
+    }
+
+    @Transactional
+    public void savePlanFeedback(Long memberId, Long planId, PlanFeedbackCreateRequest request) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.FEEDBACK) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
+
+        Plan currentPlan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundPlanException(planId));
+
+        if (!currentPlan.getMember().getId().equals(memberId)) {
+            throw new UnauthorizedPlanDeletionException(memberId, planId);
+        }
+
+        Feedback newFeedback = Feedback.createFeedback(currentPlan, request.mood(), request.memo());
+        feedbackRepository.save(newFeedback);
+        currentMember.updateStatus(Status.STOP);
     }
 
     @Transactional(readOnly = true)
@@ -84,6 +112,21 @@ public class PlanService {
         return PlanRecentResponse.of(recentPlan, paths);
     }
 
+    @Transactional(readOnly = true)
+    public FeedbackWritePageInfoResponse findFeedbackWritePageInfo(Long memberId) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.FEEDBACK) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
+
+        Plan recentPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
+                .orElseThrow(() -> new NotFoundPlanException());
+
+        return FeedbackWritePageInfoResponse.of(recentPlan);
+    }
+
     @Transactional
     public void removePlan(Long memberId, Long planId) {
         memberRepository.findById(memberId)
@@ -95,6 +138,8 @@ public class PlanService {
         if (!planToDelete.getMember().getId().equals(memberId)) {
             throw new UnauthorizedPlanDeletionException(memberId, planId);
         }
+
+        taskSchedulerService.cancelScheduledPlan(planId);
 
         planRepository.delete(planToDelete);
     }

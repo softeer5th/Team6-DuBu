@@ -74,6 +74,9 @@ body {
 	border: 0.1px solid black;
   
   -ms-overflow-style: none;
+  overflow-y: hidden;
+
+  position: relative;
 }
  
 /* 기본 스크롤바 제거 */
