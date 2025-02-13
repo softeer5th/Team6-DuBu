@@ -22,6 +22,7 @@ export const API_URL = {
   memberAddress: `${BASE_URL}/api/v1/members/address`,
   memberStatus: `${BASE_URL}/api/v1/members/status`,
   plan: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId} `,
+  todoDetail: (memberId: number) => `${BASE_URL}/api/v1/share/members/${memberId}`,
 };
 
 export const MOCK_API_URL = {
@@ -42,4 +43,5 @@ export const MOCK_API_URL = {
   memberAddress: `${BASE_URL}/api/v1/members/address`,
   memberStatus: `${BASE_URL}/api/v1/members/status`,
   plan: `${BASE_URL}/api/v1/plans/:planId`,
+  todoDetail: `${BASE_URL}/api/v1/share/members/:memberId`,
 };
