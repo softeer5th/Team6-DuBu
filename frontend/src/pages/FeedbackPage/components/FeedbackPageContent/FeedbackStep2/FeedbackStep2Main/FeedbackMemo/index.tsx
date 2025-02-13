@@ -4,7 +4,7 @@ import { useFeedback } from '@/pages/FeedbackPage/hooks/useFeedback';
 
 const MEMO_MAX_LENGTH = 20;
 const isMemoValid = (memo: string) => {
-  const regex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣㅀ-ㅿㆀ-ㆾㆿ\s\d\p{P}]+$/u;
+  const regex = /^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()_+={}[\]:;"'<>,.?/`~|-]+$/;
   return regex.test(memo);
 };
 
@@ -13,6 +13,10 @@ const FeedbackMemo = () => {
 
   const handleMemoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const memo = e.target.value;
+
+    if (memo.length > MEMO_MAX_LENGTH) {
+      return;
+    }
 
     if (!memo) {
       setFeedbackData((prevData) => ({ ...prevData, memo: '' }));
