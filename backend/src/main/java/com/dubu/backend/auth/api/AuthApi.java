@@ -1,6 +1,7 @@
 package com.dubu.backend.auth.api;
 
 import com.dubu.backend.auth.domain.OauthProvider;
+import com.dubu.backend.auth.dto.AccessTokenResponse;
 import com.dubu.backend.auth.dto.TokenResponse;
 import com.dubu.backend.global.domain.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +62,7 @@ public interface AuthApi {
             description = """
                     카카오 로그인 후, 카카오에서 전달받은 인가 코드(code)를 요청 바디로 전송하면 
                     해당 코드를 사용하여 액세스 토큰을 발급받고 카카오 회원 정보를 조회한 뒤, 
-                    서버 측에서 자체 토큰을 발급한다.
+                    서버 측에서 자체 토큰을 발급한다. AccessToken은 Body로 RefershToken은 Cookie로 전달한다.
                     """
     )
     @ApiResponses({
@@ -99,7 +100,7 @@ public interface AuthApi {
                     )
             )
     })
-    SuccessResponse<TokenResponse> kakaoCallback(
+    SuccessResponse<AccessTokenResponse> kakaoCallback(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "카카오에서 인가 코드를 전달받을 때 사용되는 필드(code)",
                     required = true,
@@ -115,7 +116,8 @@ public interface AuthApi {
                             }
                     )
             )
-            Map<String, String> request
+            Map<String, String> request,
+            HttpServletResponse response
     );
 
     @Operation(
@@ -182,7 +184,7 @@ public interface AuthApi {
                     )
             )
     })
-    SuccessResponse<TokenResponse> reissue(HttpServletRequest request);
+    SuccessResponse<AccessTokenResponse> reissue(HttpServletRequest request);
 
     @Operation(
             summary = "테스트용 토큰 발급",
@@ -207,7 +209,7 @@ public interface AuthApi {
                     )
             )
     })
-    SuccessResponse<TokenResponse> testToken();
+    SuccessResponse<AccessTokenResponse> testToken();
 
     class ErrorResponseExample {
         public String errorCode;
