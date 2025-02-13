@@ -15,18 +15,30 @@ const useMarker = () => {
     markerListRef.current = [];
   };
 
-  const putMarker = (map: kakao.maps.Map | null, coord: { lat: number; lng: number }) => {
+  const putMarker = (
+    map: kakao.maps.Map | null,
+    coord: { lat: number; lng: number; memberId: number },
+    onClick: () => void,
+  ) => {
     const marker = new kakao.maps.Marker({
       position: new kakao.maps.LatLng(coord.lat, coord.lng),
     });
 
     addMarker(marker);
+
+    // 마커 클릭 이벤트 등록
+    kakao.maps.event.addListener(marker, 'click', onClick);
+
     marker.setMap(map);
   };
 
-  const putMarkerList = (map: kakao.maps.Map | null, coordList: { lat: number; lng: number }[]) => {
+  const putMarkerList = (
+    map: kakao.maps.Map | null,
+    coordList: { lat: number; lng: number; memberId: number }[],
+    onClick: (memberId: number) => void,
+  ) => {
     coordList.forEach((coord) => {
-      putMarker(map, coord);
+      putMarker(map, coord, () => onClick(coord.memberId));
     });
   };
 

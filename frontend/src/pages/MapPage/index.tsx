@@ -4,6 +4,7 @@ import useCategoryFilters from './hooks/useCategoryFilters';
 import useInitMap from './hooks/useInitMap';
 import useMapBottomSheet from './hooks/useMapBottomSheet';
 import useMarker from './hooks/useMarker';
+import useMarkerBottomSheet from './hooks/useMarkerBottomSheet';
 import * as S from './MapPage.styled';
 
 import BottomSheet from '@/components/BottomSheet';
@@ -15,9 +16,10 @@ const MAP_ID = 'map';
 
 // FIXME: API 명세 확정 시 API 호출 모킹으로 이동
 const getTestMarkerList = (lat: number, lng: number, count: number) => {
-  const markers = Array.from({ length: count }, () => ({
+  const markers = Array.from({ length: count }, (_, i) => ({
     lat: lat + (Math.random() - 0.5) * 0.01,
     lng: lng + (Math.random() - 0.5) * 0.01,
+    memberId: Math.floor(Math.random() * 1000000),
   }));
 
   return markers;
@@ -29,8 +31,15 @@ const MapPage = () => {
   const { categoryFilters, handleCheckFilters } = useCategoryFilters();
   const { isOpen, close } = useMapBottomSheet();
 
-  const markers = getTestMarkerList(center.lat, center.lng, 10); // FIXME: 테스트 완료 후 지울 예정
-  putMarkerList(mapRef.current, markers);
+  const {
+    isOpen: isMarkerBottomSheetOpen,
+    open: openMarkerBottomSheet,
+    close: closeMarkerBottomSheet,
+    content: markerBottomSheetContent,
+  } = useMarkerBottomSheet();
+
+  const markerCoordList = getTestMarkerList(center.lat, center.lng, 10); // FIXME: 테스트 완료 후 지울 예정
+  putMarkerList(mapRef.current, markerCoordList, openMarkerBottomSheet);
 
   const handleBackCenter = () => {
     mapRef.current?.setCenter(new kakao.maps.LatLng(center.lat, center.lng));
@@ -69,6 +78,12 @@ const MapPage = () => {
         onClose={close}
         content={<CategoryRank />}
         subTitle="반경 3km 이내"
+      />
+
+      <BottomSheet
+        isOpen={isMarkerBottomSheetOpen}
+        onClose={closeMarkerBottomSheet}
+        content={markerBottomSheetContent}
       />
 
       {/* 현재 위치로 이동 버튼 */}
