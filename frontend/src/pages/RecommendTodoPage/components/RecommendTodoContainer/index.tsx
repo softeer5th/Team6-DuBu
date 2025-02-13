@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import * as S from './RecommendTodoContainer.styled';
 import useFilterBottomSheet from '../../hooks/useFilterBottomSheet';
+import useMemberInfoQuery from '../../hooks/useMemberInfoQuery';
 import useRecommendTodoFilterQuery from '../../hooks/useRecommendTodoFilterQuery';
 import FilterForm from '../FilterForm';
 
@@ -26,9 +27,19 @@ const RecommendTodoContainer = () => {
   const [difficultyList, setDifficultyList] = useState<DifficultyType[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  const { data: memberInfo } = useMemberInfoQuery();
+
   const { data: todoList } = useTodoListQuery(dateType, Number(planId));
-  const { data, isLoading } = useRecommendTodoFilterQuery(categoryList, difficultyList);
-  const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
+
+  const { data: recommendList, isLoading } = useRecommendTodoFilterQuery(
+    dateType,
+    categoryList,
+    difficultyList,
+  );
+  const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation(
+    categoryList,
+    difficultyList,
+  );
   const { toast } = useToast();
 
   const isCategory = categoryList.length > 0;
@@ -55,17 +66,17 @@ const RecommendTodoContainer = () => {
 
   // 초기 로딩 시에만 응답값 설정
   useEffect(() => {
-    if (!isInitialized && data?.categoryList) {
-      setCategoryList(data.categoryList);
+    if (!isInitialized && memberInfo) {
+      setCategoryList(memberInfo.categories);
       setIsInitialized(true);
     }
-  }, [isInitialized, data]);
+  }, [isInitialized, memberInfo]);
 
   // 로딩중
   if (isLoading) return <div>로딩중...</div>;
 
   // 데이터가 없을 경우
-  if (!data) return <div>추천 할 일 데이터가 없습니다.</div>;
+  if (!recommendList) return <div>추천 할 일 데이터가 없습니다.</div>;
 
   return (
     <>
@@ -85,13 +96,19 @@ const RecommendTodoContainer = () => {
         />
       </S.FilterWrapper>
       <S.RecommendTabList>
-        {data?.todoList.map((todo) => (
+        {recommendList?.map((todo) => (
           <TodoEditItem
             key={todo.todoId}
             todo={todo}
             left={
               <IconButton
-                icon={<Icon icon="PlusCircle" cursor="pointer" />}
+                icon={
+                  todo.hasChild ? (
+                    <Icon icon="CheckCircle" cursor="pointer" />
+                  ) : (
+                    <Icon icon="PlusCircle" cursor="pointer" />
+                  )
+                }
                 onClick={() => handleAddTodoFromRecommendAll(todo.todoId)}
               />
             }
