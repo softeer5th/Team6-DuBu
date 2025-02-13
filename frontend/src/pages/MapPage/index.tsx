@@ -11,32 +11,24 @@ import Header from '@/components/Header';
 
 const MAP_ID = 'map';
 
-const MARKERS = [
-  { lat: 37.643552, lng: 126.914146 },
-  { lat: 37.644552, lng: 126.914246 },
-  { lat: 37.645552, lng: 126.914546 },
-  { lat: 37.646552, lng: 126.914846 },
-  { lat: 37.647552, lng: 126.914146 },
-  { lat: 37.648552, lng: 126.914446 },
-  { lat: 37.649552, lng: 126.914746 },
-  { lat: 37.650552, lng: 126.914046 },
-  { lat: 37.651552, lng: 126.914346 },
-  { lat: 37.652552, lng: 126.914646 },
-  { lat: 37.653552, lng: 126.914946 },
-  { lat: 37.654552, lng: 126.914246 },
-  { lat: 37.655552, lng: 126.914546 },
-  { lat: 37.656552, lng: 126.914846 },
-  { lat: 37.657552, lng: 126.912146 },
-  { lat: 37.658552, lng: 126.912446 },
-];
+// FIXME: API 명세 확정 시 API 호출 모킹으로 이동
+const getTestMarkerList = (lat: number, lng: number, count: number) => {
+  const markers = Array.from({ length: count }, () => ({
+    lat: lat + (Math.random() - 0.5) * 0.01,
+    lng: lng + (Math.random() - 0.5) * 0.01,
+  }));
+
+  return markers;
+};
 
 const MapPage = () => {
-  const { mapRef } = useInitMap();
+  const { mapRef, center } = useInitMap();
   const { putMarkerList } = useMarker();
   const { categoryFilters, handleCheckFilters } = useCategoryFilters();
   const { isOpen, close } = useMapBottomSheet();
 
-  putMarkerList(mapRef.current, MARKERS);
+  const markers = getTestMarkerList(center.lat, center.lng, 10); // FIXME: 테스트 완료 후 지울 예정
+  putMarkerList(mapRef.current, markers);
 
   return (
     <S.MapContainer id={MAP_ID}>
@@ -56,7 +48,7 @@ const MapPage = () => {
               value={filter.value}
               $isSelected={categoryFilters[filter.value]}
               onClick={() => handleCheckFilters(filter.value)}
-              category={filter.value}
+              $category={filter.value}
             >
               {filter.label}
             </S.FilterBadge>
