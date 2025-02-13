@@ -9,7 +9,9 @@ const KakaoLoginPage = () => {
   const { mutate } = useKakaoLoginMutation();
 
   useEffect(() => {
-    mutate(code);
+    if (code) {
+      mutate(code);
+    }
   }, []);
 
   return <div>Loading...</div>;
