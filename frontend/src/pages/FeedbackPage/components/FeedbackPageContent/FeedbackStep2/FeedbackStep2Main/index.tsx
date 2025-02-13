@@ -4,26 +4,7 @@ import FeedbackMemo from './FeedbackMemo';
 import * as S from './FeedbackStep2Main.styled';
 
 import { IconType } from '@/components/Icon';
-
-const data = {
-  planId: 0,
-  totalSectionTime: 45,
-  totalTodoCount: 3,
-  todos: [
-    {
-      category: 'READING',
-      title: '오디오북 듣기',
-    },
-    {
-      category: 'OTHERS',
-      title: 'AI와 대화 연습하기',
-    },
-    {
-      category: 'HOBBY',
-      title: '나만의 음악 플레이리스트 만들기',
-    },
-  ],
-};
+import useAchievementQuery from '@/pages/FeedbackPage/hooks/useAchievementQuery';
 
 interface Achievement {
   category: IconType;
@@ -31,10 +12,16 @@ interface Achievement {
 }
 
 const FeedbackStep2Main = () => {
+  const { data: achievementData } = useAchievementQuery();
+
+  if (!achievementData) return null;
+
+  const { totalSectionTime, totalTodoCount, todos } = achievementData.data || {};
+
   return (
     <S.FeedbackStep2MainWrapper>
-      <AchievementSummary time={data.totalSectionTime} count={data.totalTodoCount} />
-      <AchievementDetail achievements={data.todos as Achievement[]} />
+      <AchievementSummary time={totalSectionTime} count={totalTodoCount} />
+      <AchievementDetail achievements={todos as Achievement[]} />
       <FeedbackMemo />
     </S.FeedbackStep2MainWrapper>
   );
