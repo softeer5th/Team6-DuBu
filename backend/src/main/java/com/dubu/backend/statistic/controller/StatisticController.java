@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/statistics")
 @RequiredArgsConstructor
-public class StatisticController {
+public class StatisticController implements StatisticApi{
     private final StatisticService statisticService;
 
     @GetMapping("/day")
