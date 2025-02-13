@@ -1,4 +1,4 @@
-package com.dubu.backend.auth.infra.oauth.kakao;
+package com.dubu.backend.global.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
