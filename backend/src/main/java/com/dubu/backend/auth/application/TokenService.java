@@ -2,28 +2,33 @@ package com.dubu.backend.auth.application;
 
 import com.dubu.backend.auth.exception.*;
 import com.dubu.backend.auth.infra.repository.TokenRedisRepository;
+import com.dubu.backend.global.config.JwtConfig;
 import io.jsonwebtoken.Claims;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+    public static final long HOURS_IN_MILLIS = 60 * 60 * 1000L;
 
-    @Value("${jwt.expire.access-token-in-minutes}")
-    private Duration accessTokenTime;
-    @Value("${jwt.expire.refresh-token-in-minutes}")
-    private Duration refreshTokenTime;
+    private final JwtConfig jwtConfig;
     private final JwtManager jwtManager;
     private final TokenRedisRepository tokenRedisRepository;
+    private long accessTokenTime;
+    private long refreshTokenTime;
+
+    @PostConstruct
+    public void init() {
+        this.accessTokenTime = jwtConfig.accessTokenExpireTimeInHours() * HOURS_IN_MILLIS;
+        this.refreshTokenTime = jwtConfig.refreshTokenExpireTimeInHours() * HOURS_IN_MILLIS;
+    }
 
     public String issue(Long memberId) {
-        String newAccessToken = jwtManager.createAccessToken(memberId, accessTokenTime.toMinutes());
-        String newRefreshToken = jwtManager.createRefreshToken(memberId, refreshTokenTime.toMinutes());
+        String newAccessToken = jwtManager.createAccessToken(memberId, accessTokenTime);
+        String newRefreshToken = jwtManager.createRefreshToken(memberId, refreshTokenTime);
 
         tokenRedisRepository.saveTokensToRedis(memberId.toString(), newAccessToken, newRefreshToken, refreshTokenTime);
 
@@ -55,7 +60,7 @@ public class TokenService {
 
         tokenRedisRepository.addBlacklistToken(jti);
 
-        String newAccessToken = jwtManager.createAccessToken(Long.parseLong(memberId), accessTokenTime.toMillis());
+        String newAccessToken = jwtManager.createAccessToken(Long.parseLong(memberId), accessTokenTime);
 
         tokenRedisRepository.storeAccessToken(refreshToken, newAccessToken, refreshTokenTime);
 

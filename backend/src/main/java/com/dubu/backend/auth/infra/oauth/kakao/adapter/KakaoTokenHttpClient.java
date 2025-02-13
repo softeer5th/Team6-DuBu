@@ -1,6 +1,6 @@
 package com.dubu.backend.auth.infra.oauth.kakao.adapter;
 
-import com.dubu.backend.auth.infra.oauth.kakao.KakaoOauthConfig;
+import com.dubu.backend.global.config.KakaoOauthConfig;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoTokenPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
