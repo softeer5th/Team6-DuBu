@@ -3,8 +3,6 @@ package com.dubu.backend.auth.infra.repository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-
 @Component
 public class TokenRedisRepository {
 
@@ -14,7 +12,7 @@ public class TokenRedisRepository {
         this.redisTemplate = redisTemplate;
     }
 
-    public void saveTokensToRedis(String memberId, String accessToken, String refreshToken, Duration refreshTokenTime) {
+    public void saveTokensToRedis(String memberId, String accessToken, String refreshToken, long refreshTokenTime) {
         redisTemplate.opsForValue().set(memberId, refreshToken, refreshTokenTime);
         redisTemplate.opsForValue().set(refreshToken, accessToken, refreshTokenTime);
     }
@@ -27,7 +25,7 @@ public class TokenRedisRepository {
         return redisTemplate.opsForValue().get(refreshToken);
     }
 
-    public void storeAccessToken(String refreshToken, String accessToken, Duration refreshTokenTime) {
+    public void storeAccessToken(String refreshToken, String accessToken, long refreshTokenTime) {
         redisTemplate.opsForValue().set(refreshToken, accessToken, refreshTokenTime);
     }
 
