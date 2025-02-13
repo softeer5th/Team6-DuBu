@@ -24,7 +24,7 @@ const FeedbackAnimation = ({ progress }: FeedbackAnimationProps) => {
     }
   }, [progress, animationItem]);
 
-  return <S.AnimationContainer $progress={progress}>{View}</S.AnimationContainer>;
+  return <S.AnimationContainer>{View}</S.AnimationContainer>;
 };
 
 export default FeedbackAnimation;
