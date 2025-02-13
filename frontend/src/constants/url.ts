@@ -24,6 +24,7 @@ export const API_URL = {
   loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
   memberStatus: `${BASE_URL}/api/v1/members/status`,
   plan: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId} `,
+  todayAchievement: `${BASE_URL}/plans/feedback`,
 };
 
 export const MOCK_API_URL = {
@@ -46,4 +47,5 @@ export const MOCK_API_URL = {
   loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
   memberStatus: `${BASE_URL}/api/v1/members/status`,
   plan: `${BASE_URL}/api/v1/plans/:planId`,
+  todayAchievement: `${BASE_URL}/plans/feedback`,
 };

@@ -1,3 +1,4 @@
+import { handlers as feedbackHandlers } from './feedback';
 import { handlers as memberHandlers } from './member';
 import { handlers as onboardingHandlers } from './onboarding';
 import { handlers as planHandlers } from './plan';
@@ -8,6 +9,7 @@ export const handlers = [
   ...searchHandlers,
   ...todoHandlers,
   ...onboardingHandlers,
+  ...feedbackHandlers,
   ...planHandlers,
   ...memberHandlers,
 ];

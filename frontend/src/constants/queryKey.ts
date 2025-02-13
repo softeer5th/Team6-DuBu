@@ -7,6 +7,7 @@ export const QUERY_KEY = {
   routeTodoList: 'routeTodoList',
   searchAddress: 'searchAddress',
   searchRoutes: 'searchRoutes',
+  todayAchievement: 'todayAchievement',
   planInfo: 'planInfo',
   memberAddress: 'memberAddress',
 } as const;
