@@ -30,11 +30,9 @@ public class JwtManager {
 
     public String createAccessToken(Long memberId, long accessTokenTime) {
         Claims claims = Jwts.claims().subject(memberId.toString()).build();
-        String jti = UUID.randomUUID().toString().substring(0, 16) + memberId;
         Date now = new Date();
 
         return Jwts.builder()
-                .id(jti)
                 .issuer(TOKEN_ISSUER)
                 .claims(claims)
                 .issuedAt(now)
@@ -45,9 +43,11 @@ public class JwtManager {
 
     public String createRefreshToken(Long memberId, long refreshTokenTime) {
         Claims claims = Jwts.claims().subject(memberId.toString()).build();
+        String jti = UUID.randomUUID().toString().substring(0, 16) + memberId;
         Date now = new Date();
 
         return Jwts.builder()
+                .id(jti)
                 .issuer(TOKEN_ISSUER)
                 .claims(claims)
                 .issuedAt(now)
