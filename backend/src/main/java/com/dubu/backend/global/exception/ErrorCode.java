@@ -24,9 +24,10 @@ public enum ErrorCode {
     // Token
     TOKEN_INVALID(UNAUTHORIZED, "유효하지 않은 토큰입니다. 다시 로그인해 주세요."),
     TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다."),
-    TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 사용이 금지되었습니다. 다시 로그인해 주세요."),
+    TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 금지된 토큰입니다. 다시 로그인해 주세요."),
     TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 발급받으세요."),
-    REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "세션이 만료되었습니다. 다시 로그인해 주세요."),
+    MISSING_TOKEN_IN_COOKIE(UNAUTHORIZED, "쿠키에 토큰이 존재하지 않습니다. 다시 로그인해 주세요."),
+    REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "리프레쉬 토큰이 만료되었습니다. 다시 로그인해 주세요."),
 
     // OAuth
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
