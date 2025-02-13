@@ -1,6 +1,6 @@
 import * as S from './CategoryRank.styled';
 import CategoryRankItem from './CategoryRankItem';
-import useNearbyUsersQuery from '../../hooks/useNearByUsersQuery';
+import useNearbyUsersQuery from '../../hooks/useNearbyUsersQuery';
 
 interface CategoryRankProps {
   lng: number;

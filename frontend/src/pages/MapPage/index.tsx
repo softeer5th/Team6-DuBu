@@ -5,7 +5,7 @@ import useInitMap from './hooks/useInitMap';
 import useMapBottomSheet from './hooks/useMapBottomSheet';
 import useMarker from './hooks/useMarker';
 import useMarkerBottomSheet from './hooks/useMarkerBottomSheet';
-import useNearbyUsersQuery from './hooks/useNearByUsersQuery';
+import useNearbyUsersQuery from './hooks/useNearbyUsersQuery';
 import * as S from './MapPage.styled';
 
 import BottomSheet from '@/components/BottomSheet';
