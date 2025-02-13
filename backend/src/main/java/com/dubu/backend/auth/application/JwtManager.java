@@ -1,7 +1,11 @@
 package com.dubu.backend.auth.application;
 
+import com.dubu.backend.auth.exception.RefreshTokenExpiredException;
 import com.dubu.backend.auth.exception.TokenInvalidException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -56,7 +60,7 @@ public class JwtManager {
                 .compact();
     }
 
-    public Claims parseClaims(String token) {
+    public Claims parseClaimsFromRefreshToken(String token) {
         try {
             return Jwts.parser()
                     .requireIssuer(TOKEN_ISSUER)
@@ -65,7 +69,7 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (ExpiredJwtException ex) {
-            return ex.getClaims();
+            throw new RefreshTokenExpiredException();
         } catch (JwtException ex) {
             throw new TokenInvalidException();
         }

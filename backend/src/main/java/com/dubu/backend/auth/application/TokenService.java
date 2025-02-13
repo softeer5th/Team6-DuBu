@@ -10,6 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class TokenService {
@@ -36,36 +40,25 @@ public class TokenService {
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
-    public String reissue(HttpServletRequest request) {
-        String accessToken = resolveToken(request);
-
-        Claims claims = jwtManager.parseClaims(accessToken);
+    public TokenResponse reissue(String oldRefreshToken) {
+        Claims claims = jwtManager.parseClaimsFromRefreshToken(oldRefreshToken);
 
         String jti = claims.getId();
         String memberId = claims.getSubject();
 
         if (tokenRedisRepository.isBlacklisted(jti)) {
+            String currentRefreshToken = tokenRedisRepository.getRefreshToken(memberId);
+            Date expiration = jwtManager.parseClaimsFromRefreshToken(currentRefreshToken).getExpiration();
+            tokenRedisRepository.addBlacklistToken(currentRefreshToken, getRemainingDuration(expiration));
+
             throw new TokenBlacklistedException();
         }
 
-        String refreshToken = tokenRedisRepository.getRefreshToken(memberId);
-        if (refreshToken == null) {
-            throw new RefreshTokenExpiredException();
-        }
+        tokenRedisRepository.addBlacklistToken(jti, getRemainingDuration(claims.getExpiration()));
 
-        String existingAccessToken = tokenRedisRepository.getAccessToken(refreshToken);
-        if (existingAccessToken == null || !existingAccessToken.equals(accessToken)) {
-            tokenRedisRepository.addBlacklistToken(jti);
-            throw new TokenInvalidException();
-        }
+        TokenResponse tokenResponse = issue(Long.valueOf(memberId));
 
-        tokenRedisRepository.addBlacklistToken(jti);
-
-        String newAccessToken = jwtManager.createAccessToken(Long.parseLong(memberId), accessTokenTime);
-
-        tokenRedisRepository.storeAccessToken(refreshToken, newAccessToken, refreshTokenTime);
-
-        return newAccessToken;
+        return tokenResponse;
     }
 
     public Long validateToken(String token) {
@@ -102,5 +95,12 @@ public class TokenService {
         } else {
             throw new TokenInvalidException();
         }
+    }
+
+    private Duration getRemainingDuration(Date expiration) {
+        Instant now = Instant.now();
+        Instant expirationTime = expiration.toInstant();
+
+        return Duration.between(now, expirationTime);
     }
 }
