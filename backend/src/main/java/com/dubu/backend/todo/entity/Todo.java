@@ -27,6 +27,9 @@ public class Todo extends BaseTimeEntity {
     @Column(nullable = false)
     private TodoType type;
 
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    private boolean isCompleted;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "difficulty", nullable = false)
     private TodoDifficulty difficulty;
@@ -37,7 +40,7 @@ public class Todo extends BaseTimeEntity {
     @Column(name = "spent_time", columnDefinition = "MEDIUMINT")
     private Integer spentTime;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -84,6 +87,10 @@ public class Todo extends BaseTimeEntity {
 
     public void clearParentTodo(){
         this.parentTodo = null;
+    }
+
+    public void updateSpentTime(int sectionTimePerTodo){
+        this.spentTime = sectionTimePerTodo;
     }
 
     private void updateTitle(String title){
