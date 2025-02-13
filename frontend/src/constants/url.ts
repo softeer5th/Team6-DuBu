@@ -22,6 +22,8 @@ export const API_URL = {
   memberAddress: `${BASE_URL}/api/v1/members/address`,
   loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
   loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId} `,
 };
 
 export const MOCK_API_URL = {
@@ -42,4 +44,6 @@ export const MOCK_API_URL = {
   memberAddress: `${BASE_URL}/api/v1/members/address`,
   loginKakao: `${BASE_URL}/api/v1/auth/KAKAO`,
   loginKakaoAuth: `${BASE_URL}/api/v1/auth/kakao-login`,
+  memberStatus: `${BASE_URL}/api/v1/members/status`,
+  plan: `${BASE_URL}/api/v1/plans/:planId`,
 };

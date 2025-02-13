@@ -40,9 +40,9 @@ oauth2:
     registration:
       kakao:
         client_id: ${KAKAO_CLIENT_ID} # REST API
-        redirect_uri: http://localhost:3000/oauth/redirected/kakao
+        redirect_uri: ${KAKAO_REDIRECT_URI}
         client_secret: ${KAKAO_CLIENT_SECRET} # Client Secret
-        scope: profile_nickname, profile_image
+        scope: account_email
     provider:
       kakao:
         authorization-uri: https://kauth.kakao.com/oauth/authorize

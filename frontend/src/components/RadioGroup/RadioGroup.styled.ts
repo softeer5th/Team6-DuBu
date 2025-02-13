@@ -18,7 +18,7 @@ export const HiddenInput = styled.input`
   width: 1px;
 `;
 
-export const RadioBadge = styled.span<{ $isSelected: boolean }>`
+export const RadioBadge = styled.span<{ $isSelected: boolean; $disabled?: boolean }>`
   ${({ theme }) => theme.fonts.label14Reg};
 
   padding: 0.5rem 1.2rem;
@@ -33,7 +33,8 @@ export const RadioBadge = styled.span<{ $isSelected: boolean }>`
   outline: ${({ theme, $isSelected }) =>
     $isSelected ? `0.1rem solid ${theme.colors.green600}` : 'none'};
 
-  cursor: pointer;
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ $disabled }) => ($disabled ? 0.9 : 1)};
 
   transition:
     background-color 0.2s,

@@ -29,7 +29,8 @@ public class Address extends BaseTimeEntity {
     @ColumnDefault("'OTHER'")
     private AddressType addressType;
 
-    private String name;
+    @Column(nullable = false)
+    private String title;
 
     @Column(nullable = false)
     private String roadAddress;
@@ -40,13 +41,21 @@ public class Address extends BaseTimeEntity {
     @Column(nullable = false)
     private Double yCoordinate;
 
-    public static Address createAddress(Member member, AddressType addressType, String roadAddress, Double xCoordinate, Double yCoordinate) {
+    public static Address createAddress(Member member, AddressType addressType, String title, String roadAddress, Double xCoordinate, Double yCoordinate) {
         return Address.builder()
                 .member(member)
+                .title(title)
                 .addressType(addressType)
                 .roadAddress(roadAddress)
                 .xCoordinate(xCoordinate)
                 .yCoordinate(yCoordinate)
                 .build();
+    }
+
+    public void updateAddress(String title, String roadAddress, Double xCoordinate, Double yCoordinate) {
+        this.title = title;
+        this.roadAddress = roadAddress;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
     }
 }

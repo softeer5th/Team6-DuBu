@@ -1,8 +1,11 @@
 package com.dubu.backend.todo.service.impl;
 
 import com.dubu.backend.member.domain.Member;
+import com.dubu.backend.member.domain.enums.Status;
 import com.dubu.backend.member.exception.MemberNotFoundException;
 import com.dubu.backend.member.infra.repository.MemberRepository;
+import com.dubu.backend.plan.exception.InvalidMemberStatusException;
+import com.dubu.backend.todo.dto.common.TodoIdentifier;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
 import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
@@ -21,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -35,8 +37,14 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     private final EntityManager entityManager;
 
     @Override
-    public TodoManageResult<?> createTodo(Long memberId, TodoCreateRequest todoCreateRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+    public TodoManageResult<?> createTodo(TodoIdentifier identifier, TodoCreateRequest todoCreateRequest) {
+        Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Category category = categoryRepository.findByName(todoCreateRequest.category()).orElseThrow(() -> new CategoryNotFoundException(todoCreateRequest.category()));
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
@@ -45,7 +53,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
 
         // 할 일 3개 이미 존재
         if(todos.size() == 3){
-            throw new TodoLimitExceededException();
+            throw new TodoLimitExceededException("내일", 3);
         }
 
         // 내일 스케줄이 없는 경우
@@ -54,7 +62,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             tomorrowTodos = createTomorrowTodosFromTodayTodos(schedule, todos);
         }
 
-        Todo newTodo = todoCreateRequest.toEntity(member, category, schedule, TodoType.SCHEDULED);
+        Todo newTodo = todoCreateRequest.toEntity(member, category, schedule, null, TodoType.SCHEDULED);
         Todo savedTodo = todoRepository.save(newTodo);
 
         if(tomorrowTodos != null) {
@@ -65,8 +73,14 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     }
 
     @Override
-    public TodoManageResult<?> createTodoFromArchived(Long memberId, TodoCreateFromArchivedRequest todoCreateRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
+    public TodoManageResult<?> createTodoFromArchived(TodoIdentifier identifier, TodoCreateFromArchivedRequest todoCreateRequest) {
+        Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> todos = todoRepository.findTodosWithCategoryBySchedule(schedule);
@@ -74,7 +88,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
 
         // 할 일 3개 이미 존재
         if(todos.size() == 3){
-            throw new TodoLimitExceededException();
+            throw new TodoLimitExceededException("내일", 3);
         }
 
         // 내일 스케줄이 없는 경우
@@ -87,7 +101,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
         // 해당 할 일이 이미 추가됐는지 확인
         todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
-        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule);
+        Todo newTodo = Todo.of(parentTodo.getTitle(), TodoType.SCHEDULED, parentTodo.getDifficulty(), parentTodo.getMemo(), member, parentTodo.getCategory(), parentTodo, schedule, null);
         Todo savedTodo = todoRepository.save(newTodo);
 
         if(tomorrowTodos != null){
@@ -98,9 +112,21 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     }
 
     @Override
-    public TodoManageResult<?> modifyTodo(Long memberId, Long todoId, TodoUpdateRequest todoUpdateRequest) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
-        Todo targetTodo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
+    public TodoManageResult<?> modifyTodo(TodoIdentifier identifier, TodoUpdateRequest todoUpdateRequest) {
+        Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
+        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         List<Todo> tomorrowTodos = null;
@@ -149,9 +175,21 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     }
 
     @Override
-    public TodoManageResult<?> removeTodo(Long memberId, Long todoId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
-        Todo targetTodo = todoRepository.findById(todoId).orElseThrow(TodoNotFoundException::new);
+    public TodoManageResult<?> removeTodo(TodoIdentifier identifier) {
+        Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        // 회원의 상태는 정지여야 한다.
+        if(!member.getStatus().equals(Status.STOP)){
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+
+        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+
+        // 할 일 타입과 요청 타입이 일치하지 않는다면
+        if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
+            throw new TodoTypeMismatchException(targetTodo.getType(), TodoType.SCHEDULED);
+        }
+
         Schedule schedule = scheduleRepository.findLatestSchedule(member, LocalDate.now().plusDays(1)).orElseThrow(ScheduleNotFoundException::new);
 
         // 내일 스케줄이 없는 경우
@@ -163,7 +201,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             // 삭제할 Todo 빼고 담기
             List<Todo> tomorrowTodos = new ArrayList<>();
             for(Todo todo: todayTodos){
-                if(!todo.getId().equals(todoId))
+                if(!todo.getId().equals(targetTodo.getId()))
                     tomorrowTodos.add(todo);
             }
 
@@ -180,7 +218,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
     }
 
     private List<Todo> createTomorrowTodosFromTodayTodos(Schedule tomorrowSchedule, List<Todo> todayTodos){
-        List<Todo> tomorrowTodos = todayTodos.stream().map(t -> Todo.of(t.getTitle(), TodoType.SCHEDULED, t.getDifficulty(), t.getMemo(), t.getMember(), t.getCategory(), t.getParentTodo(), tomorrowSchedule)).toList();
+        List<Todo> tomorrowTodos = todayTodos.stream().map(t -> Todo.of(t.getTitle(), TodoType.SCHEDULED, t.getDifficulty(), t.getMemo(), t.getMember(), t.getCategory(), t.getParentTodo(), tomorrowSchedule, t.getPath())).toList();
         return todoRepository.saveAll(tomorrowTodos);
     }
 }
