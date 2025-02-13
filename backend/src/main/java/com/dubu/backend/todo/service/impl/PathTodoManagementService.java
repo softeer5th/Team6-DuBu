@@ -9,6 +9,7 @@ import com.dubu.backend.plan.exception.InvalidMemberStatusException;
 import com.dubu.backend.plan.exception.PathNotFoundException;
 import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.todo.dto.common.TodoIdentifier;
+import com.dubu.backend.todo.dto.request.TodoCompletionToggleRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateFromArchivedRequest;
 import com.dubu.backend.todo.dto.request.TodoCreateRequest;
 import com.dubu.backend.todo.dto.request.TodoUpdateRequest;
@@ -142,5 +143,20 @@ public class PathTodoManagementService implements TodoManagementService {
         todoRepository.delete(todo);
 
         return TodoManageResult.of(null, null);
+    }
+
+    public void toggleTodoCompletion(TodoIdentifier identifier, TodoCompletionToggleRequest request) {
+        Member member = memberRepository.findById(identifier.memberId()).orElseThrow(() -> new MemberNotFoundException(identifier.memberId()));
+
+        if(!member.getStatus().equals(Status.MOVE)) {
+            throw new InvalidMemberStatusException(member.getStatus().name());
+        }
+        Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
+
+        if(!todo.getType().equals(TodoType.IN_PROGRESS)){
+            throw new TodoTypeMismatchException(todo.getType(), TodoType.IN_PROGRESS);
+        }
+
+        todo.updateCompletedStatus(request.isCompleted());
     }
 }
