@@ -2,7 +2,7 @@ package com.dubu.backend.auth.infra.oauth.kakao.adapter;
 
 import com.dubu.backend.auth.domain.OauthProvider;
 import com.dubu.backend.auth.domain.authcode.AuthCodeRequestUrlProvider;
-import com.dubu.backend.auth.infra.oauth.kakao.KakaoOauthConfig;
+import com.dubu.backend.global.config.KakaoOauthConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;

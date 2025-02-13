@@ -3,6 +3,8 @@ import { createBrowserRouter } from 'react-router';
 import FlexPageLayout from './layout/FlexPageLayout';
 
 import EditPage from '@/pages/EditPage';
+import FeedbackPage from '@/pages/FeedbackPage';
+import KakaoLoginPage from '@/pages/KakaoLoginPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import MapPage from '@/pages/MapPage';
@@ -69,9 +71,16 @@ export const router = createBrowserRouter([
       },
     ],
   },
-
   {
     path: '/map',
     element: <MapPage />,
+  },
+  {
+    path: '/feedback',
+    element: <FeedbackPage />,
+  },
+  {
+    path: '/login/kakao',
+    element: <KakaoLoginPage />,
   },
 ]);

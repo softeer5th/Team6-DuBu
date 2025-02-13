@@ -52,9 +52,8 @@ oauth2:
 
 jwt:
   secret: ${JWT_SECRET}
-  expire:
-    access-token-in-minutes: ${JWT_ACCESS_TOKEN_TIME}
-    refresh-token-in-minutes: ${JWT_REFRESH_TOKEN_TIME}
+  access-token-expire-time-in-hours: ${JWT_ACCESS_TOKEN_TIME}
+  refresh-token-expire-time-in-hours: ${JWT_REFRESH_TOKEN_TIME}
 
 naver:
   client:

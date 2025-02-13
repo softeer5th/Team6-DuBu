@@ -1,0 +1,21 @@
+{
+  "data": {
+    "planId": 0,
+    "totalSectionTime": 45,
+    "totalTodoCount": 3,
+    "todos": [
+      {
+        "category": "READING",
+        "title": "오디오북 듣기"
+      },
+      {
+        "category": "OTHERS",
+        "title": "AI와 대화 연습하기"
+      },
+      {
+        "category": "HOBBY",
+        "title": "나만의 음악 플레이리스트 만들기"
+      }
+    ]
+  }
+}
