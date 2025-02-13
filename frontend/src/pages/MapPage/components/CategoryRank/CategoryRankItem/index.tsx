@@ -1,13 +1,13 @@
 import * as S from './CategoryRankItem.styled';
 
+import { CategoryRanking } from '@/api/map';
 import { CATEGORY_MAPPER } from '@/pages/EditPage/EditPage.constants';
-import { CategoryType } from '@/types/filter';
 
-const CategoryRankItem = ({
-  rankItem,
-}: {
-  rankItem: { rank: number; category: CategoryType; count: number };
-}) => {
+interface CategoryRankItemProps {
+  rankItem: CategoryRanking;
+}
+
+const CategoryRankItem = ({ rankItem }: CategoryRankItemProps) => {
   return (
     <S.CategoryRankItemLayout>
       <S.RankWrapper>
@@ -16,7 +16,7 @@ const CategoryRankItem = ({
           {`#${CATEGORY_MAPPER[rankItem.category]}`}
         </S.CategoryBadge>
       </S.RankWrapper>
-      <span>{rankItem.count}명</span>
+      <span>{rankItem.num}명</span>
     </S.CategoryRankItemLayout>
   );
 };

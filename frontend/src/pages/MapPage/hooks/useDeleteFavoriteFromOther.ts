@@ -10,7 +10,6 @@ const useDeleteFavoriteFromOther = () => {
     mutationFn: ({ todoId, memberId }: { todoId: number; memberId: number }) => {
       return deleteFavoriteFromOther(todoId);
     },
-
     onSuccess: (_, params) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.detailTodo, params.memberId] });
     },

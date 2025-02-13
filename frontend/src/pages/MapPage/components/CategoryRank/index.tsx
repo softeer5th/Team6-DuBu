@@ -1,15 +1,16 @@
-import { useState } from 'react';
-
 import * as S from './CategoryRank.styled';
 import CategoryRankItem from './CategoryRankItem';
+import useNearbyUsersQuery from '../../hooks/useNearByUsersQuery';
 
-// TODO: API 호출하여 카테고리 순위 받아오기
-const CategoryRank = () => {
-  const [categoryRankList, setCategoryRankList] = useState([
-    { rank: 1, category: 'READING', count: 41 },
-    { rank: 2, category: 'ENGLISH', count: 32 },
-    { rank: 3, category: 'LANGUAGE', count: 23 },
-  ] as const);
+interface CategoryRankProps {
+  lng: number;
+  lat: number;
+}
+
+const CategoryRank = ({ lng, lat }: CategoryRankProps) => {
+  const { data: nearbyUsersData } = useNearbyUsersQuery({ lng, lat });
+
+  const categoryRankList = nearbyUsersData?.categoryRanking;
 
   return (
     <S.CategoryRankLayout>
@@ -27,7 +28,7 @@ const CategoryRank = () => {
 
       {/* 카테고리 순위 */}
       <S.CategoryRankList>
-        {categoryRankList.map((rankItem, idx) => (
+        {categoryRankList?.map((rankItem, idx) => (
           <CategoryRankItem key={idx} rankItem={rankItem} />
         ))}
       </S.CategoryRankList>

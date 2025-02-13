@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 
+import { NearbyMember } from '@/api/map';
+
 const useMarker = () => {
   const markerListRef = useRef<kakao.maps.Marker[]>([]);
 
@@ -15,13 +17,9 @@ const useMarker = () => {
     markerListRef.current = [];
   };
 
-  const putMarker = (
-    map: kakao.maps.Map | null,
-    coord: { lat: number; lng: number; memberId: number },
-    onClick: () => void,
-  ) => {
+  const putMarker = (map: kakao.maps.Map | null, coord: NearbyMember, onClick: () => void) => {
     const marker = new kakao.maps.Marker({
-      position: new kakao.maps.LatLng(coord.lat, coord.lng),
+      position: new kakao.maps.LatLng(coord.y_coordinate, coord.x_coordinate),
     });
 
     addMarker(marker);
@@ -34,11 +32,11 @@ const useMarker = () => {
 
   const putMarkerList = (
     map: kakao.maps.Map | null,
-    coordList: { lat: number; lng: number; memberId: number }[],
     onClick: (memberId: number) => void,
+    nearbyMemberList?: NearbyMember[],
   ) => {
-    coordList.forEach((coord) => {
-      putMarker(map, coord, () => onClick(coord.memberId));
+    nearbyMemberList?.forEach((nearByMember) => {
+      putMarker(map, nearByMember, () => onClick(nearByMember.memberId));
     });
   };
 
