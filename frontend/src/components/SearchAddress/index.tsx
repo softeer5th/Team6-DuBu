@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
+import Icon from '../Icon';
 import useSearchAddressQuery from './hooks/useSearchAddressQuery';
 import * as S from './SearchAddress.styled';
 import SearchAddressHeader from './SearchAddressHeader';
 import SearchAddressResult from './SearchAddressResult';
 import SearchAddressSearchBar from './SearchAddressSearchBar';
-import Icon from '../Icon';
 
 import { SearchAddress as SearchAddressType } from '@/api/search';
 import useMemberAddressQuery from '@/pages/MainPage/hooks/useMemberAddressQuery';
@@ -42,7 +42,7 @@ const SearchAddress = ({ onSelectAddress, onClose, isMain }: SearchAddressProps)
 
   const handleSelectHome = () => {
     onSelectAddress(
-      memberInfo?.homeAddressName || '',
+      memberInfo?.homeTitle || '',
       memberInfo?.homeXCoordinate || 0,
       memberInfo?.homeYCoordinate || 0,
     );
@@ -51,7 +51,7 @@ const SearchAddress = ({ onSelectAddress, onClose, isMain }: SearchAddressProps)
 
   const handleSelectSchool = () => {
     onSelectAddress(
-      memberInfo?.schoolAddressName || '',
+      memberInfo?.schoolTitle || '',
       memberInfo?.schoolXCoordinate || 0,
       memberInfo?.schoolYCoordinate || 0,
     );

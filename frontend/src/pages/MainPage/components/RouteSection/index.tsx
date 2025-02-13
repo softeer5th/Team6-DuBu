@@ -1,10 +1,10 @@
 import RouteItem from './RouteItem';
 import * as S from './RouteSection.styled';
-import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
 
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import useMemberAddressQuery from '@/pages/MainPage/hooks/useMemberAddressQuery';
 
 interface RouteSectionProps {
   isSwitchAddress: boolean;
@@ -39,7 +39,7 @@ const RouteSection = ({
       <RouteItem
         icon="AddressHome"
         location="집"
-        value={startAddress.startName || memberAddress.homeAddressName}
+        value={startAddress.startName || memberAddress.homeTitle}
         handleClick={() => handleClickSearchAddress('home')}
       />
       {isToday ? (
@@ -55,7 +55,7 @@ const RouteSection = ({
       <RouteItem
         icon="AddressUniv"
         location="학교"
-        value={endAddress.endName || memberAddress.schoolAddressName}
+        value={endAddress.endName || memberAddress.schoolTitle}
         handleClick={() => handleClickSearchAddress('school')}
       />
     </S.RouteSectionLayout>
