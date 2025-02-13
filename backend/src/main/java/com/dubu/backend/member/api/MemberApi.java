@@ -3,7 +3,6 @@ package com.dubu.backend.member.api;
 import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.member.dto.request.MemberInfoUpdateRequest;
 import com.dubu.backend.member.dto.request.MemberOnboardingRequest;
-import com.dubu.backend.member.dto.request.MemberStatusUpdateRequest;
 import com.dubu.backend.member.dto.response.MemberInfoResponse;
 import com.dubu.backend.member.dto.response.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.response.MemberStatusResponse;
@@ -15,7 +14,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -423,63 +423,6 @@ public interface MemberApi {
                     )
             )
             @RequestBody MemberInfoUpdateRequest request
-    );
-
-    @Operation(
-            summary = "회원 상태 변경",
-            description = """
-                    요청한 값으로 회원의 상태(Status)를 변경한다.
-                    다음 경우에 사용할 수 있습니다:
-                    1. 이동 중 페이지에서 피드백 페이지로 넘어가는 이동완료 버튼을 누를 때 회원의 상태를 MOVE에서 FEEDBACK으로 변경할 때 사용한다.
-                    """
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "회원 상태 업데이트 성공"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "회원이 존재하지 않는 경우 (MEMBER_NOT_FOUND)",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(
-                                    implementation = ErrorResponseExample.class,
-                                    description = "에러 응답 예시"
-                            ),
-                            examples = {
-                                    @ExampleObject(name = "회원 미존재 에러 예시",
-                                            value = """
-                                                    {
-                                                      "errorCode": "MEMBER_NOT_FOUND",
-                                                      "message": "회원을 찾을 수 없습니다. memberId : 9999"
-                                                    }
-                                                    """)
-                            }
-                    )
-            )
-    })
-    void updateMemberStatus(
-            @Parameter(hidden = true)
-            @RequestAttribute("memberId") Long memberId,
-
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "회원 상태 업데이트 요청 DTO",
-                    required = true,
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = MemberStatusUpdateRequest.class),
-                            examples = {
-                                    @ExampleObject(name = "회원 상태 업데이트 요청 예시",
-                                            value = """
-                                                    {
-                                                      "status": "FEEDBACK"
-                                                    }
-                                                    """)
-                            }
-                    )
-            )
-            @RequestBody MemberStatusUpdateRequest request
     );
 
     @Schema(name = "ErrorResponseExample", description = "에러 응답 예시")
