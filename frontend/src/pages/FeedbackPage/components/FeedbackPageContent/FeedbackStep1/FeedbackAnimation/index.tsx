@@ -1,5 +1,4 @@
 import { useLottie } from 'lottie-react';
-import { useEffect } from 'react';
 
 import * as S from './FeedbackAnimation.styled';
 
@@ -19,14 +18,12 @@ const FeedbackAnimation = ({ progress }: FeedbackAnimationProps) => {
     autoplay: false,
   });
 
-  useEffect(() => {
-    if (animationItem) {
-      const normalizedProgress =
-        (progress - MIN_FEEDBACK_PROGRESS) / (MAX_FEEDBACK_PROGRESS - MIN_FEEDBACK_PROGRESS);
-      const frameToShow = Math.round(normalizedProgress * (animationItem.totalFrames - 1));
-      animationItem.goToAndStop(frameToShow, true);
-    }
-  }, [progress, animationItem]);
+  if (animationItem) {
+    const normalizedProgress =
+      (progress - MIN_FEEDBACK_PROGRESS) / (MAX_FEEDBACK_PROGRESS - MIN_FEEDBACK_PROGRESS);
+    const frameToShow = Math.round(normalizedProgress * (animationItem.totalFrames - 1));
+    animationItem.goToAndStop(frameToShow, true);
+  }
 
   return <S.AnimationContainer>{View}</S.AnimationContainer>;
 };
