@@ -1,6 +1,7 @@
 package com.dubu.backend.plan.api;
 
 import com.dubu.backend.global.domain.SuccessResponse;
+import com.dubu.backend.member.api.MemberApi;
 import com.dubu.backend.plan.dto.request.PlanCreateRequest;
 import com.dubu.backend.plan.dto.request.PlanFeedbackCreateRequest;
 import com.dubu.backend.plan.dto.response.FeedbackWritePageInfoResponse;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -318,6 +320,43 @@ public interface PlanApi {
             )
     })
     SuccessResponse<FeedbackWritePageInfoResponse> getFeedbackWritePageInfo(
+            Long memberId
+    );
+
+    @Operation(
+            summary = "이동 완료 업데이트",
+            description = """
+                    이동 중 페이지에서 피드백 페이지로 넘어가는 이동완료 버튼을 누를 때 회원의 상태를 MOVE에서 FEEDBACK으로 변경할 때 사용한다. 
+                    또한 완료한 할 일들의 소모한 시간이 추가되고 TYPE 또한 DONE으로 변경된다.
+                    """
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "이동 완료 업데이트 성공"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "회원이 존재하지 않는 경우 (MEMBER_NOT_FOUND)",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(
+                                    implementation = MemberApi.ErrorResponseExample.class,
+                                    description = "에러 응답 예시"
+                            ),
+                            examples = {
+                                    @ExampleObject(name = "회원 미존재 에러 예시",
+                                            value = """
+                                                    {
+                                                      "errorCode": "MEMBER_NOT_FOUND",
+                                                      "message": "회원을 찾을 수 없습니다. memberId : 9999"
+                                                    }
+                                                    """)
+                            }
+                    )
+            )
+    })
+    void completePlanMove(
             Long memberId
     );
 
