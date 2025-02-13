@@ -1,7 +1,12 @@
 package com.dubu.backend.auth.application;
 
+import com.dubu.backend.auth.exception.RefreshTokenExpiredException;
+import com.dubu.backend.auth.exception.TokenExpiredException;
 import com.dubu.backend.auth.exception.TokenInvalidException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -30,11 +35,9 @@ public class JwtManager {
 
     public String createAccessToken(Long memberId, long accessTokenTime) {
         Claims claims = Jwts.claims().subject(memberId.toString()).build();
-        String jti = UUID.randomUUID().toString().substring(0, 16) + memberId;
         Date now = new Date();
 
         return Jwts.builder()
-                .id(jti)
                 .issuer(TOKEN_ISSUER)
                 .claims(claims)
                 .issuedAt(now)
@@ -45,9 +48,11 @@ public class JwtManager {
 
     public String createRefreshToken(Long memberId, long refreshTokenTime) {
         Claims claims = Jwts.claims().subject(memberId.toString()).build();
+        String jti = UUID.randomUUID().toString().substring(0, 16) + memberId;
         Date now = new Date();
 
         return Jwts.builder()
+                .id(jti)
                 .issuer(TOKEN_ISSUER)
                 .claims(claims)
                 .issuedAt(now)
@@ -65,7 +70,22 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (ExpiredJwtException ex) {
-            return ex.getClaims();
+            throw new TokenExpiredException();
+        } catch (JwtException ex) {
+            throw new TokenInvalidException();
+        }
+    }
+
+    public Claims parseClaimsFromRefreshToken(String token) {
+        try {
+            return Jwts.parser()
+                    .requireIssuer(TOKEN_ISSUER)
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (ExpiredJwtException ex) {
+            throw new RefreshTokenExpiredException();
         } catch (JwtException ex) {
             throw new TokenInvalidException();
         }
