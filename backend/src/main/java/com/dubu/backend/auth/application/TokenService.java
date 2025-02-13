@@ -1,5 +1,6 @@
 package com.dubu.backend.auth.application;
 
+import com.dubu.backend.auth.dto.TokenResponse;
 import com.dubu.backend.auth.exception.*;
 import com.dubu.backend.auth.infra.repository.TokenRedisRepository;
 import com.dubu.backend.global.config.JwtConfig;
@@ -26,13 +27,13 @@ public class TokenService {
         this.refreshTokenTime = jwtConfig.refreshTokenExpireTimeInHours() * HOURS_IN_MILLIS;
     }
 
-    public String issue(Long memberId) {
+    public TokenResponse issue(Long memberId) {
         String newAccessToken = jwtManager.createAccessToken(memberId, accessTokenTime);
         String newRefreshToken = jwtManager.createRefreshToken(memberId, refreshTokenTime);
 
-        tokenRedisRepository.saveTokensToRedis(memberId.toString(), newAccessToken, newRefreshToken, refreshTokenTime);
+        tokenRedisRepository.saveRefreshToken(memberId.toString(), newRefreshToken, refreshTokenTime);
 
-        return newAccessToken;
+        return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
     public String reissue(HttpServletRequest request) {

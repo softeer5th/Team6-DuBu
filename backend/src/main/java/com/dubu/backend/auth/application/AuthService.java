@@ -2,6 +2,7 @@ package com.dubu.backend.auth.application;
 
 import com.dubu.backend.auth.domain.OauthProvider;
 import com.dubu.backend.auth.domain.authcode.AuthCodeRequestUrlProviderComposite;
+import com.dubu.backend.auth.dto.AccessTokenResponse;
 import com.dubu.backend.auth.dto.TokenResponse;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoTokenPort;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoUserPort;
@@ -27,9 +28,9 @@ public class AuthService {
         return authCodeRequestUrlProviderComposite.provide(oauthProvider);
     }
 
-    public TokenResponse reissueToken(HttpServletRequest request) {
+    public AccessTokenResponse reissueToken(HttpServletRequest request) {
         String newAccessToken = tokenService.reissue(request);
-        return new TokenResponse(newAccessToken);
+        return new AccessTokenResponse(newAccessToken);
     }
 
     @Transactional
@@ -38,14 +39,15 @@ public class AuthService {
         Member kakaoUser = kakaoUserPort.findUserFromKakao(tokenFromKakao);
         Member loginMember = memberRepository.findByOauthProviderId(kakaoUser.getOauthProviderId())
                         .orElseGet(() -> memberRepository.save(kakaoUser));
-        String newAccessToken = tokenService.issue(loginMember.getId());
 
-        return new TokenResponse(newAccessToken);
+        TokenResponse tokenResponse = tokenService.issue(loginMember.getId());
+
+        return tokenResponse;
     }
 
-    public TokenResponse issueTokenForTest() {
-        String newAccessToken = tokenService.issue(1L);
+    public AccessTokenResponse issueTokenForTest() {
+        TokenResponse tokenResponse = tokenService.issue(1L);
 
-        return new TokenResponse(newAccessToken);
+        return new AccessTokenResponse(tokenResponse.accessToken());
     }
 }
