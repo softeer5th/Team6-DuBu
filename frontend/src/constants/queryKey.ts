@@ -10,4 +10,5 @@ export const QUERY_KEY = {
   planInfo: 'planInfo',
   memberAddress: 'memberAddress',
   detailTodo: 'detailTodo',
+  nearbyUsers: 'nearbyUsers',
 } as const;

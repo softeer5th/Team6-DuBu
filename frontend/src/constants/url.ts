@@ -26,6 +26,8 @@ export const API_URL = {
   addFavoriteFromOther: `${BASE_URL}/api/v1/share/todos`,
   deleteFavoriteFromOther: (todoId: number) =>
     `${BASE_URL}/api/v1/share/todos${todoId ? `?todoId=${todoId}` : ''}`,
+  getNearbyUsers: (queryParams: string) =>
+    `${BASE_URL}/api/v1/share/realtime-user-category${queryParams}`,
 };
 
 export const MOCK_API_URL = {
@@ -49,4 +51,5 @@ export const MOCK_API_URL = {
   todoDetail: `${BASE_URL}/api/v1/share/members/:memberId`,
   addFavoriteFromOther: `${BASE_URL}/api/v1/share/todos`,
   deleteFavoriteFromOther: `${BASE_URL}/api/v1/share/todos`,
+  getNearbyUsers: `${BASE_URL}/api/v1/share/realtime-user-category`,
 };

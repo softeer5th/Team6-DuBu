@@ -25,6 +25,33 @@ interface TodoFavoriteFromOtherResponse {
   };
 }
 
+export interface NearbyMember {
+  memberId: number;
+  x_coordinate: number;
+  y_coordinate: number;
+  category: CategoryType;
+}
+
+export interface CategoryRanking {
+  rank: number;
+  category: CategoryType;
+  num: number;
+}
+
+interface NearbyUserResponse {
+  data: {
+    nearMember: NearbyMember[];
+    categoryRanking: CategoryRanking[];
+  };
+}
+
+interface NearbyUserParams {
+  radius: number;
+  x_coordinate: number;
+  y_coordinate: number;
+  category?: CategoryType;
+}
+
 export const getTodoDetail = async (memberId: number) => {
   const result = await fetchClient.get<TodoDetailResponse>(API_URL.todoDetail(memberId));
 
@@ -42,4 +69,21 @@ export const addFavoriteFromOther = async (todoId: number) => {
 
 export const deleteFavoriteFromOther = async (todoId: number) => {
   return await fetchClient.delete(API_URL.deleteFavoriteFromOther(todoId));
+};
+
+export const getNearbyUsers = async (params: NearbyUserParams) => {
+  const urlQueryParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value) && value.length > 0) {
+      urlQueryParams.append(key, value.join(','));
+    }
+  });
+
+  const queryString = urlQueryParams.toString();
+  const queryParams = queryString ? `?${queryString}` : queryString;
+
+  const result = await fetchClient.get<NearbyUserResponse>(API_URL.getNearbyUsers(queryParams));
+
+  return result.data;
 };
