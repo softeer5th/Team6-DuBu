@@ -6,6 +6,7 @@ import com.dubu.backend.plan.dto.request.PlanCreateRequest;
 import com.dubu.backend.todo.entity.Todo;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class Path extends BaseTimeEntity {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
+    @BatchSize(size = 100)
     @Builder.Default
     @OneToMany(mappedBy = "path", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Todo> todos = new ArrayList<>();
