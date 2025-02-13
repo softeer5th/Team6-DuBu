@@ -49,7 +49,13 @@ const FavoriteTab = () => {
           todo={todo}
           left={
             <IconButton
-              icon={<Icon icon="PlusCircle" cursor="pointer" />}
+              icon={
+                todo.hasChild ? (
+                  <Icon icon="CheckCircle" cursor="pointer" />
+                ) : (
+                  <Icon icon="PlusCircle" cursor="pointer" />
+                )
+              }
               onClick={() => handleAddTodoFromFavorite(todo.todoId)}
             />
           }

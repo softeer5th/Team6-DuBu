@@ -23,6 +23,7 @@ const RecommendTab = () => {
   const { toast } = useToast();
 
   const routeURL = planId ? `/recommend/${planId}` : '/recommend';
+  const finalURL = dateType ? `/recommend?dateType=${dateType}` : routeURL;
 
   const handleAddTodoFromRecommend = (todoId: number) => {
     if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
@@ -48,7 +49,13 @@ const RecommendTab = () => {
             todo={todo}
             left={
               <IconButton
-                icon={<Icon icon="PlusCircle" cursor="pointer" />}
+                icon={
+                  todo.hasChild ? (
+                    <Icon icon="CheckCircle" cursor="pointer" />
+                  ) : (
+                    <Icon icon="PlusCircle" cursor="pointer" />
+                  )
+                }
                 onClick={() => handleAddTodoFromRecommend(todo.todoId)}
               />
             }
@@ -56,7 +63,7 @@ const RecommendTab = () => {
         ))}
       </S.RecommendTabList>
       <S.WatchMoreLinkWrapper>
-        <S.WatchMoreLink to={routeURL}>더보기</S.WatchMoreLink>
+        <S.WatchMoreLink to={finalURL}>더보기</S.WatchMoreLink>
       </S.WatchMoreLinkWrapper>
     </>
   );
