@@ -13,7 +13,7 @@ export const HeaderOverlay = styled.div`
   left: 0;
   width: 100%;
   background-color: ${({ theme }) => theme.colors.lightWhite30};
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
 
   z-index: 2;
 `;

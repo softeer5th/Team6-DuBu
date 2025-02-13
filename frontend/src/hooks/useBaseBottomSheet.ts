@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-const useBaseBottomSheet = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const useBaseBottomSheet = (initialOpen = false) => {
+  const [isOpen, setIsOpen] = useState(initialOpen);
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);

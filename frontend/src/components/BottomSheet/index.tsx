@@ -15,6 +15,7 @@ interface BottomSheetProps {
   confirmText?: string;
   confirmDisabled?: boolean;
   delay?: number;
+  subTitle?: string;
 }
 
 const BottomSheet = ({
@@ -27,6 +28,7 @@ const BottomSheet = ({
   confirmText,
   confirmDisabled,
   delay = 200,
+  subTitle,
 }: BottomSheetProps) => {
   const [isAnimating, setIsAnimating] = useState(isOpen);
 
@@ -52,9 +54,10 @@ const BottomSheet = ({
         <S.SheetContainer>
           <S.Backdrop onClick={onClose} $isOpen={isOpen} />
           <S.Sheet $isOpen={isOpen} $delay={delay} onAnimationEnd={handleAnimationEnd}>
-            {title && (
+            {(title || subTitle) && (
               <S.Header>
-                <S.Title>{title}</S.Title>
+                {title && <S.Title>{title}</S.Title>}
+                {subTitle && <S.SubTitle>{subTitle}</S.SubTitle>}
                 <IconButton onClick={onClose} icon={<Icon icon="Close" cursor="pointer" />} />
               </S.Header>
             )}

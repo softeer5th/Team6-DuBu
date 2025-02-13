@@ -1,9 +1,12 @@
 import { CATEGORY_OPTIONS } from '../EditPage/EditPage.constants';
+import CategoryRank from './components/CategoryRank';
 import useCategoryFilters from './hooks/useCategoryFilters';
 import useInitMap from './hooks/useInitMap';
+import useMapBottomSheet from './hooks/useMapBottomSheet';
 import useMarker from './hooks/useMarker';
 import * as S from './MapPage.styled';
 
+import BottomSheet from '@/components/BottomSheet';
 import Header from '@/components/Header';
 
 const MAP_ID = 'map';
@@ -31,6 +34,7 @@ const MapPage = () => {
   const { mapRef } = useInitMap();
   const { putMarkerList } = useMarker();
   const { categoryFilters, handleCheckFilters } = useCategoryFilters();
+  const { isOpen, close } = useMapBottomSheet();
 
   putMarkerList(mapRef.current, MARKERS);
 
@@ -59,6 +63,13 @@ const MapPage = () => {
           ))}
         </S.FilterBadgeWrapper>
       </S.HeaderOverlay>
+
+      <BottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        content={<CategoryRank />}
+        subTitle="반경 3km 이내"
+      />
     </S.MapContainer>
   );
 };
