@@ -49,6 +49,7 @@ public record PlanRecentResponse(
     }
 
     public record PathTodoResponse(
+            Long todoId,
             Boolean isDone,
             String title,
             String category,
@@ -57,6 +58,7 @@ public record PlanRecentResponse(
     ) {
         public static PathTodoResponse from(Todo todo) {
             return new PathTodoResponse(
+                    todo.getId(),
                     todo.getType() == TodoType.DONE,
                     todo.getTitle(),
                     todo.getCategory().getName(),
