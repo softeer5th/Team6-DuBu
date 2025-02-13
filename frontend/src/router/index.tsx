@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router';
 import FlexPageLayout from './layout/FlexPageLayout';
 
 import EditPage from '@/pages/EditPage';
+import KakaoLoginPage from '@/pages/KakaoLoginPage';
 import LandingPage from '@/pages/LandingPage';
 import MainPage from '@/pages/MainPage';
 import OnboardingPage from '@/pages/OnboardingPage';
@@ -67,5 +68,9 @@ export const router = createBrowserRouter([
         element: <RecommendTodoPage />,
       },
     ],
+  },
+  {
+    path: '/login/kakao',
+    element: <KakaoLoginPage />,
   },
 ]);

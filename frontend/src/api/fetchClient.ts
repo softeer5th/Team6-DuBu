@@ -9,12 +9,16 @@ type FetchProps = Omit<RequestProps, 'method'>;
 const fetchClient = {
   async request<T = void>(url: string, { method, body, headers }: RequestProps): Promise<T> {
     try {
+      const accessToken = localStorage.getItem('accessToken');
+
       const response = await fetch(url, {
         method,
         body: body && JSON.stringify(body),
-        headers: headers
-          ? { ...headers, 'Content-Type': 'application/json' }
-          : { 'Content-Type': 'application/json' },
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+          ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+        },
       });
 
       if (!response.ok) {
