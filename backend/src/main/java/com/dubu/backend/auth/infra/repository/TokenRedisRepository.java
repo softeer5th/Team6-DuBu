@@ -23,14 +23,6 @@ public class TokenRedisRepository {
         return redisTemplate.opsForValue().get(memberId);
     }
 
-    public String getAccessToken(String refreshToken) {
-        return redisTemplate.opsForValue().get(refreshToken);
-    }
-
-    public void storeAccessToken(String refreshToken, String accessToken, long refreshTokenTime) {
-        redisTemplate.opsForValue().set(refreshToken, accessToken, refreshTokenTime);
-    }
-
     public boolean isBlacklisted(String jti) {
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember("jti:blacklist", jti));
     }

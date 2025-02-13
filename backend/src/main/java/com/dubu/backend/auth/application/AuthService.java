@@ -27,20 +27,20 @@ public class AuthService {
         return authCodeRequestUrlProviderComposite.provide(oauthProvider);
     }
 
-    public TokenResponse reissueToken(String oldRefreshToken) {
-        TokenResponse tokenResponse = tokenService.reissue(oldRefreshToken);
-
-        return tokenResponse;
-    }
-
     @Transactional
     public TokenResponse issueTokenAfterKakaoLogin(String code) {
         String tokenFromKakao = kakaoTokenPort.getAccessTokenByCode(code);
         Member kakaoUser = kakaoUserPort.findUserFromKakao(tokenFromKakao);
         Member loginMember = memberRepository.findByOauthProviderId(kakaoUser.getOauthProviderId())
-                        .orElseGet(() -> memberRepository.save(kakaoUser));
+                .orElseGet(() -> memberRepository.save(kakaoUser));
 
         TokenResponse tokenResponse = tokenService.issue(loginMember.getId());
+
+        return tokenResponse;
+    }
+
+    public TokenResponse reissueToken(String oldRefreshToken) {
+        TokenResponse tokenResponse = tokenService.reissue(oldRefreshToken);
 
         return tokenResponse;
     }
