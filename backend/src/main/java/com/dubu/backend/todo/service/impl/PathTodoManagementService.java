@@ -70,7 +70,7 @@ public class PathTodoManagementService implements TodoManagementService {
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
 
-        Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
         Path path = pathRepository.findById(identifier.pathId()).orElseThrow(() -> new PathNotFoundException(identifier.pathId()));
 
         List<Todo> todosByPath = todoRepository.findTodosByPath(path);
@@ -95,7 +95,7 @@ public class PathTodoManagementService implements TodoManagementService {
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
 
-        Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo todo = todoRepository.findWithCategoryById(identifier.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
 
         // 할 일 타입과 요청 타입이 일치하지 않는다면
         if (!todo.getType().equals(TodoType.IN_PROGRESS)){
@@ -132,7 +132,7 @@ public class PathTodoManagementService implements TodoManagementService {
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
 
-        Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo todo = todoRepository.findById(identifier.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
 
         // 할 일 타입과 요청 타입이 일치하지 않는다면
         if (!todo.getType().equals(TodoType.IN_PROGRESS)){
