@@ -149,35 +149,35 @@ public interface AuthApi {
             @ApiResponse(
                     responseCode = "401",
                     description = """
-                            잘못된 토큰/만료된 토큰/블랙리스트 토큰 등으로 인해 재발급이 불가능한 경우
-                            (TOKEN_MISSING, TOKEN_INVALID, TOKEN_BLACKLISTED, REFRESH_TOKEN_EXPIRED)
+                            쿠키에 존재하지 않거나/블랙리스트 토큰 등으로 인해 재발급이 불가능한 경우
+                            (TOKEN_INVALID, TOKEN_BLACKLISTED, MISSING_TOKEN_IN_COOKIE, REFRESH_TOKEN_EXPIRED)
                             """,
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseExample.class),
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             examples = {
-                                    @ExampleObject(value = """
-                                            {
-                                              "errorCode": "TOKEN_MISSING",
-                                              "message": "토큰이 요청 헤더에 없습니다."
-                                            }
-                                            """),
-                                    @ExampleObject(value = """
+                                    @ExampleObject(name = "TOKEN_INVALID", value = """
                                             {
                                               "errorCode": "TOKEN_INVALID",
                                               "message": "유효하지 않은 토큰입니다. 다시 로그인해 주세요."
                                             }
                                             """),
-                                    @ExampleObject(value = """
+                                    @ExampleObject(name = "TOKEN_BLACKLISTED", value = """
                                             {
                                               "errorCode": "TOKEN_BLACKLISTED",
                                               "message": "해당 토큰은 사용이 금지되었습니다. 다시 로그인해 주세요."
                                             }
                                             """),
-                                    @ExampleObject(value = """
+                                    @ExampleObject(name = "MISSING_TOKEN_IN_COOKIE", value = """
+                                            {
+                                              "errorCode": "MISSING_TOKEN_IN_COOKIE",
+                                              "message": "쿠키에 토큰이 존재하지 않습니다. 다시 로그인해 주세요."
+                                            }
+                                            """),
+                                    @ExampleObject(name = "REFRESH_TOKEN_EXPIRED", value = """
                                             {
                                               "errorCode": "REFRESH_TOKEN_EXPIRED",
-                                              "message": "세션이 만료되었습니다. 다시 로그인해 주세요."
+                                              "message": "리프레쉬 토큰이 만료되었습니다. 다시 로그인해 주세요."
                                             }
                                             """)
                             }
@@ -206,6 +206,31 @@ public interface AuthApi {
                                               "data": {
                                                 "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                                               }
+                                            }
+                                            """)
+                            }
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = """
+                            AccessToken 만료 시 혹은 AccessToken 변조 시 에러가 발생한다.
+                            (TOKEN_EXPIRED, TOKEN_INVALID)
+                            """,
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            examples = {
+                                    @ExampleObject(name = "TOKEN_EXPIRED", value = """
+                                            {
+                                              "errorCode": "TOKEN_EXPIRED",
+                                              "message": "토큰이 만료되었습니다. 새로운 토큰을 재발급 받으세요."
+                                            }
+                                            """),
+                                    @ExampleObject(name = "TOKEN_INVALID", value = """
+                                            {
+                                              "errorCode": "TOKEN_INVALID",
+                                              "message": "유효하지 않은 토큰입니다. 다시 로그인해 주세요."
                                             }
                                             """)
                             }
