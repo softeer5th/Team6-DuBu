@@ -26,7 +26,7 @@ export const FilterBadgeWrapper = styled.div`
   padding: 1rem;
 `;
 
-export const FilterBadge = styled.button<{ $isSelected: boolean; category: CategoryType }>`
+export const FilterBadge = styled.button<{ $isSelected: boolean; $category: CategoryType }>`
   ${({ theme }) => theme.fonts.caption11};
   display: flex;
   align-items: center;
@@ -41,11 +41,11 @@ export const FilterBadge = styled.button<{ $isSelected: boolean; category: Categ
   background-color: ${({ theme, $isSelected }) =>
     $isSelected ? theme.colors.white : theme.colors.gray50};
 
-  color: ${({ theme, $isSelected, category }) =>
-    $isSelected ? theme.colors[category] : theme.colors.gray700};
+  color: ${({ theme, $isSelected, $category }) =>
+    $isSelected ? theme.colors[$category] : theme.colors.gray700};
 
-  outline: ${({ theme, $isSelected, category }) =>
-    $isSelected ? `0.15rem solid ${theme.colors[category]}` : 'none'};
+  outline: ${({ theme, $isSelected, $category }) =>
+    $isSelected ? `0.15rem solid ${theme.colors[$category]}` : 'none'};
 
   cursor: pointer;
 

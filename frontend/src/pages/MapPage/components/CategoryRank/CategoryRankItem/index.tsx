@@ -12,7 +12,7 @@ const CategoryRankItem = ({
     <S.CategoryRankItemLayout>
       <S.RankWrapper>
         <span>{rankItem.rank}</span>
-        <S.CategoryBadge category={rankItem.category}>
+        <S.CategoryBadge $category={rankItem.category}>
           {`#${CATEGORY_MAPPER[rankItem.category]}`}
         </S.CategoryBadge>
       </S.RankWrapper>

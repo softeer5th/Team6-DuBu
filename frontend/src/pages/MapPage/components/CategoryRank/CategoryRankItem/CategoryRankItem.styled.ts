@@ -30,7 +30,7 @@ export const CategoryRankItemLayout = styled.div`
   }
 `;
 
-export const CategoryBadge = styled.span<{ category: CategoryType }>`
+export const CategoryBadge = styled.span<{ $category: CategoryType }>`
   ${({ theme }) => theme.fonts.caption12Reg};
   display: flex;
   align-items: center;
@@ -39,6 +39,6 @@ export const CategoryBadge = styled.span<{ category: CategoryType }>`
   border-radius: 0.8rem;
   padding: 0.4rem 0.8rem;
 
-  color: ${({ theme, category }) => theme.colors[category]};
-  background-color: ${({ theme, category }) => theme.colors.background[category]};
+  color: ${({ theme, $category }) => theme.colors[$category]};
+  background-color: ${({ theme, $category }) => theme.colors.background[$category]};
 `;
