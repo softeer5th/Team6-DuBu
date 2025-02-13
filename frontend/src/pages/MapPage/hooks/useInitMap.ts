@@ -13,6 +13,15 @@ const useInitMap = () => {
 
   const mapRef = useRef<kakao.maps.Map | null>(null);
   const currentLocationRef = useRef<kakao.maps.Marker | null>(null);
+  const [isDragged, setIsDragged] = useState(false);
+
+  const handleDragStart = () => {
+    setIsDragged(true);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragged(false);
+  };
 
   useEffect(() => {
     const locPosition = new kakao.maps.LatLng(center.lat, center.lng);
@@ -38,9 +47,22 @@ const useInitMap = () => {
           map: mapRef.current,
           image: myMarkerPosition,
           position: locPosition,
+          zIndex: 1,
         });
       }
     }
+
+    const currentMapRef = mapRef.current; // mapRef.current를 변수에 복사
+
+    if (currentMapRef) {
+      kakao.maps.event.addListener(currentMapRef, 'dragstart', handleDragStart);
+    }
+
+    return () => {
+      if (currentMapRef) {
+        kakao.maps.event.removeListener(currentMapRef, 'dragstart', handleDragStart);
+      }
+    };
   }, [center]);
 
   useEffect(() => {
@@ -75,7 +97,7 @@ const useInitMap = () => {
     kakao.maps.load(() => initMap());
   }, []);
 
-  return { mapRef, currentLocationRef, center };
+  return { mapRef, currentLocationRef, center, isDragged, handleDragEnd };
 };
 
 export default useInitMap;

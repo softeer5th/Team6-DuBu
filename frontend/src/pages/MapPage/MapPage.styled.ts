@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import IconButton from '@/components/Button/IconButton';
 import { CategoryType } from '@/types/filter';
 
 export const MapContainer = styled.div`
@@ -52,4 +53,16 @@ export const FilterBadge = styled.button<{ $isSelected: boolean; $category: Cate
   transition:
     background-color 0.2s,
     color 0.2s;
+`;
+
+export const CurrentLocationButton = styled(IconButton)`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2;
+
+  background-color: ${({ theme }) => theme.colors.white};
+  padding: 1.2rem;
+  border-radius: 50%;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 `;

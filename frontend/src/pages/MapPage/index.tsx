@@ -8,6 +8,8 @@ import * as S from './MapPage.styled';
 
 import BottomSheet from '@/components/BottomSheet';
 import Header from '@/components/Header';
+import Icon from '@/components/Icon';
+import { colors } from '@/styles/theme';
 
 const MAP_ID = 'map';
 
@@ -22,13 +24,19 @@ const getTestMarkerList = (lat: number, lng: number, count: number) => {
 };
 
 const MapPage = () => {
-  const { mapRef, center } = useInitMap();
+  const { mapRef, center, isDragged, handleDragEnd } = useInitMap();
   const { putMarkerList } = useMarker();
   const { categoryFilters, handleCheckFilters } = useCategoryFilters();
   const { isOpen, close } = useMapBottomSheet();
 
   const markers = getTestMarkerList(center.lat, center.lng, 10); // FIXME: 테스트 완료 후 지울 예정
   putMarkerList(mapRef.current, markers);
+
+  const handleBackCenter = () => {
+    mapRef.current?.setCenter(new kakao.maps.LatLng(center.lat, center.lng));
+
+    handleDragEnd();
+  };
 
   return (
     <S.MapContainer id={MAP_ID}>
@@ -61,6 +69,20 @@ const MapPage = () => {
         onClose={close}
         content={<CategoryRank />}
         subTitle="반경 3km 이내"
+      />
+
+      {/* 현재 위치로 이동 버튼 */}
+      <S.CurrentLocationButton
+        icon={
+          <Icon
+            icon="Target"
+            width={32}
+            height={32}
+            cursor="pointer"
+            color={isDragged ? colors.iconBlue : colors.gray400}
+          />
+        }
+        onClick={handleBackCenter}
       />
     </S.MapContainer>
   );
