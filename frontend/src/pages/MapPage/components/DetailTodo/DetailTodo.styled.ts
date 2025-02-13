@@ -5,11 +5,18 @@ export const Nickname = styled.span`
   color: ${({ theme }) => theme.colors.gray950};
 `;
 
-export const DetailTitleItem = styled.div`
+export const DetailTodoList = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-height: 14.4rem;
+  overflow-y: scroll;
+`;
+
+export const DetailTodoItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem;
+  padding: 1.2rem 0;
 `;
 
 export const TitleWrapper = styled.div`
