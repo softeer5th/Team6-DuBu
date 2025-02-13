@@ -208,6 +208,7 @@ public interface PlanApi {
                                                     "endName": "역삼",
                                                     "todos": [
                                                       {
+                                                        "todoId": 99,
                                                         "isDone": true,
                                                         "title": "출근 준비",
                                                         "category": "OTHERS",
