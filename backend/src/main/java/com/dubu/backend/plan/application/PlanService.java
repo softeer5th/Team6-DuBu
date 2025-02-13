@@ -149,8 +149,10 @@ public class PlanService {
 
                 todos.stream()
                         .filter(Todo::isCompleted)
-                        .forEach(doneTodo -> doneTodo.updateMoveDone(TodoType.DONE, sectionTimePerTodo));
+                        .forEach(doneTodo -> doneTodo.updateSpentTime(sectionTimePerTodo));
             }
+
+            todos.forEach(todo -> todo.updateTodoType(TodoType.DONE));
         });
 
         currentMember.updateStatus(Status.FEEDBACK);
