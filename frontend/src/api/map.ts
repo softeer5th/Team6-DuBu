@@ -75,8 +75,8 @@ export const getNearbyUsers = async (params: NearbyUserParams) => {
   const urlQueryParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
-    if (Array.isArray(value) && value.length > 0) {
-      urlQueryParams.append(key, value.join(','));
+    if (value !== undefined) {
+      urlQueryParams.append(key, value.toString());
     }
   });
 
