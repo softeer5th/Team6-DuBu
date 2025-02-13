@@ -11,9 +11,8 @@ import * as S from './MapPage.styled';
 import BottomSheet from '@/components/BottomSheet';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
+import { MAP_ID } from '@/constants/config';
 import { colors } from '@/styles/theme';
-
-const MAP_ID = 'map';
 
 const MapPage = () => {
   const { mapRef, center, isDragged, handleDragEnd } = useInitMap();

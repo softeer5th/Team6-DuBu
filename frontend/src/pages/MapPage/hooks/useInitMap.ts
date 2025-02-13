@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 import CurrentLocationMarker from '@/assets/images/currentLocationMarker.svg';
+import { MAP_ID } from '@/constants/config';
 
-const MAP_ID = 'map';
 const INIT_CENTER = {
   lat: 37.468665,
   lng: 127.042446,

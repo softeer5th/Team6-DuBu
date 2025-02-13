@@ -1,3 +1,4 @@
+export const MAP_ID = 'map';
 export const MAX_TODO_ITEM_LENGTH = 3;
 
 export const ICON_MAPPER = {
