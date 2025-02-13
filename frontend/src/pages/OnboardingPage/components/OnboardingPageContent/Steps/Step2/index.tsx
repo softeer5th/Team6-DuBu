@@ -11,10 +11,16 @@ const Step2 = () => {
   const [isSearchAddressOpen, setIsSearchAddressOpen] = useState(false);
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school' | null>(null);
 
-  const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
+  const updateAddress = (
+    address: string,
+    title: string,
+    coordinateX: number,
+    coordinateY: number,
+  ) => {
     setUserInfo((prev) => ({
       ...prev,
       [`${selectedAddressType}Address`]: address,
+      [`${selectedAddressType}Title`]: title,
       [`${selectedAddressType}AddressX`]: coordinateX,
       [`${selectedAddressType}AddressY`]: coordinateY,
     }));

@@ -9,9 +9,11 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const [onboardingUserInfo, setOnboardingUserInfo] = useState<OnboardingUserInfoType>({
     categories: [],
+    homeTitle: '',
     homeAddress: '',
     homeAddressX: 0,
     homeAddressY: 0,
+    schoolTitle: '',
     schoolAddress: '',
     schoolAddressX: 0,
     schoolAddressY: 0,

@@ -52,7 +52,9 @@ const MainPage = () => {
   };
 
   if (isSearchAddressOpen) {
-    return <SearchAddress onClose={toggleAddressSearch} onSelectAddress={updateAddress} isMain />;
+    return (
+      <SearchAddress onClose={toggleAddressSearch} onSelectAddressMain={updateAddress} isMain />
+    );
   }
 
   return (

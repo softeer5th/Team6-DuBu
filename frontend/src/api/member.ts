@@ -4,10 +4,10 @@ import { USER_STATUS } from '@/constants/config';
 import { API_URL } from '@/constants/url';
 
 export interface MemberAddress {
-  homeAddressName: string;
+  homeTitle: string;
   homeXCoordinate: number;
   homeYCoordinate: number;
-  schoolAddressName: string;
+  schoolTitle: string;
   schoolXCoordinate: number;
   schoolYCoordinate: number;
 }
