@@ -18,6 +18,7 @@ export const API_URL = {
   searchAddress: `${BASE_URL}/address/search`,
   searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  todayAchievement: `${BASE_URL}/plans/feedback`,
 };
 
 export const MOCK_API_URL = {
@@ -34,4 +35,5 @@ export const MOCK_API_URL = {
   searchAddress: `${BASE_URL}/address/search`,
   searchRoutes: `${BASE_URL}/routes/search`,
   onboarding: `${BASE_URL}/members/onboarding`,
+  todayAchievement: `${BASE_URL}/plans/feedback`,
 };
