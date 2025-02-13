@@ -184,7 +184,10 @@ public interface AuthApi {
                     )
             )
     })
-    SuccessResponse<AccessTokenResponse> reissue(HttpServletRequest request);
+    SuccessResponse<AccessTokenResponse> reissue(
+            HttpServletRequest request,
+            HttpServletResponse response
+    );
 
     @Operation(
             summary = "테스트용 토큰 발급",
