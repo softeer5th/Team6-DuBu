@@ -2,6 +2,7 @@ import fetchClient from './fetchClient';
 
 import { USER_STATUS } from '@/constants/config';
 import { API_URL } from '@/constants/url';
+import { CategoryType } from '@/types/filter';
 
 export interface MemberAddress {
   homeTitle: string;
@@ -13,6 +14,16 @@ export interface MemberAddress {
 }
 interface MemberAddressResponse {
   data: MemberAddress;
+}
+
+interface MemberInfoResponse {
+  data: {
+    email: string;
+    nickname: string;
+    categories: CategoryType[];
+    homeTitle: string;
+    schoolTitle: string;
+  };
 }
 
 type MemberStatusParams = (typeof USER_STATUS)[keyof typeof USER_STATUS];
@@ -29,4 +40,10 @@ export const updateMemberStatus = async (status: MemberStatusParams) => {
       status,
     },
   });
+};
+
+export const getMemberInfo = async () => {
+  const result = await fetchClient.get<MemberInfoResponse>(API_URL.memberInfo);
+
+  return result.data;
 };
