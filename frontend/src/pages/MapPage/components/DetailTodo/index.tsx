@@ -1,38 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import * as S from './DetailTodo.styled';
+import useAddFavoriteFromOther from '../../hooks/useAddFavoriteFromOther';
+import useDeleteFavoriteFromOther from '../../hooks/useDeleteFavoriteFromOther';
 
-import { addFavoriteFromOther, deleteFavoriteFromOther, getTodoDetail } from '@/api/map';
+import { getTodoDetail } from '@/api/map';
 import Icon from '@/components/Icon';
 import { ICON_MAPPER } from '@/constants/config';
 import { QUERY_KEY } from '@/constants/queryKey';
-
-const useAddFavoriteFromOther = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ todoId, memberId }: { todoId: number; memberId: number }) => {
-      return addFavoriteFromOther(todoId);
-    },
-    onSuccess: (_, params) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.detailTodo, params.memberId] });
-    },
-  });
-};
-
-const useDeleteFavoriteFromOther = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ todoId, memberId }: { todoId: number; memberId: number }) => {
-      return deleteFavoriteFromOther(todoId);
-    },
-
-    onSuccess: (_, params) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.detailTodo, params.memberId] });
-    },
-  });
-};
 
 interface DetailUserTodoProps {
   memberId: number;
