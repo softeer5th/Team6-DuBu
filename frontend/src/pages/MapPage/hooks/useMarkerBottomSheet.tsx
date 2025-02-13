@@ -25,7 +25,7 @@ const useMarkerBottomSheet = () => {
     isOpen,
     open: handleOpen,
     close: handleClose,
-    content: selectedMemberId && <DetailUserTodo memberId={selectedMemberId} />,
+    content: selectedMemberId !== null && <DetailUserTodo memberId={selectedMemberId} />,
   };
 };
 export default useMarkerBottomSheet;
