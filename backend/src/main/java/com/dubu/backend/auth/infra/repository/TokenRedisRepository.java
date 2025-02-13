@@ -24,7 +24,7 @@ public class TokenRedisRepository {
     }
 
     public boolean isBlacklisted(String jti) {
-        return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember("jti:blacklist", jti));
+        return redisTemplate.opsForValue().get("blacklist:" + jti) != null;
     }
 
     public void addBlacklistToken(String jti, Duration expiration) {
