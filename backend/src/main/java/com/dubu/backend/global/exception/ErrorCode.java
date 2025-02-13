@@ -22,10 +22,11 @@ public enum ErrorCode {
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 오류가 발생했습니다. 관리자에게 문의하세요."),
 
     // Token
+    INVALID_TOKEN_HEADER(UNAUTHORIZED, "토큰 헤더 형식이 잘못되었습니다."),
     TOKEN_INVALID(UNAUTHORIZED, "유효하지 않은 토큰입니다. 다시 로그인해 주세요."),
-    TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다."),
-    TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 금지된 토큰입니다. 다시 로그인해 주세요."),
-    TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 발급받으세요."),
+    TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다. 새로운 토큰을 재발급 받으세요"),
+    TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 금지된 재큰입니다. 다시 로그인해 주세요."),
+    TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 재발급 받으세요."),
     MISSING_TOKEN_IN_COOKIE(UNAUTHORIZED, "쿠키에 토큰이 존재하지 않습니다. 다시 로그인해 주세요."),
     REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "리프레쉬 토큰이 만료되었습니다. 다시 로그인해 주세요."),
 
