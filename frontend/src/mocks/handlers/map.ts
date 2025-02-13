@@ -14,4 +14,41 @@ const getTodoDetailHandler = async ({ params }: { params: TodoDetailParams }) =>
   return HttpResponse.json(TODO_DETAIL_DATA);
 };
 
-export const handlers = [http.get(MOCK_API_URL.todoDetail, getTodoDetailHandler)];
+const addFavoriteFromOtherHandler = async ({ request }: { request: Request }) => {
+  const { todoId } = await request.json();
+  const todo = TODO_DETAIL_DATA.data.todo.find((todo) => todo.todoId === todoId);
+
+  if (!todo) {
+    return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
+  }
+
+  todo.isSaved = true;
+
+  TODO_DETAIL_DATA.data.todo.forEach((todo) => {
+    if (todo.todoId === todoId) {
+      todo.isSaved = true;
+    }
+  });
+
+  return HttpResponse.json(todo);
+};
+
+const deleteFavoriteFromOtherHandler = async ({ request }: { request: Request }) => {
+  const url = new URL(request.url);
+
+  const todoId = url.searchParams.get('todoId');
+
+  const filteredTodo = TODO_DETAIL_DATA.data.todo.map((todo) =>
+    todo.todoId === Number(todoId) ? { ...todo, isSaved: false } : todo,
+  );
+
+  TODO_DETAIL_DATA.data.todo = filteredTodo;
+
+  return new HttpResponse(null, { status: 204 });
+};
+
+export const handlers = [
+  http.get(MOCK_API_URL.todoDetail, getTodoDetailHandler),
+  http.post(MOCK_API_URL.addFavoriteFromOther, addFavoriteFromOtherHandler),
+  http.delete(MOCK_API_URL.deleteFavoriteFromOther, deleteFavoriteFromOtherHandler),
+];

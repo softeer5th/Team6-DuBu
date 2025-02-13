@@ -9,4 +9,5 @@ export const QUERY_KEY = {
   searchRoutes: 'searchRoutes',
   planInfo: 'planInfo',
   memberAddress: 'memberAddress',
+  detailTodo: 'detailTodo',
 } as const;
