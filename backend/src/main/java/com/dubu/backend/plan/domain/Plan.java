@@ -30,6 +30,9 @@ public class Plan extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "SMALLINT")
     private Integer totalTime;
 
+    @OneToOne(mappedBy = "plan")
+    private Feedback feedback;
+
     public static Plan createPlan(Member member, Integer totalTime) {
         return Plan.builder()
                 .member(member)
