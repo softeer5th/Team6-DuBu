@@ -8,7 +8,6 @@ import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoTokenPort;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoUserPort;
 import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.infra.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,9 +27,10 @@ public class AuthService {
         return authCodeRequestUrlProviderComposite.provide(oauthProvider);
     }
 
-    public AccessTokenResponse reissueToken(HttpServletRequest request) {
-        String newAccessToken = tokenService.reissue(request);
-        return new AccessTokenResponse(newAccessToken);
+    public TokenResponse reissueToken(String oldRefreshToken) {
+        TokenResponse tokenResponse = tokenService.reissue(oldRefreshToken);
+
+        return tokenResponse;
     }
 
     @Transactional
