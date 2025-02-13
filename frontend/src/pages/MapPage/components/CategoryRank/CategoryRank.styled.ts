@@ -37,6 +37,7 @@ export const CategoryRankList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+  height: 13.6rem;
 
   padding: 0 2.4rem;
 `;
