@@ -12,6 +12,19 @@ export interface TodoAddParams {
   planId?: number;
 }
 
+export interface RecommendTodo {
+  todoId: number;
+  hasChild: boolean;
+  category: CategoryType;
+  difficulty: DifficultyType;
+  title: string;
+  memo: string | null;
+}
+
+interface RecommendTodoResponse {
+  data: RecommendTodo[];
+}
+
 export interface TodoResponse {
   data: Todo[];
 }
@@ -21,15 +34,23 @@ export interface TodoCreateResponse {
 }
 
 interface RecommendAllTodoResponse {
-  data: {
-    todoList: Todo[];
-    categoryList: CategoryType[];
+  hasNext: boolean;
+  nextCursor: {
+    cursorCategoryId: number;
+    cursorDifficulty: DifficultyType;
+    cursorTodoId: number;
   };
+  data: RecommendTodo[];
 }
 
 interface RecommendAllTodoParams {
+  modifyType: string;
   category: CategoryType[];
   difficulty: DifficultyType[];
+  size: number;
+  cursorCategoryId?: number;
+  cursorDifficulty?: DifficultyType;
+  cursorTodoId?: number;
 }
 
 export const getTodayTodoList = async () => {
@@ -44,14 +65,14 @@ export const getTomorrowTodoList = async () => {
   return result.data;
 };
 
-export const getFavoriteTodoList = async () => {
-  const result = await fetchClient.get<TodoResponse>(API_URL.favoriteTodo);
+export const getFavoriteTodoList = async (dateType: string, size: number = 5) => {
+  const result = await fetchClient.get<RecommendTodoResponse>(API_URL.favoriteTodo(dateType, size));
 
   return result.data;
 };
 
-export const getRecommendLimitTodoList = async () => {
-  const result = await fetchClient.get<TodoResponse>(API_URL.recommendLimitTodo);
+export const getRecommendLimitTodoList = async (dateType: string) => {
+  const result = await fetchClient.get<RecommendTodoResponse>(API_URL.recommendLimitTodo(dateType));
 
   return result.data;
 };
@@ -62,6 +83,8 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
   Object.entries(params).forEach(([key, value]) => {
     if (Array.isArray(value) && value.length > 0) {
       urlQueryParams.append(key, value.join(','));
+    } else if (value !== undefined) {
+      urlQueryParams.append(key, value.toString());
     }
   });
 
@@ -83,12 +106,19 @@ export const addTodo = async ({ dateType, todo, planId }: TodoAddParams) => {
   return result.data;
 };
 
-export const deleteTodo = async (todoId: number, planId?: number) => {
-  return await fetchClient.delete(API_URL.deleteTodo(todoId, planId));
+export const deleteTodo = async (todoId: number, dateType: string) => {
+  return await fetchClient.delete(API_URL.deleteTodo(todoId, dateType));
 };
 
-export const editTodo = async (todo: Todo, planId?: number) => {
-  return await fetchClient.patch(API_URL.editTodo(todo.todoId, planId), { body: { ...todo } });
+export const editTodo = async (todo: Todo, dateType: string) => {
+  return await fetchClient.patch(API_URL.editTodo(todo.todoId, dateType), {
+    body: {
+      title: todo.title,
+      category: todo.category,
+      difficulty: todo.difficulty,
+      memo: todo.memo,
+    },
+  });
 };
 
 export const addTodoFromArchived = async (dateType: string, todoId: number, planId?: number) => {
