@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import backgroundFeedback from '@/assets/images/backgroundFeedback.png';
+import BackgroundFeedback from '@/assets/images/backgroundFeedback.png';
 
 export const FeedbackPageLayout = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ export const FeedbackPageLayout = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
-  background-image: url(${backgroundFeedback});
+  background-image: url(${BackgroundFeedback});
   padding-bottom: 3rem;
 
   touch-action: none;
