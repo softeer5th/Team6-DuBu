@@ -3,6 +3,7 @@ package com.dubu.backend.auth.infra.repository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -34,7 +35,7 @@ public class TokenRedisRepository {
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember("jti:blacklist", jti));
     }
 
-    public void addBlacklistToken(String jti) {
-        redisTemplate.opsForSet().add("jti:blacklist", jti);
+    public void addBlacklistToken(String jti, Duration expiration) {
+        redisTemplate.opsForValue().set("blacklist:" + jti, jti, expiration);
     }
 }
