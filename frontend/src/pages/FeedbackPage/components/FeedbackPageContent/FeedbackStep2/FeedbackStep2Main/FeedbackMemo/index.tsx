@@ -2,9 +2,10 @@ import * as S from './FeedbackMemo.styled';
 
 import { useFeedback } from '@/pages/FeedbackPage/hooks/useFeedback';
 
+const MEMO_MAX_LENGTH = 20;
 const isMemoValid = (memo: string) => {
   const regex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣㅀ-ㅿㆀ-ㆾㆿ\s\d\p{P}]+$/u;
-  return regex.test(memo) && memo.length <= 20;
+  return regex.test(memo);
 };
 
 const FeedbackMemo = () => {
@@ -12,8 +13,6 @@ const FeedbackMemo = () => {
 
   const handleMemoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const memo = e.target.value;
-
-    if (memo.length > 20) return;
 
     if (!memo) {
       setFeedbackData((prevData) => ({ ...prevData, memo: '' }));
@@ -32,6 +31,7 @@ const FeedbackMemo = () => {
         placeholder="오늘의 코멘트 남기기"
         onChange={handleMemoChange}
         value={feedbackData.memo}
+        maxLength={MEMO_MAX_LENGTH}
       />
     </S.FeedbackMemoLayout>
   );
