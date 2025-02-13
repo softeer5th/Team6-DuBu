@@ -1,6 +1,7 @@
 package com.dubu.backend.auth.application;
 
 import com.dubu.backend.auth.exception.RefreshTokenExpiredException;
+import com.dubu.backend.auth.exception.TokenExpiredException;
 import com.dubu.backend.auth.exception.TokenInvalidException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -58,6 +59,21 @@ public class JwtManager {
                 .expiration(new Date(now.getTime() + refreshTokenTime))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public Claims parseClaims(String token) {
+        try {
+            return Jwts.parser()
+                    .requireIssuer(TOKEN_ISSUER)
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (ExpiredJwtException ex) {
+            throw new TokenExpiredException();
+        } catch (JwtException ex) {
+            throw new TokenInvalidException();
+        }
     }
 
     public Claims parseClaimsFromRefreshToken(String token) {

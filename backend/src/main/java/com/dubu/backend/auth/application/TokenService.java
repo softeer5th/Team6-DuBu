@@ -61,25 +61,9 @@ public class TokenService {
         return tokenResponse;
     }
 
-    public Long validateToken(String token) {
-        Claims claims = jwtManager.parseClaims(token);
-        String jti = claims.getId();
+    public Long validateToken(String accessToken) {
+        Claims claims = jwtManager.parseClaims(accessToken);
         String memberId = claims.getSubject();
-
-        if (tokenRedisRepository.isBlacklisted(jti)) {
-            throw new TokenBlacklistedException();
-        }
-
-        String refreshToken = tokenRedisRepository.getRefreshToken(claims.getSubject());
-        if (refreshToken == null) {
-            throw new TokenExpiredException();
-        }
-
-        String existingAccessToken = tokenRedisRepository.getAccessToken(refreshToken);
-        if (existingAccessToken == null || !existingAccessToken.equals(token)) {
-            tokenRedisRepository.addBlacklistToken(jti);
-            throw new TokenInvalidException();
-        }
 
         return Long.parseLong(memberId);
     }
@@ -93,7 +77,7 @@ public class TokenService {
         if (jwtToken.startsWith("Bearer ")) {
             return jwtToken.substring(7);
         } else {
-            throw new TokenInvalidException();
+            throw new InvalidTokenHeaderException();
         }
     }
 
