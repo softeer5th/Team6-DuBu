@@ -50,6 +50,7 @@ const RecommendTab = ({ todoType, planId }: RecommendTabProps) => {
           <TodoEditItem
             key={todo.todoId}
             todo={todo}
+            disabled={todo.hasChild}
             left={
               <IconButton
                 icon={
@@ -60,6 +61,7 @@ const RecommendTab = ({ todoType, planId }: RecommendTabProps) => {
                   )
                 }
                 onClick={() => handleAddTodoFromRecommend(todo.todoId)}
+                disabled={todo.hasChild}
               />
             }
           />

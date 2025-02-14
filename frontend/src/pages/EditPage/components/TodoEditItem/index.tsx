@@ -7,14 +7,15 @@ interface TodoEditItemProps {
   todo: Todo;
   left?: React.ReactNode;
   right?: React.ReactNode;
+  disabled?: boolean;
 }
 
-const TodoEditItem = ({ todo, left, right }: TodoEditItemProps) => {
+const TodoEditItem = ({ todo, left, right, disabled }: TodoEditItemProps) => {
   return (
     <S.TodoEditItem>
       {left}
       <S.TodoTextWrapper>
-        <S.TodoTitle>{todo.title}</S.TodoTitle>
+        <S.TodoTitle $disabled={disabled}>{todo.title}</S.TodoTitle>
         <S.TodoBadgeWrapper>
           <S.TodoBadge
             $category={todo.category}

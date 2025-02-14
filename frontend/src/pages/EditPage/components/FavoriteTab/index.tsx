@@ -50,6 +50,7 @@ const FavoriteTab = ({ todoType, planId }: FavoriteTabProps) => {
         <TodoEditItem
           key={todo.todoId}
           todo={todo}
+          disabled={todo.hasChild}
           left={
             <IconButton
               icon={
@@ -60,6 +61,7 @@ const FavoriteTab = ({ todoType, planId }: FavoriteTabProps) => {
                 )
               }
               onClick={() => handleAddTodoFromFavorite(todo.todoId)}
+              disabled={todo.hasChild}
             />
           }
         />

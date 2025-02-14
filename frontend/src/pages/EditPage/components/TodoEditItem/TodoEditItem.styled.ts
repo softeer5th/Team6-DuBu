@@ -18,9 +18,9 @@ export const TodoTextWrapper = styled.div`
   gap: 0.8rem;
 `;
 
-export const TodoTitle = styled.h3`
+export const TodoTitle = styled.h3<{ $disabled?: boolean }>`
   ${({ theme }) => theme.fonts.body16};
-  color: ${({ theme }) => theme.colors.gray950};
+  color: ${({ theme, $disabled }) => ($disabled ? theme.colors.gray400 : theme.colors.gray950)};
 `;
 
 export const TodoBadgeWrapper = styled.div`
