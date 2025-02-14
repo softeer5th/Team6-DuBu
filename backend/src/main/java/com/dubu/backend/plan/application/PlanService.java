@@ -142,13 +142,13 @@ public class PlanService {
 
         recentPlan.getPaths().forEach(path -> {
             List<Todo> todos = path.getTodos();
-            long doneCount = todos.stream().filter(Todo::isCompleted).count();
+            long doneCount = todos.stream().filter(Todo::getIsCompleted).count();
 
             if (doneCount > 0) {
                 int sectionTimePerTodo = path.getSectionTime() / todos.size();
 
                 todos.stream()
-                        .filter(Todo::isCompleted)
+                        .filter(Todo::getIsCompleted)
                         .forEach(doneTodo -> doneTodo.updateSpentTime(sectionTimePerTodo));
             }
 

@@ -14,7 +14,7 @@ public record FeedbackWritePageInfoResponse(
     public static FeedbackWritePageInfoResponse of(Plan plan) {
         List<Todo> allTodos = plan.getPaths().stream()
                 .flatMap(path -> path.getTodos().stream())
-                .filter(todo -> todo.isCompleted())
+                .filter(Todo::getIsCompleted)
                 .toList();
 
         return new FeedbackWritePageInfoResponse(
