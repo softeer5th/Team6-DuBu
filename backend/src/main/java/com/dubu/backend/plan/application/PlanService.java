@@ -44,7 +44,7 @@ public class PlanService {
     private final FeedbackRepository feedbackRepository;
 
     @Transactional
-    public void savePlan(Long memberId, PlanCreateRequest planCreateRequest) {
+    public Long savePlan(Long memberId, PlanCreateRequest planCreateRequest) {
         Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -77,6 +77,8 @@ public class PlanService {
         todoRepository.saveAll(newTodos);
         currentMember.updateStatus(Status.MOVE);
         taskSchedulerService.scheduleFeedbackStatusUpdate(memberId, newPlan);
+
+        return newPlan.getId();
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import com.dubu.backend.global.domain.SuccessResponse;
 import com.dubu.backend.member.application.MemberService;
 import com.dubu.backend.member.dto.request.MemberInfoUpdateRequest;
 import com.dubu.backend.member.dto.request.MemberOnboardingRequest;
+import com.dubu.backend.member.dto.request.MemberStatusUpdateRequest;
 import com.dubu.backend.member.dto.response.MemberInfoResponse;
 import com.dubu.backend.member.dto.response.MemberSavedAddressResponse;
 import com.dubu.backend.member.dto.response.MemberStatusResponse;
@@ -46,7 +47,7 @@ public class MemberController implements MemberApi {
 
         return new SuccessResponse<>(response);
     }
-  
+
     @GetMapping("/category")
     public SuccessResponse<List<String>> getMemberCategory(
             @RequestAttribute("memberId") Long memberId
@@ -71,5 +72,14 @@ public class MemberController implements MemberApi {
         MemberInfoResponse response = memberService.updateMemberInfo(memberId, request);
 
         return new SuccessResponse<>(response);
+    }
+
+    @ResponseStatus(NO_CONTENT)
+    @PatchMapping("/status")
+    public void updateMemberStatus(
+            @RequestAttribute("memberId") Long memberId,
+            @RequestBody MemberStatusUpdateRequest request
+    ) {
+        memberService.updateMemberStatus(memberId, request.status());
     }
 }

@@ -17,13 +17,27 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
 public interface PlanApi {
 
     @Operation(summary = "계획 생성", description = "선택한 경로를 기반으로 회원의 이동 중 계획을 생성한다. 상태가 STOP인 회원만 생성할 수 있다.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "201",
-                    description = "계획 생성 성공"
+                    description = "계획 생성 성공",
+                    content = @Content(
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = {
+                                    @ExampleObject(value = """
+                                {
+                                  "data": {
+                                    "planId": 12345
+                                  }
+                                }
+                                """)
+                            }
+                    )
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -62,7 +76,7 @@ public interface PlanApi {
                     )
             )
     })
-    void createPlan(
+    SuccessResponse<Map<String, Long>> createPlan(
             @Parameter(hidden = true) @RequestAttribute("memberId") Long memberId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "계획 생성 요청 DTO",
