@@ -76,6 +76,7 @@ jobs:
               -e KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }} \
               -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
               -e KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }} \
+              -e KAKAO_AUTHORIZATION_KEY=${{ secrets.KAKAO_AUTHORIZATION_KEY }} \
               -e NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }} \
               -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
               -e ODSAY_CLIENT_API_KEY=${{ secrets.ODSAY_CLIENT_API_KEY }} \
