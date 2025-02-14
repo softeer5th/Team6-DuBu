@@ -60,6 +60,10 @@ naver:
     client-id: ${NAVER_CLIENT_ID}
     client-secret: ${NAVER_CLIENT_SECRET}
 
+kakao:
+  client:
+    authorization-key: ${KAKAO_AUTHORIZATION_KEY}
+
 odsay:
   client:
     api-key: ${ODSAY_CLIENT_API_KEY}
