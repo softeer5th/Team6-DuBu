@@ -12,15 +12,15 @@ const Step2 = () => {
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school' | null>(null);
 
   const updateAddress = (
-    address: string,
     title: string,
+    address: string,
     coordinateX: number,
     coordinateY: number,
   ) => {
     setUserInfo((prev) => ({
       ...prev,
-      [`${selectedAddressType}Address`]: address,
       [`${selectedAddressType}Title`]: title,
+      [`${selectedAddressType}Address`]: address,
       [`${selectedAddressType}AddressX`]: coordinateX,
       [`${selectedAddressType}AddressY`]: coordinateY,
     }));

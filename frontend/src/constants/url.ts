@@ -32,7 +32,10 @@ export const API_URL = {
     `${BASE_URL}/api/v1/share/todos${todoId ? `?todoId=${todoId}` : ''}`,
   getNearbyUsers: (queryParams: string) =>
     `${BASE_URL}/api/v1/share/realtime-user-category${queryParams}`,
-  todayAchievement: `${BASE_URL}/plans/feedback`,
+  todayAchievement: `${BASE_URL}/api/v1/plans/feedbacks`,
+  saveFeedback: (planId: number) => `${BASE_URL}/api/v1/plans/${planId}/feedbacks`,
+  weekStatistics: `${BASE_URL}/api/v1/statistics/week`,
+  createPlan: `${BASE_URL}/api/v1/plans`,
   memberInfo: `${BASE_URL}/api/v1/members`,
   checkTodo: (todoId: number) => `${BASE_URL}/api/v1/todos/check?todoId=${todoId}`,
   finishPlan: `${BASE_URL}/api/v1/plans/move-complete`,
@@ -41,8 +44,8 @@ export const API_URL = {
 export const MOCK_API_URL = {
   todayTodo: `${BASE_URL}/api/v1/todos/today`,
   tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
+  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/personalized`,
   favoriteTodo: `${BASE_URL}/api/v1/todos/save`,
-  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/limit`,
   recommendAllTodo: `${BASE_URL}/api/v1/todos/recommend/all`,
   addTodo: `${BASE_URL}/api/v1/todos/:dateType/manual/:planId?`,
   deleteTodo: `${BASE_URL}/api/v1/todos/:todoId?type=:dateType`,
@@ -62,5 +65,8 @@ export const MOCK_API_URL = {
   addFavoriteFromOther: `${BASE_URL}/api/v1/share/todos`,
   deleteFavoriteFromOther: `${BASE_URL}/api/v1/share/todos`,
   getNearbyUsers: `${BASE_URL}/api/v1/share/realtime-user-category`,
-  todayAchievement: `${BASE_URL}/plans/feedback`,
+  todayAchievement: `${BASE_URL}/api/v1/plans/feedbacks`,
+  saveFeedback: (planId: number) => `${BASE_URL}/api/v1/plans/planId=${planId}/feedbacks`,
+  weekStatistics: `${BASE_URL}/api/v1/statistics/week`,
+  createPlan: `${BASE_URL}/api/v1/plans`,
 };

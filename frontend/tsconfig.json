@@ -12,8 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true,
     "types": ["kakao.maps.d.ts"],
+    "incremental": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

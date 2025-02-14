@@ -15,13 +15,14 @@ interface SearchAddressButtonProps {
 
 const SearchAddressButton = ({ type, onClick }: SearchAddressButtonProps) => {
   const { onboardingUserInfo: userInfo } = useOnboarding();
+
   return (
     <S.AddressButton onClick={onClick}>
       <S.ButtonLabel>
         <Icon icon={ADDRESS_ICON_MAPPER[type]} />
         <S.LabelText>{ADDRESS_LABEL_MAPPER[type]}</S.LabelText>
       </S.ButtonLabel>
-      <S.AddressText>{userInfo[`${type}Address`] || INITIAL_ADDRESS}</S.AddressText>
+      <S.AddressText>{userInfo[`${type}Title`] || INITIAL_ADDRESS}</S.AddressText>
     </S.AddressButton>
   );
 };
