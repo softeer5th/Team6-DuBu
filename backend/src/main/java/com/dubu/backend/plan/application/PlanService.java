@@ -60,7 +60,7 @@ public class PlanService {
                 .toList();
         pathRepository.saveAll(paths);
 
-        Schedule schedule = scheduleRepository.findScheduleByMemberAndDate(currentMember, LocalDate.now())
+        Schedule schedule = scheduleRepository.findLatestSchedule(currentMember, LocalDate.now())
                 .orElseThrow(() -> new ScheduleNotFoundException());
 
         List<Todo> existingTodos = schedule.getTodos();
