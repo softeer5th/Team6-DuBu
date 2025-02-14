@@ -7,7 +7,7 @@ import { Todo } from '@/types/todo';
 export type TodoCreateParams = Omit<Todo, 'todoId'>;
 
 export interface TodoAddParams {
-  dateType: string;
+  dateType: 'TODAY' | 'TOMORROW' | 'PATH';
   todo: TodoCreateParams;
   planId?: number;
 }
@@ -45,9 +45,10 @@ interface RecommendAllTodoResponse {
 
 interface RecommendAllTodoParams {
   modifyType: string;
-  category: CategoryType[];
-  difficulty: DifficultyType[];
   size: number;
+  pathId?: number;
+  category?: CategoryType[];
+  difficulty?: DifficultyType[];
   cursorCategoryId?: number;
   cursorDifficulty?: DifficultyType;
   cursorTodoId?: number;
@@ -65,14 +66,18 @@ export const getTomorrowTodoList = async () => {
   return result.data;
 };
 
-export const getFavoriteTodoList = async (dateType: string, size: number = 5) => {
-  const result = await fetchClient.get<RecommendTodoResponse>(API_URL.favoriteTodo(dateType, size));
+export const getFavoriteTodoList = async (dateType: string, size: number = 5, planId?: number) => {
+  const result = await fetchClient.get<RecommendTodoResponse>(
+    API_URL.favoriteTodo(dateType, size, planId),
+  );
 
   return result.data;
 };
 
-export const getRecommendLimitTodoList = async (dateType: string) => {
-  const result = await fetchClient.get<RecommendTodoResponse>(API_URL.recommendLimitTodo(dateType));
+export const getRecommendLimitTodoList = async (dateType: string, planId?: number) => {
+  const result = await fetchClient.get<RecommendTodoResponse>(
+    API_URL.recommendLimitTodo(dateType, planId),
+  );
 
   return result.data;
 };
@@ -83,7 +88,7 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
   Object.entries(params).forEach(([key, value]) => {
     if (Array.isArray(value) && value.length > 0) {
       urlQueryParams.append(key, value.join(','));
-    } else if (value !== undefined) {
+    } else if (!Array.isArray(value) && value !== undefined) {
       urlQueryParams.append(key, value.toString());
     }
   });
@@ -100,7 +105,12 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
 
 export const addTodo = async ({ dateType, todo, planId }: TodoAddParams) => {
   const result = await fetchClient.post<TodoCreateResponse>(API_URL.addTodo(dateType, planId), {
-    body: { ...todo },
+    body: {
+      title: todo.title,
+      category: todo.category,
+      difficulty: todo.difficulty,
+      memo: todo.memo,
+    },
   });
 
   return result.data;
