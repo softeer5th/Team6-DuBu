@@ -89,6 +89,14 @@ public class Todo extends BaseTimeEntity {
         this.parentTodo = null;
     }
 
+    public void updateSpentTime(int sectionTimePerTodo){
+        this.spentTime = sectionTimePerTodo;
+    }
+
+    public void updateTodoType(TodoType todoType){
+        this.type = todoType;
+    }
+
     private void updateTitle(String title){
         this.title = title;
     }

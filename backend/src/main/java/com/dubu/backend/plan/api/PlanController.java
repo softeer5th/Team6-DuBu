@@ -54,6 +54,14 @@ public class PlanController implements PlanApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/move-complete")
+    public void completePlanMove(
+            @RequestAttribute("memberId") Long memberId
+    ) {
+        planService.updateMoveStatusToFeedback(memberId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     public void deletePlan(
             @RequestAttribute("memberId") Long memberId,

@@ -19,6 +19,7 @@ import com.dubu.backend.plan.infra.repository.PathRepository;
 import com.dubu.backend.plan.infra.repository.PlanRepository;
 import com.dubu.backend.todo.entity.Schedule;
 import com.dubu.backend.todo.entity.Todo;
+import com.dubu.backend.todo.entity.TodoType;
 import com.dubu.backend.todo.exception.ScheduleNotFoundException;
 import com.dubu.backend.todo.repository.ScheduleRepository;
 import com.dubu.backend.todo.repository.TodoRepository;
@@ -128,9 +129,43 @@ public class PlanService {
     }
 
     @Transactional
-    public void removePlan(Long memberId, Long planId) {
-        memberRepository.findById(memberId)
+    public void updateMoveStatusToFeedback(Long memberId) {
+        Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.MOVE) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
+
+        Plan recentPlan = planRepository.findTopByMemberIdOrderByCreatedAtDesc(memberId)
+                .orElseThrow(() -> new NotFoundPlanException());
+
+        recentPlan.getPaths().forEach(path -> {
+            List<Todo> todos = path.getTodos();
+            long doneCount = todos.stream().filter(Todo::getIsCompleted).count();
+
+            if (doneCount > 0) {
+                int sectionTimePerTodo = path.getSectionTime() / todos.size();
+
+                todos.stream()
+                        .filter(Todo::getIsCompleted)
+                        .forEach(doneTodo -> doneTodo.updateSpentTime(sectionTimePerTodo));
+            }
+
+            todos.forEach(todo -> todo.updateTodoType(TodoType.DONE));
+        });
+
+        currentMember.updateStatus(Status.FEEDBACK);
+    }
+
+    @Transactional
+    public void removePlan(Long memberId, Long planId) {
+        Member currentMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+
+        if (currentMember.getStatus() != Status.MOVE) {
+            throw new InvalidMemberStatusException(currentMember.getStatus().name());
+        }
 
         Plan planToDelete = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundPlanException(planId));
