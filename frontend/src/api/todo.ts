@@ -92,7 +92,7 @@ export const getRecommendAllTodoList = async (params: RecommendAllTodoParams) =>
   Object.entries(params).forEach(([key, value]) => {
     if (Array.isArray(value) && value.length > 0) {
       urlQueryParams.append(key, value.join(','));
-    } else if (!Array.isArray(value) && value !== undefined) {
+    } else if (!Array.isArray(value) && value !== undefined && value !== null && !isNaN(value)) {
       urlQueryParams.append(key, value.toString());
     }
   });
