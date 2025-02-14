@@ -27,6 +27,20 @@ export interface PathTodo extends Todo {
   isDone: boolean;
 }
 
+interface CreatePlanPath {
+  trafficType: 'SUBWAY' | 'BUS';
+  sectionTime: number;
+  subwayCode: number | null;
+  busNumber: string | null;
+  startName: string;
+  endName: string;
+}
+
+interface CreatePlanRequest {
+  totalSectionTime: number;
+  paths: CreatePlanPath[];
+}
+
 export const getPlanInfo = async () => {
   const result = await fetchClient.get<PlanInfoResponse>(API_URL.planInfo);
 
@@ -35,4 +49,8 @@ export const getPlanInfo = async () => {
 
 export const cancelPlan = async (planId: number) => {
   return await fetchClient.delete(API_URL.plan(planId));
+};
+
+export const createPlan = async (request: CreatePlanRequest) => {
+  return await fetchClient.post(API_URL.createPlan, { body: request });
 };
