@@ -36,3 +36,11 @@ export const getPlanInfo = async () => {
 export const cancelPlan = async (planId: number) => {
   return await fetchClient.delete(API_URL.plan(planId));
 };
+
+export const checkTodo = async (todoId: number, isCompleted: boolean) => {
+  return await fetchClient.patch(API_URL.checkTodo(todoId), { body: { isCompleted } });
+};
+
+export const finishPlan = async () => {
+  return await fetchClient.patch(API_URL.finishPlan);
+};
