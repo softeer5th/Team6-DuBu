@@ -8,6 +8,8 @@ const useRedirectByMemberStatus = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!memberStatus) return;
+
     switch (memberStatus?.status) {
       case 'ONBOARDING':
         navigate('/onboarding');
@@ -20,6 +22,9 @@ const useRedirectByMemberStatus = () => {
         break;
       case 'FEEDBACK':
         navigate('/feedback');
+        break;
+      default:
+        navigate('/landing');
         break;
     }
   }, [memberStatus, navigate]);
