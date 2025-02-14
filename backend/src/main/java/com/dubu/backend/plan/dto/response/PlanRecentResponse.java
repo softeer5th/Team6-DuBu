@@ -4,7 +4,6 @@ import com.dubu.backend.plan.domain.Path;
 import com.dubu.backend.plan.domain.Plan;
 import com.dubu.backend.plan.domain.enums.TrafficType;
 import com.dubu.backend.todo.entity.Todo;
-import com.dubu.backend.todo.entity.TodoType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,7 +49,7 @@ public record PlanRecentResponse(
 
     public record PathTodoResponse(
             Long todoId,
-            Boolean isDone,
+            boolean isDone,
             String title,
             String category,
             String difficulty,
@@ -59,7 +58,7 @@ public record PlanRecentResponse(
         public static PathTodoResponse from(Todo todo) {
             return new PathTodoResponse(
                     todo.getId(),
-                    todo.getType() == TodoType.DONE,
+                    todo.getIsCompleted() == Boolean.TRUE,
                     todo.getTitle(),
                     todo.getCategory().getName(),
                     todo.getDifficulty().name(),
