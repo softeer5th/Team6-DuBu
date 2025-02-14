@@ -35,6 +35,7 @@ const RecommendTodoContainer = () => {
     dateType,
     categoryList,
     difficultyList,
+    Number(planId),
   );
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation(
     categoryList,
@@ -59,7 +60,7 @@ const RecommendTodoContainer = () => {
     }
 
     addTodoFromArchived(
-      { dateType, todoId, planId: Number(planId) },
+      { tabType: dateType, todoId, planId: Number(planId) },
       { onSuccess: () => toast({ message: TODO_TOAST_MESSAGE.add }) },
     );
   };

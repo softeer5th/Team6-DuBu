@@ -59,8 +59,8 @@ const RouteTodoEditPage = () => {
         </S.TabList>
         <S.TabContent>
           <TodoTab tabType="route" planId={Number(planId)} />
-          <FavoriteTab />
-          <RecommendTab />
+          <FavoriteTab tabType="route" planId={Number(planId)} />
+          <RecommendTab tabType="route" planId={Number(planId)} />
         </S.TabContent>
       </Tab.Root>
     </S.RouteTodoEditLayout>

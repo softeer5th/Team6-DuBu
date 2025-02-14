@@ -14,7 +14,7 @@ const useEditTodoMutation = (dateType: 'today' | 'tomorrow' | 'route') => {
 
     onSuccess: (_, params) => {
       if (params.planId) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.planId] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, 'PATH'] });
       } else {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
       }

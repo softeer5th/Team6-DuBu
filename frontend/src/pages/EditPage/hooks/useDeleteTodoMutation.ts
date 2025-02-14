@@ -13,10 +13,19 @@ const useDeleteTodoMutation = (dateType: 'today' | 'tomorrow' | 'route') => {
 
     onSuccess: (_, params) => {
       if (params.planId) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, params.planId] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.routeTodoList, 'PATH'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.recommendLimit, 'PATH'],
+        });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendAll] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.favorite, 'PATH'] });
       } else {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendLimit, dateType] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, TODO_TYPE[dateType]] });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.recommendLimit, TODO_TYPE[dateType]],
+        });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendAll] });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.favorite] });
       }

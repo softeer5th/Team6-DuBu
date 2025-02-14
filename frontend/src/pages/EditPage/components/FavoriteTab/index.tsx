@@ -1,5 +1,3 @@
-import { useParams } from 'react-router';
-
 import * as S from './FavoriteTab.styled';
 import useAddTodoFromArchivedMutation from '../../hooks/useAddTodoFromArchivedMutation';
 import useFavoriteTodoListQuery from '../../hooks/useFavoriteListQuery';
@@ -13,12 +11,16 @@ import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
 
-const FavoriteTab = () => {
-  const { planId } = useParams();
+interface FavoriteTabProps {
+  tabType: 'today' | 'tomorrow' | 'route';
+  planId?: number;
+}
+
+const FavoriteTab = ({ tabType, planId }: FavoriteTabProps) => {
   const { dateType } = useQueryParamsDate();
 
   const { data: todoList } = useTodoListQuery(dateType, Number(planId));
-  const { data: favoriteTodoList } = useFavoriteTodoListQuery();
+  const { data: favoriteTodoList } = useFavoriteTodoListQuery(tabType, Number(planId));
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
   const { toast } = useToast();
 
@@ -30,7 +32,7 @@ const FavoriteTab = () => {
     }
 
     addTodoFromArchived(
-      { dateType, todoId, planId: Number(planId) },
+      { tabType, todoId, planId: Number(planId) },
       {
         onSuccess: () => {
           toast({ message: TODO_TOAST_MESSAGE.add });
