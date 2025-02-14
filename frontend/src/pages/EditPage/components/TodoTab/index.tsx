@@ -10,6 +10,7 @@ import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
 import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
 import { TODO_TOAST_MESSAGE } from '@/constants/message';
+import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useRouteTodoQuery from '@/hooks/useRouteTodoQuery';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
@@ -21,8 +22,10 @@ interface TodoTabProps {
 }
 
 const TodoTab = ({ todoType, planId }: TodoTabProps) => {
+  const { dateType } = useQueryParamsDate();
+
   const { toast } = useToast();
-  const { data: currentTodoList } = useTodoListQuery(todoType, Number(planId));
+  const { data: currentTodoList } = useTodoListQuery(dateType, Number(planId));
   const { data: routeTodoList } = useRouteTodoQuery(Number(planId));
   const { mutate: deleteTodo } = useDeleteTodoMutation(todoType);
 

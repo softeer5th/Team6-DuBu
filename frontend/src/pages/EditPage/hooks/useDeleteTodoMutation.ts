@@ -11,24 +11,11 @@ const useDeleteTodoMutation = (todoType: TodoType) => {
     mutationFn: ({ todoId, planId }: { todoId: number; planId?: number }) =>
       deleteTodo(todoId, todoType),
 
-    onSuccess: (_, params) => {
-      if (params.planId) {
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.routeTodoList, todoType],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.recommendLimit, todoType],
-        });
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendAll] });
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.favorite, todoType] });
-      } else {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, todoType] });
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.recommendLimit, todoType],
-        });
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendAll] });
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.favorite] });
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, todoType] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendLimit, todoType] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.recommendAll, todoType] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.favorite, todoType] });
     },
   });
 };

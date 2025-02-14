@@ -57,7 +57,7 @@ const useAddTodoFromArchivedMutation = (
 
       // 응답값으로 쿼리 캐싱 갱신 (모든 추천)
       queryClient.setQueryData<RecommendTodo[]>(
-        [QUERY_KEY.recommendAll, ...categoryList, ...difficultyList, planId],
+        [QUERY_KEY.recommendAll, todoType, ...categoryList, ...difficultyList, planId],
         (old) => {
           if (!old) return old;
 
