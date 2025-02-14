@@ -9,6 +9,8 @@ export const DrawerLayout = styled.div<{ $isOpen: boolean }>`
   width: 37.5rem;
   overflow: hidden;
 
+  height: 100vh;
+
   z-index: 5;
   visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
   opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};

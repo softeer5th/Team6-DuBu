@@ -1,0 +1,31 @@
+{
+  "data": {
+    "nickname": "김두부",
+    "todo": [
+      {
+        "todoId": 0,
+        "title": "독서",
+        "category": "READING",
+        "isSaved": false
+      },
+      {
+        "todoId": 1,
+        "title": "영단어 외우기",
+        "category": "ENGLISH",
+        "isSaved": true
+      },
+      {
+        "todoId": 2,
+        "title": "뉴스 보기",
+        "category": "NEWS",
+        "isSaved": false
+      },
+      {
+        "todoId": 3,
+        "title": "불어 공부",
+        "category": "LANGUAGE",
+        "isSaved": true
+      }
+    ]
+  }
+}

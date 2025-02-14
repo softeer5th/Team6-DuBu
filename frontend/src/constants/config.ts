@@ -1,3 +1,4 @@
+export const MAP_ID = 'map';
 export const MAX_TODO_ITEM_LENGTH = 3;
 
 export const ICON_MAPPER = {
@@ -13,4 +14,10 @@ export const USER_STATUS = {
   stop: 'STOP',
   move: 'MOVE',
   feedback: 'FEEDBACK',
+} as const;
+
+export const TODO_TYPE = {
+  today: 'TODAY',
+  tomorrow: 'TOMORROW',
+  route: 'PATH',
 } as const;

@@ -10,4 +10,7 @@ export const QUERY_KEY = {
   todayAchievement: 'todayAchievement',
   planInfo: 'planInfo',
   memberAddress: 'memberAddress',
+  detailTodo: 'detailTodo',
+  nearbyUsers: 'nearbyUsers',
+  memberInfo: 'memberInfo',
 } as const;

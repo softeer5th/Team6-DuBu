@@ -2,12 +2,12 @@ package com.dubu.backend.auth.application;
 
 import com.dubu.backend.auth.domain.OauthProvider;
 import com.dubu.backend.auth.domain.authcode.AuthCodeRequestUrlProviderComposite;
+import com.dubu.backend.auth.dto.AccessTokenResponse;
 import com.dubu.backend.auth.dto.TokenResponse;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoTokenPort;
 import com.dubu.backend.auth.infra.oauth.kakao.port.KakaoUserPort;
 import com.dubu.backend.member.domain.Member;
 import com.dubu.backend.member.infra.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,25 +27,27 @@ public class AuthService {
         return authCodeRequestUrlProviderComposite.provide(oauthProvider);
     }
 
-    public TokenResponse reissueToken(HttpServletRequest request) {
-        String newAccessToken = tokenService.reissue(request);
-        return new TokenResponse(newAccessToken);
-    }
-
     @Transactional
     public TokenResponse issueTokenAfterKakaoLogin(String code) {
         String tokenFromKakao = kakaoTokenPort.getAccessTokenByCode(code);
         Member kakaoUser = kakaoUserPort.findUserFromKakao(tokenFromKakao);
         Member loginMember = memberRepository.findByOauthProviderId(kakaoUser.getOauthProviderId())
-                        .orElseGet(() -> memberRepository.save(kakaoUser));
-        String newAccessToken = tokenService.issue(loginMember.getId());
+                .orElseGet(() -> memberRepository.save(kakaoUser));
 
-        return new TokenResponse(newAccessToken);
+        TokenResponse tokenResponse = tokenService.issue(loginMember.getId());
+
+        return tokenResponse;
     }
 
-    public TokenResponse issueTokenForTest() {
-        String newAccessToken = tokenService.issue(1L);
+    public TokenResponse reissueToken(String oldRefreshToken) {
+        TokenResponse tokenResponse = tokenService.reissue(oldRefreshToken);
 
-        return new TokenResponse(newAccessToken);
+        return tokenResponse;
+    }
+
+    public AccessTokenResponse issueTokenForTest() {
+        TokenResponse tokenResponse = tokenService.issue(1L);
+
+        return new AccessTokenResponse(tokenResponse.accessToken());
     }
 }

@@ -23,6 +23,7 @@ const getClosestValue = (value: number) => {
 const getMoodByValue = (value: number): FeedbackMood => {
   if (value === 0) return 'DISSATISFIED';
   if (value === 50) return 'MODERATE';
+
   return 'SATISFIED';
 };
 
