@@ -7,6 +7,7 @@ const useMemberStatusQuery = () => {
   return useQuery({
     queryKey: [QUERY_KEY.memberStatus],
     queryFn: getMemberStatus,
+    retry: 0,
   });
 };
 
