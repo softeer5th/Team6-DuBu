@@ -23,6 +23,7 @@ const useAddTodoFromArchivedMutation = (
     }) => addTodoFromArchived(todoType, todoId, planId),
     onSuccess: (_, { todoId, planId, todoType }) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, todoType] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, todoType] });
 
       // 응답값으로 쿼리 캐싱 갱신 (추천 할 일)
       queryClient.setQueryData<RecommendTodo[]>(
