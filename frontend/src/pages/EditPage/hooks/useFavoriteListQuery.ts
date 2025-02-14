@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getFavoriteTodoList } from '@/api/todo';
-import { TODO_TYPE } from '@/constants/config';
 import { QUERY_KEY } from '@/constants/queryKey';
+import { TodoType } from '@/types/todo';
 
-const useFavoriteTodoListQuery = (tabType: 'today' | 'tomorrow' | 'route', planId?: number) => {
-  // const { dateType } = useQueryParamsDate();
+const PAGE_SIZE = 5;
 
+const useFavoriteTodoListQuery = (todoType: TodoType, planId?: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.favorite, TODO_TYPE[tabType], planId],
-    queryFn: () => getFavoriteTodoList(TODO_TYPE[tabType], 5, planId),
+    queryKey: [QUERY_KEY.favorite, todoType, planId],
+    queryFn: () => getFavoriteTodoList(todoType, PAGE_SIZE, planId),
     staleTime: Infinity,
   });
 };

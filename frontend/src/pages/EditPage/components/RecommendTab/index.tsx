@@ -10,22 +10,23 @@ import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
 import useRecommendTodoListQuery from '@/pages/EditPage/hooks/useRecommendListQuery';
+import { TodoType } from '@/types/todo';
 
 interface RecommendTabProps {
-  tabType: 'today' | 'tomorrow' | 'route';
+  todoType: TodoType;
   planId?: number;
 }
 
-const RecommendTab = ({ tabType, planId }: RecommendTabProps) => {
+const RecommendTab = ({ todoType, planId }: RecommendTabProps) => {
   const { dateType } = useQueryParamsDate();
 
   const { data: todoList } = useTodoListQuery(dateType, Number(planId));
-  const { data: recommendTodoList } = useRecommendTodoListQuery(tabType, Number(planId));
+  const { data: recommendTodoList } = useRecommendTodoListQuery(todoType, Number(planId));
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
   const { toast } = useToast();
 
   const routeURL = planId ? `/recommend/${planId}` : '/recommend';
-  const finalURL = `${routeURL}?dateType=${tabType}`;
+  const finalURL = `${routeURL}?dateType=${todoType}`;
 
   const handleAddTodoFromRecommend = (todoId: number) => {
     if (todoList && todoList.length >= MAX_TODO_ITEM_LENGTH) {
@@ -35,7 +36,7 @@ const RecommendTab = ({ tabType, planId }: RecommendTabProps) => {
     }
 
     addTodoFromArchived(
-      { tabType, todoId, planId: Number(planId) },
+      { todoType, todoId, planId: Number(planId) },
       { onSuccess: () => toast({ message: TODO_TOAST_MESSAGE.add }) },
     );
   };

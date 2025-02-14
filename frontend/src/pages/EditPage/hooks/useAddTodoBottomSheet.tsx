@@ -5,15 +5,16 @@ import { TodoCreateParams } from '@/api/todo';
 import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useBaseBottomSheet from '@/hooks/useBaseBottomSheet';
 import useToast from '@/hooks/useToast';
+import { TodoType } from '@/types/todo';
 
-export const useAddTodoBottomSheet = (tabType: 'today' | 'tomorrow' | 'route', planId?: number) => {
+export const useAddTodoBottomSheet = (todoType: TodoType, planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
   const { mutate: addTodo, isPending } = useAddTodoMutation();
   const { toast } = useToast();
 
   const handleAddTodo = (todo: TodoCreateParams) => {
     addTodo(
-      { dateType: tabType, todo, planId },
+      { todoType, todo, planId },
       {
         onSuccess: () => {
           toast({ message: TODO_TOAST_MESSAGE.add });

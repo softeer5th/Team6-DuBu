@@ -13,17 +13,18 @@ import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useRouteTodoQuery from '@/hooks/useRouteTodoQuery';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
+import { TodoType } from '@/types/todo';
 
 interface TodoTabProps {
-  tabType: 'today' | 'tomorrow' | 'route';
+  todoType: TodoType;
   planId?: number;
 }
 
-const TodoTab = ({ tabType, planId }: TodoTabProps) => {
+const TodoTab = ({ todoType, planId }: TodoTabProps) => {
   const { toast } = useToast();
-  const { data: currentTodoList } = useTodoListQuery(tabType, Number(planId));
+  const { data: currentTodoList } = useTodoListQuery(todoType, Number(planId));
   const { data: routeTodoList } = useRouteTodoQuery(Number(planId));
-  const { mutate: deleteTodo } = useDeleteTodoMutation(tabType);
+  const { mutate: deleteTodo } = useDeleteTodoMutation(todoType);
 
   const todoList = currentTodoList || routeTodoList;
 
@@ -33,7 +34,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
     close: closeAddBottomSheet,
     content: addContent,
     title: addTodoForm,
-  } = useAddTodoBottomSheet(tabType, planId);
+  } = useAddTodoBottomSheet(todoType, planId);
 
   const {
     isOpen: isEditOpen,
@@ -41,7 +42,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
     close: closeEditBottomSheet,
     content: editTodoForm,
     title: editTitle,
-  } = useEditTodoBottomSheet(tabType, planId);
+  } = useEditTodoBottomSheet(todoType, planId);
 
   const handleClickAddTodo = () => {
     if (currentTodoList && currentTodoList.length >= MAX_TODO_ITEM_LENGTH) {
@@ -64,7 +65,7 @@ const TodoTab = ({ tabType, planId }: TodoTabProps) => {
 
   return (
     <S.TodoTabLayout>
-      <S.SloganWrapper>{TODO_TAB_TEXT[tabType]}</S.SloganWrapper>
+      <S.SloganWrapper>{TODO_TAB_TEXT[todoType]}</S.SloganWrapper>
       <S.TodoEditList>
         {todoList.map((todo) => (
           <TodoEditItem
