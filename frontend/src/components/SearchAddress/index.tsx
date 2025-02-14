@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
+import Icon from '../Icon';
 import useSearchAddressQuery from './hooks/useSearchAddressQuery';
 import * as S from './SearchAddress.styled';
 import SearchAddressHeader from './SearchAddressHeader';
 import SearchAddressResult from './SearchAddressResult';
 import SearchAddressSearchBar from './SearchAddressSearchBar';
-import Icon from '../Icon';
 
 import { SearchAddress as SearchAddressType } from '@/api/search';
 import useMemberAddressQuery from '@/pages/MainPage/hooks/useMemberAddressQuery';
