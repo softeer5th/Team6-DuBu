@@ -16,8 +16,21 @@ export interface TodayAchievement {
   };
 }
 
+export interface saveFeedback {
+  mood: string;
+  memo: string;
+}
+
 export const getTodayAchievement = async (): Promise<TodayAchievement> => {
   const result = await fetchClient.get<TodayAchievement>(API_URL.todayAchievement);
+
+  return result;
+};
+
+export const saveFeedback = async (planId: number, body: saveFeedback) => {
+  const result = await fetchClient.post<saveFeedback>(API_URL.saveFeedback(planId), {
+    body,
+  });
 
   return result;
 };
