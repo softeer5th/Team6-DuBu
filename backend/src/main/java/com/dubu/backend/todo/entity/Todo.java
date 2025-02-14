@@ -37,6 +37,9 @@ public class Todo extends BaseTimeEntity {
     @Column(name = "spent_time", columnDefinition = "MEDIUMINT")
     private Integer spentTime;
 
+    @Column(columnDefinition = "TINYINT")
+    private Boolean isCompleted;
+
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -100,6 +103,10 @@ public class Todo extends BaseTimeEntity {
 
     private void updateMemo(String memo){
         this.memo = memo;
+    }
+
+    public void updateCompletedStatus(boolean isCompleted){
+        this.isCompleted = isCompleted;
     }
 
     public void updateTodo(String title, Category category, TodoDifficulty difficulty, String memo){
