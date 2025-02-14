@@ -8,5 +8,6 @@ export const useFeedback = () => {
   if (!context) {
     throw new Error('useFeedback must be used within a FeedbackProvider');
   }
+
   return context;
 };

@@ -1,0 +1,47 @@
+{
+  "data": {
+    "nearMember": [
+      {
+        "memberId": 0,
+        "x_coordinate": 127.02724786333501,
+        "y_coordinate": 37.51327682201149,
+        "category": "READING"
+      },
+      {
+        "memberId": 1,
+        "x_coordinate": 127.02624776333501,
+        "y_coordinate": 37.52427685201149,
+        "category": "NEWS"
+      },
+      {
+        "memberId": 2,
+        "x_coordinate": 127.02623736333501,
+        "y_coordinate": 37.51327688501149,
+        "category": "ENGLISH"
+      },
+      {
+        "memberId": 3,
+        "x_coordinate": 127.02524756333501,
+        "y_coordinate": 37.51227691201149,
+        "category": "READING"
+      }
+    ],
+    "categoryRanking": [
+      {
+        "rank": 1,
+        "category": "READING",
+        "num": 40
+      },
+      {
+        "rank": 2,
+        "category": "ENGLISH",
+        "num": 32
+      },
+      {
+        "rank": 3,
+        "category": "LANGUAGE",
+        "num": 12
+      }
+    ]
+  }
+}

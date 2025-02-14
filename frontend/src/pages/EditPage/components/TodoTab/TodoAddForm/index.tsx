@@ -9,9 +9,10 @@ import { CategoryType, DifficultyType } from '@/types/filter';
 
 interface TodoAddFormProps {
   handleAddTodo: (todo: TodoCreateParams) => void;
+  isLoading: boolean;
 }
 
-const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
+const TodoAddForm = ({ handleAddTodo, isLoading }: TodoAddFormProps) => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<CategoryType | null>(null);
   const [difficulty, setDifficulty] = useState<DifficultyType | null>(null);
@@ -75,7 +76,7 @@ const TodoAddForm = ({ handleAddTodo }: TodoAddFormProps) => {
         />
       </S.TodoInputWrapper>
 
-      <S.ConfirmButton onClick={handleConfirm} disabled={!isValidInput}>
+      <S.ConfirmButton onClick={handleConfirm} disabled={!isValidInput || isLoading}>
         추가하기
       </S.ConfirmButton>
     </>

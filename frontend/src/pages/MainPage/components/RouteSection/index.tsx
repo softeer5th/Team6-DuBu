@@ -39,7 +39,7 @@ const RouteSection = ({
       <RouteItem
         icon="AddressHome"
         location="집"
-        value={startAddress.startName || memberAddress.homeAddressName}
+        value={startAddress.startName || memberAddress.homeTitle}
         handleClick={() => handleClickSearchAddress('home')}
       />
       {isToday ? (
@@ -55,7 +55,7 @@ const RouteSection = ({
       <RouteItem
         icon="AddressUniv"
         location="학교"
-        value={endAddress.endName || memberAddress.schoolAddressName}
+        value={endAddress.endName || memberAddress.schoolTitle}
         handleClick={() => handleClickSearchAddress('school')}
       />
     </S.RouteSectionLayout>

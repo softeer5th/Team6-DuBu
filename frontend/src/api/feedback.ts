@@ -18,5 +18,6 @@ export interface TodayAchievement {
 
 export const getTodayAchievement = async (): Promise<TodayAchievement> => {
   const result = await fetchClient.get<TodayAchievement>(API_URL.todayAchievement);
+
   return result;
 };

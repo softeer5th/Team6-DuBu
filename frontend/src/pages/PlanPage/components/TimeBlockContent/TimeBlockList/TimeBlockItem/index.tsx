@@ -1,9 +1,10 @@
+import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 
 import * as S from './TimeBlockItem.styled';
 import TodoShowForm from './TodoShowForm';
 
-import { PathTodo } from '@/api/plan';
+import { checkTodo, PathTodo } from '@/api/plan';
 import BottomSheet from '@/components/BottomSheet';
 import Icon from '@/components/Icon';
 import { ICON_MAPPER } from '@/constants/config';
@@ -11,18 +12,32 @@ import useShowTodoBottomSheet from '@/pages/PlanPage/hooks/useShowTodoBottomShee
 
 const TODO_CHECK_DELAY = 500;
 
+const useCheckTodoMutation = () => {
+  return useMutation({
+    mutationFn: ({ todoId, isCompleted }: { todoId: number; isCompleted: boolean }) =>
+      checkTodo(todoId, isCompleted),
+  });
+};
+
 interface TimeBlockItemProps {
   todo: PathTodo;
 }
 
 const TimeBlockItem = ({ todo }: TimeBlockItemProps) => {
   const { isOpen, open, close, title } = useShowTodoBottomSheet();
+  const { mutateAsync: checkTodo } = useCheckTodoMutation();
 
   const [isDone, toggle] = useReducer((prev) => !prev, todo.isDone);
   const [isAnimating, setIsAnimating] = useState(false);
   const checkTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleCheckTodo = () => {
+  const handleUncheckTodo = async () => {
+    await checkTodo({ todoId: todo.todoId, isCompleted: false });
+    toggle();
+  };
+
+  const handleCheckTodo = async () => {
+    await checkTodo({ todoId: todo.todoId, isCompleted: !isDone });
     setIsAnimating(true);
     checkTimeoutRef.current = setTimeout(() => {
       toggle();
@@ -42,7 +57,7 @@ const TimeBlockItem = ({ todo }: TimeBlockItemProps) => {
     <>
       <S.TimeBlockItem>
         <S.CheckIconWrapper
-          onClick={isDone ? toggle : handleCheckTodo}
+          onClick={isDone ? handleUncheckTodo : handleCheckTodo}
           $isDone={isDone}
           $isAnimating={isAnimating}
         >

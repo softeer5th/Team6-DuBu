@@ -1,8 +1,10 @@
 export interface OnboardingUserInfoType extends Record<string, string | number | string[]> {
   categories: string[];
+  homeTitle: string;
   homeAddress: string;
   homeAddressX: number;
   homeAddressY: number;
+  schoolTitle: string;
   schoolAddress: string;
   schoolAddressX: number;
   schoolAddressY: number;

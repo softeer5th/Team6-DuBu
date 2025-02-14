@@ -4,6 +4,8 @@ export const SheetContainer = styled.div`
   position: absolute;
   bottom: 0;
   height: 100%;
+
+  z-index: 2;
 `;
 
 export const Backdrop = styled.div<{ $isOpen: boolean }>`
@@ -36,6 +38,11 @@ export const Header = styled.div`
 export const Title = styled.h2`
   ${({ theme }) => theme.fonts.headline18};
   color: ${({ theme }) => theme.colors.gray950};
+`;
+
+export const SubTitle = styled.h3`
+  ${({ theme }) => theme.fonts.body15Med};
+  color: ${({ theme }) => theme.colors.gray600};
 `;
 
 export const Content = styled.div`

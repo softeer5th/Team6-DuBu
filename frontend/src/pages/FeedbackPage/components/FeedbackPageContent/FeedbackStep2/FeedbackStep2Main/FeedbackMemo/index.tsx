@@ -5,6 +5,7 @@ import { useFeedback } from '@/pages/FeedbackPage/hooks/useFeedback';
 const MEMO_MAX_LENGTH = 20;
 const isMemoValid = (memo: string) => {
   const regex = /^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣!@#$%^&*()_+={}[\]:;"'<>,.?/`~|-]+$/;
+
   return regex.test(memo);
 };
 
@@ -20,6 +21,7 @@ const FeedbackMemo = () => {
 
     if (!memo) {
       setFeedbackData((prevData) => ({ ...prevData, memo: '' }));
+
       return;
     }
 
