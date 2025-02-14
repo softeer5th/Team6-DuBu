@@ -1,10 +1,10 @@
 import RouteItem from './RouteItem';
 import * as S from './RouteSection.styled';
-import useMemberAddressQuery from '../../hooks/useMemberAddressQuery';
 
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
+import useMemberAddressQuery from '@/pages/MainPage/hooks/useMemberAddressQuery';
 
 interface RouteSectionProps {
   isSwitchAddress: boolean;
