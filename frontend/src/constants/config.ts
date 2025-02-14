@@ -15,3 +15,9 @@ export const USER_STATUS = {
   move: 'MOVE',
   feedback: 'FEEDBACK',
 } as const;
+
+export const TODO_TYPE = {
+  today: 'TODAY',
+  tomorrow: 'TOMORROW',
+  route: 'PATH',
+} as const;

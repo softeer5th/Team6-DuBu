@@ -22,11 +22,13 @@ public enum ErrorCode {
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 오류가 발생했습니다. 관리자에게 문의하세요."),
 
     // Token
+    INVALID_TOKEN_HEADER(UNAUTHORIZED, "토큰 헤더 형식이 잘못되었습니다."),
     TOKEN_INVALID(UNAUTHORIZED, "유효하지 않은 토큰입니다. 다시 로그인해 주세요."),
-    TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다."),
+    TOKEN_MISSING(UNAUTHORIZED, "토큰이 요청 헤더에 없습니다. 새로운 토큰을 재발급 받으세요"),
     TOKEN_BLACKLISTED(UNAUTHORIZED, "해당 토큰은 사용이 금지되었습니다. 다시 로그인해 주세요."),
-    TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 발급받으세요."),
-    REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "세션이 만료되었습니다. 다시 로그인해 주세요."),
+    TOKEN_EXPIRED(UNAUTHORIZED, "토큰이 만료되었습니다. 새로운 토큰을 재발급 받으세요."),
+    MISSING_TOKEN_IN_COOKIE(UNAUTHORIZED, "쿠키에 토큰이 존재하지 않습니다. 다시 로그인해 주세요."),
+    REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "리프레쉬 토큰이 만료되었습니다. 다시 로그인해 주세요."),
 
     // OAuth
     UNSUPPORTED_SOCIAL_LOGIN(BAD_REQUEST, "지원하지 않는 소셜 로그인 타입입니다."),
@@ -57,7 +59,7 @@ public enum ErrorCode {
     MEMBER_CATEGORY_NOT_FOUND(NOT_FOUND, "회원의 카테고리 정보를 찾을 수 없습니다. memberId : %d"),
 
     // Todo
-    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
+    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다. todoId : %d"),
     ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
     TODO_LIMIT_EXCEEDED(BAD_REQUEST, "%s 할 일은 최대 %d 개까지 추가할 수 있습니다."),
     TODO_TYPE_MISMATCH(BAD_REQUEST, "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = %s, 요청 타입 = %s"),

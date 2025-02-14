@@ -15,6 +15,7 @@ import com.dubu.backend.todo.registry.TodoQueryServiceRegistry;
 import com.dubu.backend.todo.service.TargetTodoQueryService;
 import com.dubu.backend.todo.service.TodoManagementService;
 import com.dubu.backend.todo.service.TodoQueryService;
+import com.dubu.backend.todo.service.impl.PathTodoManagementService;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,6 +79,17 @@ public class TodoController implements TodoApi{
         return ResponseEntity.status(HttpStatus.CREATED).body(new TodoSuccessResponse<>(true, result.info()));
     }
 
+    @PatchMapping("/check")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void patchTodoCompletionStatus(
+            @RequestAttribute Long memberId,
+            @RequestParam("todoId") Long todoId,
+            @RequestBody TodoCompletionToggleRequest request
+    ){
+        TodoManagementService todoManagementService = todoManagementServiceRegistry.getService(PATH.getManagementServiceName());
+        ((PathTodoManagementService)todoManagementService).toggleTodoCompletion(new TodoIdentifier(memberId, todoId, null), request);
+    }
+
     @DeleteMapping("/{todoId}")
     public ResponseEntity<?> deleteTodo(
             @RequestAttribute Long memberId,
@@ -98,6 +110,7 @@ public class TodoController implements TodoApi{
 
         return ResponseEntity.status(HttpStatus.OK).body(new TodoSuccessResponse<>(false, result.info()));
     }
+
 
     @GetMapping("/today")
     public SuccessResponse<List<TodoInfo>> getTodayTodos(

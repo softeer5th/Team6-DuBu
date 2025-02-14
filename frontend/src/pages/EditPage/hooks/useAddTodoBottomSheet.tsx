@@ -6,14 +6,14 @@ import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useBaseBottomSheet from '@/hooks/useBaseBottomSheet';
 import useToast from '@/hooks/useToast';
 
-export const useAddTodoBottomSheet = (dateType: string, planId?: number) => {
+export const useAddTodoBottomSheet = (tabType: 'today' | 'tomorrow' | 'route', planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
-  const { mutate: addTodo } = useAddTodoMutation();
+  const { mutate: addTodo, isPending } = useAddTodoMutation();
   const { toast } = useToast();
 
   const handleAddTodo = (todo: TodoCreateParams) => {
     addTodo(
-      { dateType, todo, planId },
+      { dateType: tabType, todo, planId },
       {
         onSuccess: () => {
           toast({ message: TODO_TOAST_MESSAGE.add });
@@ -28,7 +28,7 @@ export const useAddTodoBottomSheet = (dateType: string, planId?: number) => {
     open: dispatch.open,
     close: dispatch.close,
     handleAddTodo,
-    content: <TodoAddForm handleAddTodo={handleAddTodo} />,
+    content: <TodoAddForm handleAddTodo={handleAddTodo} isLoading={isPending} />,
     title: '할 일 추가하기',
   };
 };

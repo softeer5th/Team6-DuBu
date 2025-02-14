@@ -97,7 +97,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             tomorrowTodos = createTomorrowTodosFromTodayTodos(schedule, todos);
         }
 
-        Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo parentTodo = todoRepository.findWithCategoryById(todoCreateRequest.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
         // 해당 할 일이 이미 추가됐는지 확인
         todoRepository.findByParentTodoAndSchedule(parentTodo, schedule).ifPresent(todo -> {throw new AlreadyAddedTodoFromArchivedException();});
 
@@ -120,7 +120,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
 
-        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
 
         // 할 일 타입과 요청 타입이 일치하지 않는다면
         if (!targetTodo.getType().equals(TodoType.SCHEDULED)){
@@ -183,7 +183,7 @@ public class TomorrowTodoManagementService implements TodoManagementService {
             throw new InvalidMemberStatusException(member.getStatus().name());
         }
 
-        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(TodoNotFoundException::new);
+        Todo targetTodo = todoRepository.findById(identifier.todoId()).orElseThrow(() -> new TodoNotFoundException(identifier.todoId()));
 
         // 할 일 타입과 요청 타입이 일치하지 않는다면
         if (!targetTodo.getType().equals(TodoType.SCHEDULED)){

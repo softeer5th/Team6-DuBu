@@ -1,4 +1,6 @@
-import { useReducer, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useReducer, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import DateHeader from './components/DateHeader';
 import RouteSection from './components/RouteSection';
@@ -6,11 +8,22 @@ import StartButton from './components/StartButton';
 import TodoListContainer from './components/TodoListContainer';
 import * as S from './MainPage.styled';
 
+import { getMemberStatus } from '@/api/member';
 import Header from '@/components/Header';
 import SearchAddress from '@/components/SearchAddress';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 
+const useMemberStatusQuery = () => {
+  return useQuery({
+    queryKey: ['memberStatus'],
+    queryFn: getMemberStatus,
+    retry: 0,
+  });
+};
+
 const MainPage = () => {
+  const navigate = useNavigate();
+  const { data: memberStatus, isError } = useMemberStatusQuery();
   const { isToday } = useQueryParamsDate();
   const [isSwitchAddress, toggle] = useReducer((prev) => !prev, false);
 
@@ -50,6 +63,20 @@ const MainPage = () => {
     toggleAddressSearch();
     setSelectedAddressType(type);
   };
+
+  useEffect(() => {
+    if (memberStatus) {
+      if (memberStatus?.status === 'MOVE') {
+        navigate('/plan');
+      } else if (memberStatus?.status === 'FEEDBACK') {
+        navigate('/feedback');
+      }
+    }
+  }, [memberStatus]);
+
+  if (isError) {
+    navigate('/landing');
+  }
 
   if (isSearchAddressOpen) {
     return (
