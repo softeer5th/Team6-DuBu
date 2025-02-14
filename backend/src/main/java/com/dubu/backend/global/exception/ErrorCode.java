@@ -71,6 +71,7 @@ public enum ErrorCode {
 
     // External API
     NAVER_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "네이버 API 서버가 장애 상태입니다."),
+    KAKAO_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, "카카오 API 서버가 장애 상태입니다."),
     ;
 
     public final HttpStatus httpStatus;
