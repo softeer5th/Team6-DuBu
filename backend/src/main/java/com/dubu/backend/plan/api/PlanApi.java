@@ -118,7 +118,19 @@ public interface PlanApi {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "201",
-                    description = "계획 피드백 생성 성공"
+                    description = "계획 피드백 생성 성공",
+                    content = @Content(
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = {
+                                    @ExampleObject(value = """
+                                {
+                                  "data": {
+                                    "feedbackId": 12345
+                                  }
+                                }
+                                """)
+                            }
+                    )
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -178,7 +190,7 @@ public interface PlanApi {
                     )
             )
     })
-    void createPlanFeedback(
+    SuccessResponse<Map<String, Long>> createPlanFeedback(
             Long memberId,
             Long planId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(

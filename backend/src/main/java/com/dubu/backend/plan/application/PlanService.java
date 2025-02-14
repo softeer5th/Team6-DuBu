@@ -82,7 +82,7 @@ public class PlanService {
     }
 
     @Transactional
-    public void savePlanFeedback(Long memberId, Long planId, PlanFeedbackCreateRequest request) {
+    public Long savePlanFeedback(Long memberId, Long planId, PlanFeedbackCreateRequest request) {
         Member currentMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
 
@@ -100,6 +100,8 @@ public class PlanService {
         Feedback newFeedback = Feedback.createFeedback(currentPlan, request.mood(), request.memo());
         feedbackRepository.save(newFeedback);
         currentMember.updateStatus(Status.STOP);
+
+        return newFeedback.getId();
     }
 
     @Transactional(readOnly = true)

@@ -31,12 +31,14 @@ public class PlanController implements PlanApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{planId}/feedbacks")
-    public void createPlanFeedback(
+    public SuccessResponse<Map<String, Long>> createPlanFeedback(
             @RequestAttribute("memberId") Long memberId,
             @PathVariable Long planId,
             @RequestBody PlanFeedbackCreateRequest planFeedbackCreateRequest
     ) {
-        planService.savePlanFeedback(memberId, planId, planFeedbackCreateRequest);
+        Long feedbackId = planService.savePlanFeedback(memberId, planId, planFeedbackCreateRequest);
+
+        return new SuccessResponse<>(Map.of("feedbackId", feedbackId));
     }
 
     @GetMapping("/recent")
