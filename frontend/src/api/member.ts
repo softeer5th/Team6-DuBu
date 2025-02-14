@@ -14,6 +14,11 @@ export interface MemberAddress {
 interface MemberAddressResponse {
   data: MemberAddress;
 }
+interface MemberStatusResponse {
+  data: {
+    status: string;
+  };
+}
 
 type MemberStatusParams = (typeof USER_STATUS)[keyof typeof USER_STATUS];
 
@@ -29,4 +34,10 @@ export const updateMemberStatus = async (status: MemberStatusParams) => {
       status,
     },
   });
+};
+
+export const getMemberStatus = async () => {
+  const result = await fetchClient.get<MemberStatusResponse>(API_URL.memberStatus);
+
+  return result.data;
 };
