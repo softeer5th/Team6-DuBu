@@ -9,9 +9,9 @@ import useTodoListQuery from '@/hooks/useTodoListQuery';
 import { colors } from '@/styles/theme';
 
 const TODO_CONTENT_MESSAGE = {
-  today: '오늘 할 일을 보여드려요',
-  tomorrow: '할 일을 미리 선택해보세요',
-  empty: '오늘 할 일이 아직 없어요',
+  TODAY: '오늘 할 일을 보여드려요',
+  TOMORROW: '할 일을 미리 선택해보세요',
+  EMPTY: '오늘 할 일이 아직 없어요',
 };
 
 const TodoListContainer = () => {
@@ -30,7 +30,7 @@ const TodoListContainer = () => {
     <S.TodoListContainerLayout>
       <S.ContentHeader>
         <S.ContentTitle>
-          {isEmptyTodo ? TODO_CONTENT_MESSAGE.empty : TODO_CONTENT_MESSAGE[dateType]}
+          {isEmptyTodo ? TODO_CONTENT_MESSAGE.EMPTY : TODO_CONTENT_MESSAGE[dateType]}
         </S.ContentTitle>
         <S.EditButton onClick={handleClickEdit}>
           <Icon icon={isEmptyTodo ? 'Plus' : 'Edit'} width={16} height={16} />
