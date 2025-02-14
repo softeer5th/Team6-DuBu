@@ -12,6 +12,7 @@ import { TRAFFIC_ICON } from '../PlanPage/PlanPage.constants';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import { Tab } from '@/components/Tab';
+import { TODO_TYPE } from '@/constants/config';
 
 const RouteTodoEditPage = () => {
   const { planId } = useParams();
@@ -58,9 +59,9 @@ const RouteTodoEditPage = () => {
           ))}
         </S.TabList>
         <S.TabContent>
-          <TodoTab todoType="PATH" planId={Number(planId)} />
-          <FavoriteTab todoType="PATH" planId={Number(planId)} />
-          <RecommendTab todoType="PATH" planId={Number(planId)} />
+          <TodoTab todoType={TODO_TYPE.PATH} planId={Number(planId)} />
+          <FavoriteTab todoType={TODO_TYPE.PATH} planId={Number(planId)} />
+          <RecommendTab todoType={TODO_TYPE.PATH} planId={Number(planId)} />
         </S.TabContent>
       </Tab.Root>
     </S.RouteTodoEditLayout>
