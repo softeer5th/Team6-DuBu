@@ -36,12 +36,9 @@ public class KakaoUserHttpClient implements KakaoUserPort {
 
         String providerId = String.valueOf((response.getBody().get("id")));
         Map kakao_account = (Map) response.getBody().get("kakao_account");
-        Map profile = (Map) kakao_account.get("profile");
-        String nickname = (String) profile.get("nickname");
         String email = (String) kakao_account.get("email");
 
         return Member.builder()
-                .nickname(nickname)
                 .email(email)
                 .oauthProvider(OauthProvider.valueOf("KAKAO"))
                 .oauthProviderId(providerId)

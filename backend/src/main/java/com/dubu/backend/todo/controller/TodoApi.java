@@ -518,6 +518,89 @@ public interface TodoApi {
             @RequestBody TodoUpdateRequest request);
 
 
+    @Operation(summary = "경로 별 할 일 완료 체크", description = "경로 별 할 일에 대하여 완료 체크한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "경로별 할 일 완료 체크 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(
+                                    implementation = TodoSuccessResponse.class,
+                                    description = "할 일 성공 응답"
+                            ),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "경로별 할 일 완료 체크 성공",
+                                            value = "No Content"
+                                    ),
+                            }
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = """
+                    다음 경우에 발생할 수 있습니다:
+                    1. 회원의 상태가 해당 API를 호출할 수 없는 경우 (INVALID_MEMBER_STATUS)
+                    2. 할 일 타입과 요청 타입이 일치하지 않은 경우 (TODO_TYPE_MISMATCH)
+                    """,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "유효하지 않은 회원의 상태 예시",
+                                            value = """
+                                                    {
+                                                        "errorCode": "INVALID_MEMBER_STATUS",
+                                                        "message": "회원의 상태가 MOVE인 경우 해당 API를 이용할 수 없습니다."
+                                                    }
+                                                    """
+                                    ),
+                                    @ExampleObject(name = "일치하지 않은 할 일 타입과 요청 타입 예시",
+                                            value = """
+                                                    {
+                                                        "errorCode": "TODO_TYPE_MISMATCH",
+                                                        "message": "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = SCHEDULED, 요청 타입 = IN_PROGRESS"
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = """
+                    다음 경우에 발생할 수 있습니다:
+                    1. 회원을 찾을 수 없는 경우 (MEMBER_NOT_FOUND)
+                    2. 할 일을 찾을 수 없는 경우 (TODO_NOT_FOUND)
+                    """,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponseExample.class),
+                            examples = {
+                                    @ExampleObject(name = "회원 미존재 예시",
+                                            value = """
+                                            {
+                                              "errorCode": "MEMBER_NOT_FOUND",
+                                              "message": "회원을 찾을 수 없습니다. memberId : 9999"
+                                            }
+                                            """),
+                                    @ExampleObject(name = "할 일 미존재 예시",
+                                            value = """
+                                        {
+                                          "errorCode": "TODO_NOT_FOUND",
+                                          "message": "해당 할 일이 존재하지 않습니다. todoId : 9999"
+                                        }
+                                        """
+                                    )
+                            }
+                    )
+            ),
+
+    })
+    void patchTodoCompletionStatus(
+            @RequestAttribute Long memberId,
+            @Parameter(description = "할 일 ID", required = true)@RequestParam("todoId") Long todoId,
+            @RequestBody TodoCompletionToggleRequest request
+    );
     @Operation(summary = "할 일 삭제", description = "할 일을 삭제한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -586,7 +669,7 @@ public interface TodoApi {
                             examples = {
                                     @ExampleObject(
                                             name = "[오늘, 즐겨찾기, 경로별] 할 일 삭제 성공",
-                                            value = "NO CONTENT"
+                                            value = "No Content"
                                     )
                             }
                     )

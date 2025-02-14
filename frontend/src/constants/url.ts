@@ -3,18 +3,20 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const API_URL = {
   todayTodo: `${BASE_URL}/api/v1/todos/today`,
   tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
-  recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/personalized`,
+  favoriteTodo: (modifyType: string, size: number, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/save?modifyType=${modifyType}&size=${size}${planId ? `&pathId=${planId}` : ''}`,
+  recommendLimitTodo: (modifyType: string, planId?: number) =>
+    `${BASE_URL}/api/v1/todos/recommend/personalized?modifyType=${modifyType}${planId ? `&pathId=${planId}` : ''}`,
   recommendAllTodo: (queryParams: string) => `${BASE_URL}/api/v1/todos/recommend/all${queryParams}`,
   addTodo: (dateType: string, planId?: number) =>
-    `${BASE_URL}/api/v1/todos/${dateType}/manual${planId ? `/${planId}` : ''}`,
-  deleteTodo: (todoId: number, planId?: number) =>
-    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
-  editTodo: (todoId: number, planId?: number) =>
-    `${BASE_URL}/api/v1/todos/${todoId}${planId ? `/${planId}` : ''}`,
+    `${BASE_URL}/api/v1/todos/${dateType}/manual${planId ? `?pathId=${planId}` : ''}`,
+  deleteTodo: (todoId: number, dateType: string) =>
+    `${BASE_URL}/api/v1/todos/${todoId}?type=${dateType}`,
+  editTodo: (todoId: number, dateType: string) =>
+    `${BASE_URL}/api/v1/todos/${todoId}?type=${dateType}`,
   addTodoFromArchived: (dateType: string, planId?: number) =>
-    `${BASE_URL}/api/v1/todos/${dateType}/from-archived${planId ? `/${planId}` : ''}`,
-  routeTodo: (planId: number) => `${BASE_URL}/api/v1/routes/${planId}/todos`,
+    `${BASE_URL}/api/v1/todos/${dateType}/from-archived${planId ? `?pathId=${planId}` : ''}`,
+  routeTodo: (planId: number) => `${BASE_URL}/api/v1/todos/path?pathId=${planId}`,
   searchAddress: `${BASE_URL}/api/v1/places/search`,
   searchRoutes: `${BASE_URL}/api/v1/routes/search`,
   onboarding: `${BASE_URL}/api/v1/members/onboarding`,
@@ -34,17 +36,20 @@ export const API_URL = {
   saveFeedback: (planId: number) => `${BASE_URL}/api/v1/plans/${planId}/feedbacks`,
   weekStatistics: `${BASE_URL}/api/v1/statistics/week`,
   createPlan: `${BASE_URL}/api/v1/plans`,
+  memberInfo: `${BASE_URL}/api/v1/members`,
+  checkTodo: (todoId: number) => `${BASE_URL}/api/v1/todos/check?todoId=${todoId}`,
+  finishPlan: `${BASE_URL}/api/v1/plans/move-complete`,
 };
 
 export const MOCK_API_URL = {
   todayTodo: `${BASE_URL}/api/v1/todos/today`,
   tomorrowTodo: `${BASE_URL}/api/v1/todos/tomorrow`,
-  favoriteTodo: `${BASE_URL}/api/v1/todos/favorites`,
   recommendLimitTodo: `${BASE_URL}/api/v1/todos/recommend/personalized`,
+  favoriteTodo: `${BASE_URL}/api/v1/todos/save`,
   recommendAllTodo: `${BASE_URL}/api/v1/todos/recommend/all`,
   addTodo: `${BASE_URL}/api/v1/todos/:dateType/manual/:planId?`,
-  deleteTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
-  editTodo: `${BASE_URL}/api/v1/todos/:todoId/:planId?`,
+  deleteTodo: `${BASE_URL}/api/v1/todos/:todoId?type=:dateType`,
+  editTodo: `${BASE_URL}/api/v1/todos/:todoId?type=:dateType`,
   addTodoFromArchived: `${BASE_URL}/api/v1/todos/:dateType/from-archived/:planId?`,
   routeTodo: `${BASE_URL}/api/v1/routes/:planId/todos`,
   searchAddress: `${BASE_URL}/api/v1/places/search`,

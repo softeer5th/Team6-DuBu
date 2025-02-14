@@ -1,6 +1,9 @@
 interface RequestProps {
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
-  body?: Record<string, string | number | null | object | Array<string | number | null>>;
+  body?: Record<
+    string,
+    string | string[] | number | null | object | boolean | Array<string | number | null>
+  >;
   headers?: Record<string, string>;
 }
 

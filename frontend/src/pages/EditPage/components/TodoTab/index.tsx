@@ -21,8 +21,8 @@ interface TodoTabProps {
 
 const TodoTab = ({ tabType, planId }: TodoTabProps) => {
   const { toast } = useToast();
-  const { data: currentTodoList } = useTodoListQuery(tabType, planId);
-  const { data: routeTodoList } = useRouteTodoQuery(planId);
+  const { data: currentTodoList } = useTodoListQuery(tabType, Number(planId));
+  const { data: routeTodoList } = useRouteTodoQuery(Number(planId));
   const { mutate: deleteTodo } = useDeleteTodoMutation(tabType);
 
   const todoList = currentTodoList || routeTodoList;

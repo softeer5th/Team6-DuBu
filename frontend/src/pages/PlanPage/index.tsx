@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 import PlanHeader from './components/PlanHeader';
@@ -5,18 +6,21 @@ import PlanInfoHeader from './components/PlanInfoHeader';
 import TimeBlockContent from './components/TimeBlockContent';
 import TimeBlockHeader from './components/TimeBlockHeader';
 import usePlanInfoQuery from './hooks/usePlanInfoQuery';
-import useUpdateMemberStatusMutation from './hooks/useUpdateMemberStatusMutation';
 import * as S from './PlanPage.styled';
 
-import { USER_STATUS } from '@/constants/config';
+import { finishPlan } from '@/api/plan';
 
+const useFinishPlanMutation = () => {
+  return useMutation({
+    mutationFn: finishPlan,
+  });
+};
 const PlanPage = () => {
   const { data } = usePlanInfoQuery();
-  const { mutate: updateMemberStatus } = useUpdateMemberStatusMutation();
   const navigate = useNavigate();
-
+  const { mutate: finishPlan } = useFinishPlanMutation();
   const handleClickFinish = () => {
-    updateMemberStatus(USER_STATUS.feedback, {
+    finishPlan(undefined, {
       onSuccess: () => {
         navigate('/feedback');
       },
