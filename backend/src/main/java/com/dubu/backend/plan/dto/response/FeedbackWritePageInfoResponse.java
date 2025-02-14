@@ -14,14 +14,14 @@ public record FeedbackWritePageInfoResponse(
     public static FeedbackWritePageInfoResponse of(Plan plan) {
         List<Todo> allTodos = plan.getPaths().stream()
                 .flatMap(path -> path.getTodos().stream())
-                .filter(Todo::getIsCompleted)
+                .filter(todo -> Boolean.TRUE.equals(todo.getIsCompleted()))
                 .toList();
 
         return new FeedbackWritePageInfoResponse(
                 plan.getId(),
                 plan.getTotalTime(),
                 allTodos.size(),
-                allTodos.stream()
+                allTodos.isEmpty() ? List.of() : allTodos.stream()
                         .map(FeedbackTodoResponse::of)
                         .toList()
         );
