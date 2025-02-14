@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router';
 import useMemberStatusQuery from './useMemberStatusQuery';
 
 const useRedirectByMemberStatus = () => {
-  const { data: memberStatus } = useMemberStatusQuery();
+  const { data: memberStatus, isError } = useMemberStatusQuery();
   const navigate = useNavigate();
+
+  if (isError) {
+    navigate('/landing');
+  }
 
   useEffect(() => {
     if (!memberStatus) return;
