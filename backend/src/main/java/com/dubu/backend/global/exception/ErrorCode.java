@@ -59,7 +59,7 @@ public enum ErrorCode {
     MEMBER_CATEGORY_NOT_FOUND(NOT_FOUND, "회원의 카테고리 정보를 찾을 수 없습니다. memberId : %d"),
 
     // Todo
-    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다."),
+    TODO_NOT_FOUND(NOT_FOUND, "해당 할 일이 존재하지 않습니다. todoId : %d"),
     ALREADY_ADDED_TODO(BAD_REQUEST, "이미 추가된 할 일 입니다."),
     TODO_LIMIT_EXCEEDED(BAD_REQUEST, "%s 할 일은 최대 %d 개까지 추가할 수 있습니다."),
     TODO_TYPE_MISMATCH(BAD_REQUEST, "할 일의 타입과 요청 타입이 일치하지 않습니다. 할 일 타입 = %s, 요청 타입 = %s"),
