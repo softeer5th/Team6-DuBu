@@ -29,7 +29,10 @@ export const getTodayAchievement = async (): Promise<TodayAchievement> => {
 
 export const saveFeedback = async (planId: number, body: saveFeedback) => {
   const result = await fetchClient.post<saveFeedback>(API_URL.saveFeedback(planId), {
-    body,
+    body: {
+      mood: body.mood,
+      memo: body.memo,
+    },
   });
 
   return result;

@@ -36,7 +36,7 @@ interface CreatePlanPath {
   endName: string;
 }
 
-interface CreatePlanRequest {
+interface CreatePlanRequest extends Record<string, number | CreatePlanPath[]> {
   totalSectionTime: number;
   paths: CreatePlanPath[];
 }
