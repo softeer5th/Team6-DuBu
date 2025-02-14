@@ -7,6 +7,7 @@ const ICON_MAPPER: Record<string, IconType> = {
   LANGUAGE: 'Language',
   READING: 'Reading',
   HOBBY: 'Hobby',
+  NEWS: 'News',
   OTHERS: 'Others',
 } as const;
 
@@ -24,7 +25,7 @@ const AchievementDetail = ({ achievements }: AchievementDetailProps) => {
     <S.AchievementDetailLayout>
       <S.Title>오늘 한 일을 보여드려요</S.Title>
       <S.AchievementList>
-        {achievements.map((achievement, index) => {
+        {achievements?.map((achievement, index) => {
           return (
             <S.AchievementItem key={index}>
               <Icon icon={ICON_MAPPER[achievement.category]} />
