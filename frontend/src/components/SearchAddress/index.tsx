@@ -11,15 +11,20 @@ import { SearchAddress as SearchAddressType } from '@/api/search';
 import useMemberAddressQuery from '@/pages/MainPage/hooks/useMemberAddressQuery';
 import { colors } from '@/styles/theme';
 
+interface AddressMainProps {
+  title: string;
+  coordinateX: number;
+  coordinateY: number;
+}
+
+interface AddressOnboardingProps extends AddressMainProps {
+  address: string;
+}
+
 interface SearchAddressProps {
   onClose: () => void;
-  onSelectAddressMain?: (title: string, coordinateX: number, coordinateY: number) => void;
-  onSelectAddress?: (
-    title: string,
-    address: string,
-    coordinateX: number,
-    coordinateY: number,
-  ) => void;
+  onSelectAddressMain?: (address: AddressMainProps) => void;
+  onSelectAddress?: (address: AddressOnboardingProps) => void;
   isMain?: boolean;
 }
 
@@ -39,12 +44,18 @@ const SearchAddress = ({
 
   const handleSelectAddress = (address: SearchAddressType) => {
     if (onSelectAddress) {
-      onSelectAddress(
-        address.title,
-        address.roadAddress,
-        address.x_coordinate,
-        address.y_coordinate,
-      );
+      onSelectAddress({
+        title: address.title,
+        address: address.roadAddress,
+        coordinateX: address.x_coordinate,
+        coordinateY: address.y_coordinate,
+      });
+    } else if (onSelectAddressMain) {
+      onSelectAddressMain({
+        title: address.title,
+        coordinateX: address.x_coordinate,
+        coordinateY: address.y_coordinate,
+      });
     }
 
     onClose();
@@ -57,11 +68,11 @@ const SearchAddress = ({
 
   const handleSelectHome = () => {
     if (onSelectAddressMain) {
-      onSelectAddressMain(
-        memberInfo?.homeTitle || '',
-        memberInfo?.homeXCoordinate || 0,
-        memberInfo?.homeYCoordinate || 0,
-      );
+      onSelectAddressMain({
+        title: memberInfo?.homeTitle || '',
+        coordinateX: memberInfo?.homeXCoordinate || 0,
+        coordinateY: memberInfo?.homeYCoordinate || 0,
+      });
     }
 
     onClose();
@@ -69,11 +80,11 @@ const SearchAddress = ({
 
   const handleSelectSchool = () => {
     if (onSelectAddressMain) {
-      onSelectAddressMain(
-        memberInfo?.schoolTitle || '',
-        memberInfo?.schoolXCoordinate || 0,
-        memberInfo?.schoolYCoordinate || 0,
-      );
+      onSelectAddressMain({
+        title: memberInfo?.schoolTitle || '',
+        coordinateX: memberInfo?.schoolXCoordinate || 0,
+        coordinateY: memberInfo?.schoolYCoordinate || 0,
+      });
     }
 
     onClose();
