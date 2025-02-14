@@ -1,27 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getRecommendAllTodoList } from '@/api/todo';
-import { TODO_TYPE } from '@/constants/config';
 import { QUERY_KEY } from '@/constants/queryKey';
 import { CategoryType, DifficultyType } from '@/types/filter';
+import { TodoType } from '@/types/todo';
 
 const RECOMMEND_TODO_SIZE = 20;
 
 const useRecommendTodoFilterQuery = (
-  dateType: 'today' | 'tomorrow' | 'route',
+  todoType: TodoType,
   categoryList: CategoryType[],
   difficultyList: DifficultyType[],
   pathId?: number,
 ) => {
   return useQuery({
-    queryKey: [QUERY_KEY.recommendAll, ...categoryList, ...difficultyList, pathId],
+    queryKey: [QUERY_KEY.recommendAll, todoType, ...categoryList, ...difficultyList, pathId],
     queryFn: () =>
       getRecommendAllTodoList({
-        modifyType: TODO_TYPE[dateType],
+        modifyType: todoType,
         category: categoryList,
         difficulty: difficultyList,
-        pathId,
         size: RECOMMEND_TODO_SIZE,
+        pathId,
       }),
     staleTime: Infinity,
   });

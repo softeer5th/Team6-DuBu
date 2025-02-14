@@ -4,12 +4,12 @@ import useEditTodoMutation from './useEditTodoMutation';
 import TodoEditForm from '../components/TodoEditForm';
 
 import useBaseBottomSheet from '@/hooks/useBaseBottomSheet';
-import { Todo } from '@/types/todo';
+import { Todo, TodoType } from '@/types/todo';
 
-const useEditTodoBottomSheet = (dateType: 'today' | 'tomorrow' | 'route', planId?: number) => {
+const useEditTodoBottomSheet = (todoType: TodoType, planId?: number) => {
   const { isOpen, dispatch } = useBaseBottomSheet();
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const { mutate: editTodo } = useEditTodoMutation(dateType);
+  const { mutate: editTodo } = useEditTodoMutation(todoType);
 
   const handleOpen = (todo: Todo) => {
     setSelectedTodo(todo);

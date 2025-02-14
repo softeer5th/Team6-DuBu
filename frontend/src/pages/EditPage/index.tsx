@@ -26,9 +26,9 @@ const EditPage = () => {
           ))}
         </S.TabList>
         <S.TabContent>
-          <TodoTab tabType={dateType} />
-          <FavoriteTab tabType={dateType} />
-          <RecommendTab tabType={dateType} />
+          <TodoTab todoType={dateType} />
+          <FavoriteTab todoType={dateType} />
+          <RecommendTab todoType={dateType} />
         </S.TabContent>
       </Tab.Root>
     </>

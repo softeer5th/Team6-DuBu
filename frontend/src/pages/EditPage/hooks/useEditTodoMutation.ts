@@ -1,22 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { editTodo } from '@/api/todo';
-import { TODO_TYPE } from '@/constants/config';
 import { QUERY_KEY } from '@/constants/queryKey';
-import { Todo } from '@/types/todo';
+import { Todo, TodoType } from '@/types/todo';
 
-const useEditTodoMutation = (dateType: 'today' | 'tomorrow' | 'route') => {
+const useEditTodoMutation = (todoType: TodoType) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ todo, planId }: { todo: Todo; planId?: number }) =>
-      editTodo(todo, TODO_TYPE[dateType]),
+    mutationFn: ({ todo, planId }: { todo: Todo; planId?: number }) => editTodo(todo, todoType),
 
     onSuccess: (_, params) => {
       if (params.planId) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, 'PATH'] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.routeTodoList, todoType] });
       } else {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, dateType] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.todoList, todoType] });
       }
     },
   });

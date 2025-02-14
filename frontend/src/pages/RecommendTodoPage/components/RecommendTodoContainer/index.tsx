@@ -10,7 +10,7 @@ import FilterForm from '../FilterForm';
 import BottomSheet from '@/components/BottomSheet';
 import IconButton from '@/components/Button/IconButton';
 import Icon from '@/components/Icon';
-import { MAX_TODO_ITEM_LENGTH } from '@/constants/config';
+import { MAX_TODO_ITEM_LENGTH, TODO_TYPE } from '@/constants/config';
 import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useToast from '@/hooks/useToast';
@@ -23,16 +23,18 @@ const RecommendTodoContainer = () => {
   const { planId } = useParams();
   const { dateType } = useQueryParamsDate();
   const { isOpen, open, close } = useFilterBottomSheet();
+
   const [categoryList, setCategoryList] = useState<CategoryType[]>([]);
   const [difficultyList, setDifficultyList] = useState<DifficultyType[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const { data: memberInfo } = useMemberInfoQuery();
-
   const { data: todoList } = useTodoListQuery(dateType, Number(planId));
 
+  const todoType = planId ? TODO_TYPE.PATH : dateType;
+
   const { data: recommendList, isLoading } = useRecommendTodoFilterQuery(
-    dateType,
+    todoType,
     categoryList,
     difficultyList,
     Number(planId),
@@ -60,7 +62,7 @@ const RecommendTodoContainer = () => {
     }
 
     addTodoFromArchived(
-      { tabType: dateType, todoId, planId: Number(planId) },
+      { todoType, todoId, planId: Number(planId) },
       { onSuccess: () => toast({ message: TODO_TOAST_MESSAGE.add }) },
     );
   };
@@ -101,6 +103,7 @@ const RecommendTodoContainer = () => {
           <TodoEditItem
             key={todo.todoId}
             todo={todo}
+            disabled={todo.hasChild}
             left={
               <IconButton
                 icon={
@@ -111,6 +114,7 @@ const RecommendTodoContainer = () => {
                   )
                 }
                 onClick={() => handleAddTodoFromRecommendAll(todo.todoId)}
+                disabled={todo.hasChild}
               />
             }
           />

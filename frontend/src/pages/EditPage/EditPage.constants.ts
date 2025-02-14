@@ -71,7 +71,8 @@ export const DIFFICULTY_OPTIONS = [
 ] as const;
 
 export const TODO_TAB_TEXT = {
-  today: '오늘 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
-  tomorrow: '내일 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
-  route: '이 구간에서 할 일을 골라보세요',
-};
+  TODAY: '오늘 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
+  TOMORROW: '내일 할 일, 작은 목표로 시작해봐요\n최대 3개까지 고를 수 있어요',
+  PATH: '이 구간에서 할 일을 골라보세요',
+  SAVE: '즐겨찾기에 추가할 할 일을 골라보세요',
+} as const;

@@ -7,11 +7,12 @@ interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   text?: string;
   isFull?: boolean;
   flex?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
+  disabled?: boolean;
 }
 
-const IconButton = ({ icon, text, isFull, flex, ...buttonProps }: IconButtonProps) => {
+const IconButton = ({ icon, text, isFull, flex, disabled, ...buttonProps }: IconButtonProps) => {
   return (
-    <S.IconButtonLayout $isFull={isFull} $flex={flex} {...buttonProps}>
+    <S.IconButtonLayout $isFull={isFull} $flex={flex} disabled={disabled} {...buttonProps}>
       {icon}
       {text && <S.IconButtonText>{text}</S.IconButtonText>}
     </S.IconButtonLayout>

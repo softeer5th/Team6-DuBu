@@ -10,17 +10,18 @@ import { TODO_TOAST_MESSAGE } from '@/constants/message';
 import useQueryParamsDate from '@/hooks/useQueryParamsDate';
 import useToast from '@/hooks/useToast';
 import useTodoListQuery from '@/hooks/useTodoListQuery';
+import { TodoType } from '@/types/todo';
 
 interface FavoriteTabProps {
-  tabType: 'today' | 'tomorrow' | 'route';
+  todoType: TodoType;
   planId?: number;
 }
 
-const FavoriteTab = ({ tabType, planId }: FavoriteTabProps) => {
+const FavoriteTab = ({ todoType, planId }: FavoriteTabProps) => {
   const { dateType } = useQueryParamsDate();
 
   const { data: todoList } = useTodoListQuery(dateType, Number(planId));
-  const { data: favoriteTodoList } = useFavoriteTodoListQuery(tabType, Number(planId));
+  const { data: favoriteTodoList } = useFavoriteTodoListQuery(todoType, Number(planId));
   const { mutate: addTodoFromArchived } = useAddTodoFromArchivedMutation();
   const { toast } = useToast();
 
@@ -32,7 +33,7 @@ const FavoriteTab = ({ tabType, planId }: FavoriteTabProps) => {
     }
 
     addTodoFromArchived(
-      { tabType, todoId, planId: Number(planId) },
+      { todoType, todoId, planId: Number(planId) },
       {
         onSuccess: () => {
           toast({ message: TODO_TOAST_MESSAGE.add });
@@ -49,6 +50,7 @@ const FavoriteTab = ({ tabType, planId }: FavoriteTabProps) => {
         <TodoEditItem
           key={todo.todoId}
           todo={todo}
+          disabled={todo.hasChild}
           left={
             <IconButton
               icon={
@@ -59,6 +61,7 @@ const FavoriteTab = ({ tabType, planId }: FavoriteTabProps) => {
                 )
               }
               onClick={() => handleAddTodoFromFavorite(todo.todoId)}
+              disabled={todo.hasChild}
             />
           }
         />

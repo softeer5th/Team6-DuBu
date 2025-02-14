@@ -30,18 +30,26 @@ const MainPage = () => {
   const [isSearchAddressOpen, toggleAddressSearch] = useReducer((prev) => !prev, false);
   const [selectedAddressType, setSelectedAddressType] = useState<'home' | 'school'>('home');
 
-  const updateAddress = (address: string, coordinateX: number, coordinateY: number) => {
+  const updateAddress = ({
+    title,
+    coordinateX,
+    coordinateY,
+  }: {
+    title: string;
+    coordinateX: number;
+    coordinateY: number;
+  }) => {
     if (selectedAddressType === 'home') {
       setStartAddress((prev) => ({
         ...prev,
-        startName: address,
+        startName: title,
         startX: coordinateX,
         startY: coordinateY,
       }));
     } else {
       setEndAddress((prev) => ({
         ...prev,
-        endName: address,
+        endName: title,
         endX: coordinateX,
         endY: coordinateY,
       }));

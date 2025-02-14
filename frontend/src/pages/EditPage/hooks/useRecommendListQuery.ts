@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getRecommendLimitTodoList } from '@/api/todo';
-import { TODO_TYPE } from '@/constants/config';
 import { QUERY_KEY } from '@/constants/queryKey';
+import { TodoType } from '@/types/todo';
 
-const useRecommendTodoListQuery = (tabType: 'today' | 'tomorrow' | 'route', planId?: number) => {
-  // const { dateType } = useQueryParamsDate();
-
+const useRecommendTodoListQuery = (todoType: TodoType, planId?: number) => {
   return useQuery({
-    queryKey: [QUERY_KEY.recommendLimit, TODO_TYPE[tabType], planId],
-    queryFn: () => getRecommendLimitTodoList(TODO_TYPE[tabType], planId),
+    queryKey: [QUERY_KEY.recommendLimit, todoType, planId],
+    queryFn: () => getRecommendLimitTodoList(todoType, planId),
     staleTime: Infinity,
   });
 };
