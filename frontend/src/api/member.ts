@@ -26,6 +26,12 @@ interface MemberInfoResponse {
   };
 }
 
+interface MemberStatusResponse {
+  data: {
+    status: 'ONBOARDING' | 'STOP' | 'MOVE' | 'FEEDBACK';
+  };
+}
+
 type MemberStatusParams = (typeof USER_STATUS)[keyof typeof USER_STATUS];
 
 export const getMemberAddress = async () => {
@@ -44,6 +50,12 @@ export const updateMemberStatus = async (status: MemberStatusParams) => {
 
 export const getMemberInfo = async () => {
   const result = await fetchClient.get<MemberInfoResponse>(API_URL.memberInfo);
+
+  return result.data;
+};
+
+export const getMemberStatus = async () => {
+  const result = await fetchClient.get<MemberStatusResponse>(API_URL.memberStatus);
 
   return result.data;
 };

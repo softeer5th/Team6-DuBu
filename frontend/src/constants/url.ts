@@ -34,6 +34,8 @@ export const API_URL = {
     `${BASE_URL}/api/v1/share/realtime-user-category${queryParams}`,
   todayAchievement: `${BASE_URL}/plans/feedback`,
   memberInfo: `${BASE_URL}/api/v1/members`,
+  checkTodo: (todoId: number) => `${BASE_URL}/api/v1/todos/check?todoId=${todoId}`,
+  finishPlan: `${BASE_URL}/api/v1/plans/move-complete`,
 };
 
 export const MOCK_API_URL = {
